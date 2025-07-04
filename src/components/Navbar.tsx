@@ -1,21 +1,31 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Shield, Menu, X } from 'lucide-react';
+import { Shield, Menu, X, Bell, LogOut, User } from 'lucide-react';
 import { useState } from 'react';
 
 export const Navbar = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
+  // Mock authentication state - replace with your actual auth logic
+  const isAuthenticated = location.pathname !== '/'; // Show auth UI when not on landing page
+  const user = { name: 'Nauman', initial: 'N' }; // Replace with actual user data
+  
   const isActive = (path: string) => location.pathname === path;
   
-  const navigationItems = [
+  // Different navigation items based on auth status
+  const publicNavigationItems = [
     { name: 'Home', path: '/' },
-    { name: 'Dashboard', path: '/dashboard' },
     { name: 'Features', path: '/#features' },
+  ];
+
+  const authenticatedNavigationItems = [
+    { name: 'Dashboard', path: '/dashboard' },
     { name: 'Knowledge Base', path: '/knowledge-base' },
     { name: 'Settings', path: '/settings' },
   ];
+
+  const navigationItems = isAuthenticated ? authenticatedNavigationItems : publicNavigationItems;
 
   return (
     <nav className="bg-background/95 backdrop-blur-md border-b border-border/50 sticky top-0 z-50 transition-all duration-300">
@@ -50,12 +60,35 @@ export const Navbar = () => {
 
           {/* Right Side Actions */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="outline" size="sm" asChild>
-              <Link to="/login">Sign In</Link>
-            </Button>
-            <Button variant="hero" size="sm" asChild>
-              <Link to="/onboarding">Get Started</Link>
-            </Button>
+            {isAuthenticated ? (
+              // Authenticated user options
+              <>
+                <Button variant="ghost" size="sm" className="relative">
+                  <Bell className="h-4 w-4" />
+                  <span className="absolute -top-1 -right-1 h-2 w-2 bg-destructive rounded-full"></span>
+                </Button>
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-gradient-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-medium">
+                    {user.initial}
+                  </div>
+                  <span className="text-sm font-medium text-foreground">{user.name}</span>
+                </div>
+                <Button variant="outline" size="sm">
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Logout
+                </Button>
+              </>
+            ) : (
+              // Public user options
+              <>
+                <Button variant="outline" size="sm" asChild>
+                  <Link to="/login">Sign In</Link>
+                </Button>
+                <Button variant="hero" size="sm" asChild>
+                  <Link to="/onboarding">Get Started</Link>
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -89,12 +122,35 @@ export const Navbar = () => {
                 </Link>
               ))}
               <div className="flex flex-col space-y-2 px-3 pt-4">
-                <Button variant="outline" size="sm" asChild>
-                  <Link to="/login">Sign In</Link>
-                </Button>
-                <Button variant="hero" size="sm" asChild>
-                  <Link to="/onboarding">Get Started</Link>
-                </Button>
+                {isAuthenticated ? (
+                  // Authenticated mobile options
+                  <>
+                    <Button variant="ghost" size="sm" className="justify-start">
+                      <Bell className="h-4 w-4 mr-2" />
+                      Notifications
+                    </Button>
+                    <div className="flex items-center space-x-3 px-3 py-2">
+                      <div className="w-8 h-8 bg-gradient-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-medium">
+                        {user.initial}
+                      </div>
+                      <span className="text-sm font-medium text-foreground">{user.name}</span>
+                    </div>
+                    <Button variant="outline" size="sm">
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Logout
+                    </Button>
+                  </>
+                ) : (
+                  // Public mobile options
+                  <>
+                    <Button variant="outline" size="sm" asChild>
+                      <Link to="/login">Sign In</Link>
+                    </Button>
+                    <Button variant="hero" size="sm" asChild>
+                      <Link to="/onboarding">Get Started</Link>
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           </div>
