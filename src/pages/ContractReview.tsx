@@ -258,7 +258,13 @@ const ContractReview = () => {
             </h1>
             <p className="text-muted-foreground">AI-powered contract analysis and management</p>
           </div>
-          <Button variant="hero">
+          <Button 
+            variant="hero"
+            onClick={() => {
+              document.getElementById('contract-upload')?.click();
+              toast({ title: "File Upload", description: "Select a contract document to upload and analyze." });
+            }}
+          >
             <Upload className="mr-2 h-4 w-4" />
             Upload Contract
           </Button>
@@ -419,11 +425,19 @@ const ContractReview = () => {
                       </div>
 
                       <div className="flex space-x-2">
-                        <Button variant="outline" className="flex-1">
+                        <Button 
+                          variant="outline" 
+                          className="flex-1"
+                          onClick={() => toast({ title: "Full Report", description: "Detailed compliance report will be generated." })}
+                        >
                           <Eye className="mr-2 h-4 w-4" />
                           View Full Report
                         </Button>
-                        <Button variant="professional" className="flex-1" onClick={downloadRevisedContract}>
+                        <Button 
+                          variant="professional" 
+                          className="flex-1" 
+                          onClick={downloadRevisedContract}
+                        >
                           <Download className="mr-2 h-4 w-4" />
                           Download Revised
                         </Button>

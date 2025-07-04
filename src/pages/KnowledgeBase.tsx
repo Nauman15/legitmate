@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -39,6 +40,7 @@ import {
 } from 'lucide-react';
 
 const KnowledgeBase = () => {
+  const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [aiSearchMode, setAiSearchMode] = useState(false);
@@ -353,11 +355,17 @@ const KnowledgeBase = () => {
             <p className="text-muted-foreground">Comprehensive legal and compliance resources for Indian businesses</p>
           </div>
           <div className="flex space-x-2">
-            <Button variant="outline">
+            <Button 
+              variant="outline"
+              onClick={() => toast({ title: "Bookmarks", description: "Your bookmarked articles will appear here." })}
+            >
               <Bookmark className="mr-2 h-4 w-4" />
               Bookmarks
             </Button>
-            <Button variant="hero">
+            <Button 
+              variant="hero"
+              onClick={() => toast({ title: "Expert Support", description: "Connect with our legal experts for personalized guidance." })}
+            >
               <MessageCircle className="mr-2 h-4 w-4" />
               Ask Expert
             </Button>
@@ -376,7 +384,13 @@ const KnowledgeBase = () => {
                 <Button
                   variant={aiSearchMode ? "hero" : "outline"}
                   size="sm"
-                  onClick={() => setAiSearchMode(!aiSearchMode)}
+                  onClick={() => {
+                    setAiSearchMode(!aiSearchMode);
+                    toast({ 
+                      title: aiSearchMode ? "AI Mode Disabled" : "AI Mode Enabled", 
+                      description: aiSearchMode ? "Standard search is now active." : "AI-powered search is now active." 
+                    });
+                  }}
                 >
                   <Brain className="mr-2 h-4 w-4" />
                   {aiSearchMode ? "AI Mode Active" : "Enable AI Search"}
@@ -398,11 +412,28 @@ const KnowledgeBase = () => {
                     </div>
                   )}
                 </div>
-                <Button variant="professional" className="h-12">
+                <Button 
+                  variant="professional" 
+                  className="h-12"
+                  onClick={() => {
+                    if (searchQuery.trim()) {
+                      toast({ 
+                        title: "Search Started", 
+                        description: aiSearchMode ? `AI is analyzing: "${searchQuery}"` : `Searching for: "${searchQuery}"` 
+                      });
+                    } else {
+                      toast({ title: "Enter Search Query", description: "Please enter a search term or question." });
+                    }
+                  }}
+                >
                   <Search className="mr-2 h-5 w-5" />
                   {aiSearchMode ? "Ask AI" : "Search"}
                 </Button>
-                <Button variant="outline" className="h-12">
+                <Button 
+                  variant="outline" 
+                  className="h-12"
+                  onClick={() => toast({ title: "Filters", description: "Advanced search filters coming soon." })}
+                >
                   <Filter className="mr-2 h-5 w-5" />
                   Filter
                 </Button>
@@ -422,7 +453,10 @@ const KnowledgeBase = () => {
                         variant="outline"
                         size="sm"
                         className="text-xs h-7"
-                        onClick={() => setSearchQuery(suggestion)}
+                        onClick={() => {
+                          setSearchQuery(suggestion);
+                          toast({ title: "Quick Question Selected", description: `Selected: "${suggestion}"` });
+                        }}
                       >
                         <HelpCircle className="mr-1 h-3 w-3" />
                         {suggestion}

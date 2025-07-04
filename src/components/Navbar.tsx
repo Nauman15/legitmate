@@ -2,8 +2,10 @@ import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Shield, Menu, X, Bell, LogOut, User } from 'lucide-react';
 import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 
 export const Navbar = () => {
+  const { toast } = useToast();
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
@@ -74,7 +76,12 @@ export const Navbar = () => {
             {isAuthenticated ? (
               // Authenticated user options
               <>
-                <Button variant="ghost" size="sm" className="relative">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="relative"
+                  onClick={() => toast({ title: "Notifications", description: "No new notifications at this time." })}
+                >
                   <Bell className="h-4 w-4" />
                   <span className="absolute -top-1 -right-1 h-2 w-2 bg-destructive rounded-full"></span>
                 </Button>
@@ -84,7 +91,11 @@ export const Navbar = () => {
                   </div>
                   <span className="text-sm font-medium text-foreground">{user.name}</span>
                 </div>
-                <Button variant="outline" size="sm">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => toast({ title: "Logout", description: "You have been logged out successfully." })}
+                >
                   <LogOut className="h-4 w-4 mr-2" />
                   Logout
                 </Button>
@@ -146,7 +157,12 @@ export const Navbar = () => {
                 {isAuthenticated ? (
                   // Authenticated mobile options
                   <>
-                    <Button variant="ghost" size="sm" className="justify-start">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="justify-start"
+                      onClick={() => toast({ title: "Notifications", description: "No new notifications at this time." })}
+                    >
                       <Bell className="h-4 w-4 mr-2" />
                       Notifications
                     </Button>
@@ -156,7 +172,11 @@ export const Navbar = () => {
                       </div>
                       <span className="text-sm font-medium text-foreground">{user.name}</span>
                     </div>
-                    <Button variant="outline" size="sm">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => toast({ title: "Logout", description: "You have been logged out successfully." })}
+                    >
                       <LogOut className="h-4 w-4 mr-2" />
                       Logout
                     </Button>
