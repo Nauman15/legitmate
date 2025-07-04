@@ -19,20 +19,164 @@ import {
   Eye,
   ThumbsUp,
   Share,
-  Tag
+  Tag,
+  Brain,
+  GraduationCap,
+  Award,
+  Play,
+  CheckCircle,
+  Users,
+  BookOpenCheck,
+  Lightbulb,
+  Bot,
+  HelpCircle,
+  Zap,
+  Shield,
+  Building,
+  Scale,
+  FileCheck,
+  Database
 } from 'lucide-react';
 
 const KnowledgeBase = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [aiSearchMode, setAiSearchMode] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
 
   const categories = [
-    { id: 'all', name: 'All Topics', count: 156 },
-    { id: 'gst', name: 'GST & Tax', count: 42 },
-    { id: 'labor', name: 'Labor Laws', count: 38 },
-    { id: 'company', name: 'Company Law', count: 35 },
-    { id: 'contracts', name: 'Contract Law', count: 28 },
-    { id: 'compliance', name: 'Compliance', count: 13 }
+    { id: 'all', name: 'All Topics', count: 325, icon: BookOpen },
+    { id: 'gst', name: 'GST & Tax Laws', count: 78, icon: FileCheck },
+    { id: 'labor', name: 'Labor & Employment', count: 65, icon: Users },
+    { id: 'company', name: 'Company Law & ROC', count: 52, icon: Building },
+    { id: 'contracts', name: 'Contract & Commercial', count: 43, icon: FileText },
+    { id: 'compliance', name: 'Regulatory Compliance', count: 38, icon: Shield },
+    { id: 'data', name: 'Data Protection & IT', count: 25, icon: Database },
+    { id: 'environmental', name: 'Environmental Law', count: 24, icon: Lightbulb }
+  ];
+
+  const indianRegulations = [
+    {
+      id: 'gst-comprehensive',
+      title: 'Goods and Services Tax (GST)',
+      description: 'Complete guide to GST compliance, filing, and regulations in India',
+      topics: [
+        'GST Registration Process',
+        'GSTR-1, GSTR-3B Filing Requirements',
+        'Input Tax Credit Rules',
+        'E-way Bill Generation',
+        'GST Audit and Assessment',
+        'Penalty and Interest Calculations'
+      ],
+      lastUpdated: '2024-03-20',
+      regulations: ['GST Act 2017', 'CGST Rules 2017', 'SGST Act', 'IGST Act'],
+      difficulty: 'Intermediate'
+    },
+    {
+      id: 'labor-laws',
+      title: 'Labor Laws & Employment Regulations',
+      description: 'Comprehensive coverage of Indian labor and employment laws',
+      topics: [
+        'Contract Labor Act Compliance',
+        'Provident Fund (PF) Requirements',
+        'Employee State Insurance (ESI)',
+        'Minimum Wages Act',
+        'POSH Act Implementation',
+        'Gratuity Payment Rules'
+      ],
+      lastUpdated: '2024-03-18',
+      regulations: ['Industrial Relations Code 2020', 'Wages Code 2019', 'Social Security Code 2020'],
+      difficulty: 'Advanced'
+    },
+    {
+      id: 'company-law',
+      title: 'Companies Act & Corporate Compliance',
+      description: 'Corporate governance and compliance under Companies Act 2013',
+      topics: [
+        'Company Incorporation Process',
+        'Board Meeting Requirements',
+        'Annual Filing Obligations',
+        'Related Party Transactions',
+        'CSR Compliance Requirements',
+        'Secretarial Audit Standards'
+      ],
+      lastUpdated: '2024-03-15',
+      regulations: ['Companies Act 2013', 'Companies Rules 2014', 'SEBI Regulations'],
+      difficulty: 'Advanced'
+    }
+  ];
+
+  const trainingModules = [
+    {
+      id: 'gst-basics',
+      title: 'GST Fundamentals for Business Owners',
+      description: 'Interactive AI-driven course covering GST basics, registration, and compliance',
+      duration: '3 hours',
+      lessons: 12,
+      difficulty: 'Beginner',
+      enrollments: 1247,
+      rating: 4.8,
+      instructor: 'AI Legal Assistant',
+      topics: ['GST Overview', 'Registration Process', 'Tax Calculations', 'Filing Returns'],
+      completionRate: 89,
+      certificate: true,
+      interactive: true
+    },
+    {
+      id: 'labor-compliance',
+      title: 'Employee Relations & Labor Law Compliance',
+      description: 'Comprehensive training on managing employee relations within legal framework',
+      duration: '4.5 hours',
+      lessons: 18,
+      difficulty: 'Intermediate',
+      enrollments: 892,
+      rating: 4.7,
+      instructor: 'AI HR Legal Expert',
+      topics: ['Contract Management', 'PF/ESI Compliance', 'POSH Implementation', 'Wage Regulations'],
+      completionRate: 76,
+      certificate: true,
+      interactive: true
+    },
+    {
+      id: 'contract-law',
+      title: 'Contract Drafting & Review Masterclass',
+      description: 'AI-powered training on contract law, drafting skills, and risk assessment',
+      duration: '5 hours',
+      lessons: 15,
+      difficulty: 'Advanced',
+      enrollments: 634,
+      rating: 4.9,
+      instructor: 'AI Legal Counsel',
+      topics: ['Contract Elements', 'Risk Identification', 'Negotiation Tactics', 'Dispute Resolution'],
+      completionRate: 82,
+      certificate: true,
+      interactive: true
+    },
+    {
+      id: 'compliance-officer',
+      title: 'Compliance Officer Certification Program',
+      description: 'Comprehensive certification program for compliance professionals',
+      duration: '8 hours',
+      lessons: 24,
+      difficulty: 'Expert',
+      enrollments: 456,
+      rating: 4.8,
+      instructor: 'AI Compliance Expert',
+      topics: ['Regulatory Framework', 'Risk Management', 'Audit Procedures', 'Reporting Standards'],
+      completionRate: 71,
+      certificate: true,
+      interactive: true
+    }
+  ];
+
+  const aiSearchSuggestions = [
+    "What are the penalties for late GST filing?",
+    "How to implement POSH Act in my company?",
+    "What are the PF contribution rates for 2024?",
+    "When is annual filing due for private companies?",
+    "How to calculate minimum wages in different states?",
+    "What are the new labor code changes?"
   ];
 
   const featuredArticles = [
@@ -220,27 +364,73 @@ const KnowledgeBase = () => {
           </div>
         </div>
 
-        {/* Search Bar */}
+        {/* Enhanced AI Search Bar */}
         <Card className="shadow-card">
           <CardContent className="p-6">
-            <div className="flex space-x-4">
-              <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <Input
-                  placeholder="Search articles, guides, FAQs..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-12 h-12 text-base"
-                />
+            <div className="space-y-4">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold flex items-center">
+                  <Bot className="mr-2 h-5 w-5 text-primary" />
+                  AI-Powered Compliance Search
+                </h3>
+                <Button
+                  variant={aiSearchMode ? "hero" : "outline"}
+                  size="sm"
+                  onClick={() => setAiSearchMode(!aiSearchMode)}
+                >
+                  <Brain className="mr-2 h-4 w-4" />
+                  {aiSearchMode ? "AI Mode Active" : "Enable AI Search"}
+                </Button>
               </div>
-              <Button variant="professional" className="h-12">
-                <Search className="mr-2 h-5 w-5" />
-                Search
-              </Button>
-              <Button variant="outline" className="h-12">
-                <Filter className="mr-2 h-5 w-5" />
-                Filter
-              </Button>
+              
+              <div className="flex space-x-4">
+                <div className="flex-1 relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                  <Input
+                    placeholder={aiSearchMode ? "Ask any compliance question..." : "Search articles, guides, FAQs..."}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-12 h-12 text-base"
+                  />
+                  {aiSearchMode && (
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                      <Bot className="h-5 w-5 text-primary animate-pulse" />
+                    </div>
+                  )}
+                </div>
+                <Button variant="professional" className="h-12">
+                  <Search className="mr-2 h-5 w-5" />
+                  {aiSearchMode ? "Ask AI" : "Search"}
+                </Button>
+                <Button variant="outline" className="h-12">
+                  <Filter className="mr-2 h-5 w-5" />
+                  Filter
+                </Button>
+              </div>
+              
+              {aiSearchMode && (
+                <div className="space-y-3">
+                  <p className="text-sm text-muted-foreground">
+                    <Zap className="inline h-4 w-4 mr-1" />
+                    AI Assistant will analyze your question and provide relevant regulations, case studies, and actionable advice.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="text-sm font-medium text-muted-foreground">Quick questions:</span>
+                    {aiSearchSuggestions.slice(0, 3).map((suggestion, index) => (
+                      <Button
+                        key={index}
+                        variant="outline"
+                        size="sm"
+                        className="text-xs h-7"
+                        onClick={() => setSearchQuery(suggestion)}
+                      >
+                        <HelpCircle className="mr-1 h-3 w-3" />
+                        {suggestion}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -295,8 +485,10 @@ const KnowledgeBase = () => {
           {/* Main Content */}
           <div className="lg:col-span-3">
             <Tabs defaultValue="articles" className="space-y-6">
-              <TabsList className="grid w-full grid-cols-4">
+              <TabsList className="grid w-full grid-cols-6">
                 <TabsTrigger value="articles">Articles</TabsTrigger>
+                <TabsTrigger value="regulations">Regulations</TabsTrigger>
+                <TabsTrigger value="training">Training</TabsTrigger>
                 <TabsTrigger value="videos">Videos</TabsTrigger>
                 <TabsTrigger value="faqs">FAQs</TabsTrigger>
                 <TabsTrigger value="templates">Templates</TabsTrigger>
@@ -409,6 +601,193 @@ const KnowledgeBase = () => {
                         </Button>
                       </div>
                     ))}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="regulations" className="space-y-6">
+                <Card className="shadow-card">
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <Scale className="mr-2 h-5 w-5 text-primary" />
+                      Indian Regulations & Laws
+                    </CardTitle>
+                    <CardDescription>Browse comprehensive guides to Indian regulatory framework</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    {indianRegulations.map((regulation) => (
+                      <Card key={regulation.id} className="border border-border hover:shadow-elegant transition-all duration-300">
+                        <CardContent className="p-6">
+                          <div className="flex items-start justify-between mb-4">
+                            <div className="flex-1">
+                              <div className="flex items-center space-x-3 mb-3">
+                                <h3 className="text-xl font-semibold">{regulation.title}</h3>
+                                <Badge variant={regulation.difficulty === 'Advanced' ? 'destructive' : regulation.difficulty === 'Intermediate' ? 'secondary' : 'outline'}>
+                                  {regulation.difficulty}
+                                </Badge>
+                              </div>
+                              
+                              <p className="text-muted-foreground mb-4">{regulation.description}</p>
+                              
+                              <div className="space-y-4">
+                                <div>
+                                  <h4 className="font-semibold text-sm mb-2 flex items-center">
+                                    <BookOpenCheck className="mr-1 h-4 w-4 text-primary" />
+                                    Covered Topics:
+                                  </h4>
+                                  <div className="grid grid-cols-2 gap-2">
+                                    {regulation.topics.map((topic, index) => (
+                                      <div key={index} className="flex items-center text-sm">
+                                        <CheckCircle className="h-3 w-3 mr-2 text-success flex-shrink-0" />
+                                        <span>{topic}</span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                                
+                                <div>
+                                  <h4 className="font-semibold text-sm mb-2 flex items-center">
+                                    <FileCheck className="mr-1 h-4 w-4 text-accent" />
+                                    Related Regulations:
+                                  </h4>
+                                  <div className="flex flex-wrap gap-2">
+                                    {regulation.regulations.map((reg, index) => (
+                                      <Badge key={index} variant="outline" className="text-xs">
+                                        {reg}
+                                      </Badge>
+                                    ))}
+                                  </div>
+                                </div>
+                                
+                                <div className="text-sm text-muted-foreground">
+                                  <span className="font-medium">Last Updated:</span> {regulation.lastUpdated}
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div className="flex flex-col space-y-2 ml-6">
+                              <Button variant="professional" size="sm">
+                                <BookOpen className="mr-2 h-4 w-4" />
+                                Study Guide
+                              </Button>
+                              <Button variant="outline" size="sm">
+                                <Download className="mr-2 h-4 w-4" />
+                                Download
+                              </Button>
+                              <Button variant="outline" size="sm">
+                                <Bookmark className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="training" className="space-y-6">
+                <Card className="shadow-card">
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <GraduationCap className="mr-2 h-5 w-5 text-primary" />
+                      AI-Driven Training Modules
+                    </CardTitle>
+                    <CardDescription>Interactive training courses powered by AI for employee development</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {trainingModules.map((module) => (
+                        <Card key={module.id} className="border border-border hover:shadow-elegant transition-all duration-300">
+                          <CardContent className="p-6">
+                            <div className="space-y-4">
+                              <div className="flex items-start justify-between">
+                                <div className="flex-1">
+                                  <div className="flex items-center space-x-2 mb-2">
+                                    <Brain className="h-5 w-5 text-primary" />
+                                    <Badge variant={module.difficulty === 'Expert' ? 'destructive' : module.difficulty === 'Advanced' ? 'secondary' : 'outline'}>
+                                      {module.difficulty}
+                                    </Badge>
+                                    {module.certificate && (
+                                      <Badge className="bg-gradient-accent text-accent-foreground">
+                                        <Award className="mr-1 h-3 w-3" />
+                                        Certificate
+                                      </Badge>
+                                    )}
+                                  </div>
+                                  
+                                  <h3 className="text-lg font-semibold mb-2">{module.title}</h3>
+                                  <p className="text-muted-foreground text-sm mb-3">{module.description}</p>
+                                </div>
+                              </div>
+                              
+                              <div className="space-y-3">
+                                <div className="grid grid-cols-2 gap-4 text-sm">
+                                  <div className="flex items-center">
+                                    <Clock className="h-4 w-4 mr-1 text-muted-foreground" />
+                                    <span>{module.duration}</span>
+                                  </div>
+                                  <div className="flex items-center">
+                                    <BookOpen className="h-4 w-4 mr-1 text-muted-foreground" />
+                                    <span>{module.lessons} lessons</span>
+                                  </div>
+                                  <div className="flex items-center">
+                                    <Users className="h-4 w-4 mr-1 text-muted-foreground" />
+                                    <span>{module.enrollments} enrolled</span>
+                                  </div>
+                                  <div className="flex items-center">
+                                    <Star className="h-4 w-4 mr-1 text-warning fill-current" />
+                                    <span>{module.rating}/5.0</span>
+                                  </div>
+                                </div>
+                                
+                                <div>
+                                  <span className="text-sm font-medium text-muted-foreground">Topics Covered:</span>
+                                  <div className="flex flex-wrap gap-1 mt-1">
+                                    {module.topics.map((topic, index) => (
+                                      <Badge key={index} variant="secondary" className="text-xs">
+                                        {topic}
+                                      </Badge>
+                                    ))}
+                                  </div>
+                                </div>
+                                
+                                <div className="space-y-2">
+                                  <div className="flex justify-between text-sm">
+                                    <span className="text-muted-foreground">Completion Rate</span>
+                                    <span className="font-medium">{module.completionRate}%</span>
+                                  </div>
+                                  <div className="w-full bg-muted rounded-full h-2">
+                                    <div 
+                                      className="bg-primary h-2 rounded-full transition-all duration-500" 
+                                      style={{ width: `${module.completionRate}%` }}
+                                    ></div>
+                                  </div>
+                                </div>
+                                
+                                <div className="text-sm text-muted-foreground">
+                                  <User className="inline h-4 w-4 mr-1" />
+                                  Instructor: {module.instructor}
+                                </div>
+                              </div>
+                              
+                              <div className="flex space-x-2 pt-2">
+                                <Button variant="hero" className="flex-1">
+                                  <Play className="mr-2 h-4 w-4" />
+                                  Start Course
+                                </Button>
+                                <Button variant="outline" size="sm">
+                                  <Eye className="h-4 w-4" />
+                                </Button>
+                                <Button variant="outline" size="sm">
+                                  <Bookmark className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
                   </CardContent>
                 </Card>
               </TabsContent>
