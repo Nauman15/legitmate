@@ -87,10 +87,6 @@ const Landing = () => {
             <div className="flex items-center justify-center space-x-8 text-sm text-white/80 pt-8 drop-shadow-sm">
               <div className="flex items-center space-x-2">
                 <CheckCircle className="h-4 w-4" />
-                <span>30-day free trial</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="h-4 w-4" />
                 <span>No setup fees</span>
               </div>
               <div className="flex items-center space-x-2">
@@ -150,7 +146,7 @@ const Landing = () => {
               asChild
             >
               <Link to="/onboarding">
-                Start Your Free Trial
+                Get Started
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
