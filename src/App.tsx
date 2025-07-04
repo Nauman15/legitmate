@@ -4,6 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { Navbar } from "@/components/Navbar";
 import { FeedbackButton } from "@/components/FeedbackButton";
 import Landing from "./pages/Landing";
@@ -28,33 +30,35 @@ const App = () => (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <div className="min-h-screen">
-            {TEST_MODE && (
-              <div className="bg-warning text-warning-foreground text-center py-2 text-sm font-medium">
-                🚧 TEST MODE - Internal Review Version
-              </div>
-            )}
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<Landing />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/onboarding" element={<Onboarding />} />
-              <Route path="/contract-review" element={<ContractReview />} />
-              <Route path="/regulatory-alerts" element={<RegulatoryAlerts />} />
-              <Route path="/automated-filings" element={<AutomatedFilings />} />
-              <Route path="/policy-compliance" element={<PolicyCompliance />} />
-              <Route path="/risk-analytics" element={<RiskAnalytics />} />
-              <Route path="/knowledge-base" element={<KnowledgeBase />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            <FeedbackButton />
-          </div>
-        </BrowserRouter>
+        <AuthProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <div className="min-h-screen">
+              {TEST_MODE && (
+                <div className="bg-warning text-warning-foreground text-center py-2 text-sm font-medium">
+                  🚧 TEST MODE - Internal Review Version
+                </div>
+              )}
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<Landing />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/onboarding" element={<Onboarding />} />
+                <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                <Route path="/contract-review" element={<ProtectedRoute><ContractReview /></ProtectedRoute>} />
+                <Route path="/regulatory-alerts" element={<ProtectedRoute><RegulatoryAlerts /></ProtectedRoute>} />
+                <Route path="/automated-filings" element={<ProtectedRoute><AutomatedFilings /></ProtectedRoute>} />
+                <Route path="/policy-compliance" element={<ProtectedRoute><PolicyCompliance /></ProtectedRoute>} />
+                <Route path="/risk-analytics" element={<ProtectedRoute><RiskAnalytics /></ProtectedRoute>} />
+                <Route path="/knowledge-base" element={<ProtectedRoute><KnowledgeBase /></ProtectedRoute>} />
+                <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+              <FeedbackButton />
+            </div>
+          </BrowserRouter>
+        </AuthProvider>
       </TooltipProvider>
     </QueryClientProvider>
   </ErrorBoundary>

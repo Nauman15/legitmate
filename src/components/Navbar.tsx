@@ -1,18 +1,19 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Shield, Menu, X, Bell, LogOut, User } from 'lucide-react';
+import { Shield, Menu, X, LogOut } from 'lucide-react';
 import { useState } from 'react';
-import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
 
 export const Navbar = () => {
-  const { toast } = useToast();
+  const { user, signOut } = useAuth();
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
   // Define public routes that should show non-authenticated UI
   const publicRoutes = ['/', '/login', '/onboarding'];
-  const isAuthenticated = !publicRoutes.includes(location.pathname);
-  const user = { name: 'User', initial: 'U' }; // Replace with actual user data when implementing real auth
+  const isAuthenticated = !!user;
+  const userInitial = user?.email?.[0]?.toUpperCase() || 'U';
+  const userName = user?.email?.split('@')[0] || 'User';
   
   const isActive = (path: string) => location.pathname === path;
   
@@ -78,14 +79,14 @@ export const Navbar = () => {
               <>
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-gradient-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-medium">
-                    {user.initial}
+                    {userInitial}
                   </div>
-                  <span className="text-sm font-medium text-foreground">{user.name}</span>
+                  <span className="text-sm font-medium text-foreground">{userName}</span>
                 </div>
                 <Button 
                   variant="outline" 
                   size="sm"
-                  onClick={() => toast({ title: "Logout", description: "You have been logged out successfully." })}
+                  onClick={() => signOut()}
                 >
                   <LogOut className="h-4 w-4 mr-2" />
                   Logout
@@ -150,14 +151,14 @@ export const Navbar = () => {
                   <>
                     <div className="flex items-center space-x-3 px-3 py-2">
                       <div className="w-8 h-8 bg-gradient-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-medium">
-                        {user.initial}
+                        {userInitial}
                       </div>
-                      <span className="text-sm font-medium text-foreground">{user.name}</span>
+                      <span className="text-sm font-medium text-foreground">{userName}</span>
                     </div>
                     <Button 
                       variant="outline" 
                       size="sm"
-                      onClick={() => toast({ title: "Logout", description: "You have been logged out successfully." })}
+                      onClick={() => signOut()}
                     >
                       <LogOut className="h-4 w-4 mr-2" />
                       Logout
