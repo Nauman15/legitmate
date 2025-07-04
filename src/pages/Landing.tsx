@@ -103,7 +103,7 @@ const Landing = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 bg-background">
+      <section id="features" className="py-24 bg-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-foreground">

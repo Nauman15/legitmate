@@ -16,48 +16,26 @@ import {
 
 const Dashboard = () => {
   const complianceStatus = {
-    overall: 92,
-    status: 'Good',
-    issues: 2,
-    color: 'text-success'
+    overall: 'N/A',
+    status: 'N/A',
+    issues: 'N/A',
+    color: 'text-muted-foreground'
   };
 
   const upcomingDeadlines = [
     {
-      title: 'GST GSTR-1 Filing',
-      date: 'Due in 3 days',
-      priority: 'high'
-    },
-    {
-      title: 'PF Contribution',
-      date: 'Due in 5 days',
+      title: 'No deadlines available',
+      date: 'Upload documents to see deadlines',
       priority: 'medium'
-    },
-    {
-      title: 'Annual ROC Filing',
-      date: 'Due in 15 days',
-      priority: 'high'
     }
   ];
 
   const recentActions = [
     {
-      action: 'GST Return Filed',
-      description: 'GSTR-3B for March 2024 submitted successfully',
-      time: '2 hours ago',
-      status: 'success'
-    },
-    {
-      action: 'Contract Reviewed',
-      description: 'Vendor agreement analysis completed',
-      time: '4 hours ago',
+      action: 'No recent actions',
+      description: 'Upload documents and complete setup to see your compliance activities',
+      time: 'N/A',
       status: 'completed'
-    },
-    {
-      action: 'Regulatory Alert',
-      description: 'New labor law amendments published',
-      time: '6 hours ago',
-      status: 'alert'
     }
   ];
 
@@ -116,13 +94,13 @@ const Dashboard = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="flex items-center space-x-2 mb-2">
-                      <div className="text-3xl font-bold text-foreground">{complianceStatus.overall}%</div>
-                      <Badge variant="secondary" className="bg-success/10 text-success">
+                      <div className="text-3xl font-bold text-muted-foreground">{complianceStatus.overall}</div>
+                      <Badge variant="secondary" className="bg-muted/20 text-muted-foreground">
                         {complianceStatus.status}
                       </Badge>
                     </div>
                     <p className="text-sm text-muted-foreground">
-                      {complianceStatus.issues} items need attention
+                      Upload documents to see compliance status
                     </p>
                   </div>
                   <div className="flex items-center justify-center w-20 h-20 rounded-full bg-gradient-primary">
