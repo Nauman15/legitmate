@@ -76,15 +76,6 @@ export const Navbar = () => {
             {isAuthenticated ? (
               // Authenticated user options
               <>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="relative"
-                  onClick={() => toast({ title: "Notifications", description: "No new notifications at this time." })}
-                >
-                  <Bell className="h-4 w-4" />
-                  <span className="absolute -top-1 -right-1 h-2 w-2 bg-destructive rounded-full"></span>
-                </Button>
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-gradient-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-medium">
                     {user.initial}
@@ -157,15 +148,6 @@ export const Navbar = () => {
                 {isAuthenticated ? (
                   // Authenticated mobile options
                   <>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="justify-start"
-                      onClick={() => toast({ title: "Notifications", description: "No new notifications at this time." })}
-                    >
-                      <Bell className="h-4 w-4 mr-2" />
-                      Notifications
-                    </Button>
                     <div className="flex items-center space-x-3 px-3 py-2">
                       <div className="w-8 h-8 bg-gradient-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-medium">
                         {user.initial}

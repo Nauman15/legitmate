@@ -480,11 +480,17 @@ const KnowledgeBase = () => {
                 {categories.map((category) => (
                   <button
                     key={category.id}
-                    onClick={() => setSelectedCategory(category.id)}
-                    className={`w-full flex items-center justify-between p-3 rounded-lg transition-colors ${
+                    onClick={() => {
+                      setSelectedCategory(category.id);
+                      toast({ 
+                        title: "Category Selected", 
+                        description: `Showing ${category.name} articles (${category.count} items)` 
+                      });
+                    }}
+                    className={`w-full flex items-center justify-between p-3 rounded-lg transition-all duration-200 cursor-pointer hover:scale-[1.02] ${
                       selectedCategory === category.id
-                        ? 'bg-primary text-primary-foreground'
-                        : 'hover:bg-muted/50 text-muted-foreground'
+                        ? 'bg-primary text-primary-foreground shadow-lg'
+                        : 'hover:bg-muted/50 text-muted-foreground hover:text-foreground'
                     }`}
                   >
                     <span className="font-medium">{category.name}</span>
