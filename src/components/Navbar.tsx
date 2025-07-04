@@ -1,6 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { LanguageSelector } from '@/components/LanguageSelector';
 import { Shield, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 
@@ -48,7 +47,6 @@ export const Navbar = () => {
 
           {/* Right Side Actions */}
           <div className="hidden md:flex items-center space-x-4">
-            <LanguageSelector />
             <Button variant="outline" size="sm" asChild>
               <Link to="/login">Sign In</Link>
             </Button>
@@ -88,7 +86,6 @@ export const Navbar = () => {
                 </Link>
               ))}
               <div className="flex flex-col space-y-2 px-3 pt-4">
-                <LanguageSelector />
                 <Button variant="outline" size="sm" asChild>
                   <Link to="/login">Sign In</Link>
                 </Button>
