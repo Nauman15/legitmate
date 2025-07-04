@@ -1,33 +1,20 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   BarChart3, 
-  TrendingUp, 
-  TrendingDown,
-  AlertTriangle, 
-  Shield,
-  Target,
-  Activity,
-  Calendar,
   Download,
-  Settings,
   RefreshCw,
-  Eye,
-  Filter,
-  Database,
-  Link,
-  CheckCircle,
-  XCircle,
-  Clock,
-  Users,
   DollarSign,
+  Users,
   FileText,
-  Zap,
-  Plus
+  Database
 } from 'lucide-react';
+import { RiskMetricsOverview } from '@/components/risk-analytics/RiskMetricsOverview';
+import { RiskCategoriesOverview } from '@/components/risk-analytics/RiskCategoriesOverview';
+import { PredictiveInsights } from '@/components/risk-analytics/PredictiveInsights';
+import { DataSourceIntegrations } from '@/components/risk-analytics/DataSourceIntegrations';
+import { MitigationActions } from '@/components/risk-analytics/MitigationActions';
+import { HistoricalTrends } from '@/components/risk-analytics/HistoricalTrends';
 
 const RiskAnalytics = () => {
   const riskMetrics = [
@@ -36,7 +23,7 @@ const RiskAnalytics = () => {
       value: '73',
       unit: '/100',
       change: '-5',
-      trend: 'down',
+      trend: 'down' as const,
       color: 'text-warning',
       description: 'Medium Risk Level'
     },
@@ -45,7 +32,7 @@ const RiskAnalytics = () => {
       value: '3',
       unit: '',
       change: '+1',
-      trend: 'up',
+      trend: 'up' as const,
       color: 'text-destructive',
       description: 'Require Immediate Action'
     },
@@ -54,7 +41,7 @@ const RiskAnalytics = () => {
       value: '87',
       unit: '%',
       change: '+3',
-      trend: 'up',
+      trend: 'up' as const,
       color: 'text-success',
       description: 'Above Industry Average'
     },
@@ -63,7 +50,7 @@ const RiskAnalytics = () => {
       value: '2',
       unit: '',
       change: '-1',
-      trend: 'down',
+      trend: 'down' as const,
       color: 'text-primary',
       description: 'Next 30 Days'
     }
@@ -121,12 +108,6 @@ const RiskAnalytics = () => {
       probability: 60,
       mitigation: 'Data audit in progress'
     }
-  ];
-
-  const riskTrends = [
-    { month: 'Jan', overall: 68, gst: 75, labor: 45, company: 30, data: 50 },
-    { month: 'Feb', overall: 72, gst: 80, labor: 50, company: 35, data: 55 },
-    { month: 'Mar', overall: 73, gst: 85, labor: 65, company: 25, data: 55 },
   ];
 
   const predictiveInsights = [
@@ -263,64 +244,6 @@ const RiskAnalytics = () => {
     }
   ];
 
-  const getConnectionStatus = (status: string): { color: string; icon: any; badge: "default" | "secondary" | "outline" | "destructive" } => {
-    switch (status) {
-      case 'connected':
-        return { color: 'text-success', icon: CheckCircle, badge: 'default' };
-      case 'pending':
-        return { color: 'text-warning', icon: Clock, badge: 'secondary' };
-      case 'available':
-        return { color: 'text-muted-foreground', icon: XCircle, badge: 'outline' };
-      default:
-        return { color: 'text-muted-foreground', icon: XCircle, badge: 'outline' };
-    }
-  };
-
-  const getRiskColor = (level: string) => {
-    switch (level.toLowerCase()) {
-      case 'high': return 'text-destructive';
-      case 'medium': return 'text-warning';
-      case 'low': return 'text-success';
-      default: return 'text-muted-foreground';
-    }
-  };
-
-  const getRiskBadgeVariant = (level: string) => {
-    switch (level.toLowerCase()) {
-      case 'high': return 'destructive';
-      case 'medium': return 'secondary';
-      case 'low': return 'default';
-      default: return 'outline';
-    }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'completed': return 'text-success';
-      case 'in_progress': return 'text-primary';
-      case 'pending': return 'text-warning';
-      default: return 'text-muted-foreground';
-    }
-  };
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'completed': return 'default';
-      case 'in_progress': return 'outline';
-      case 'pending': return 'secondary';
-      default: return 'outline';
-    }
-  };
-
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'high': return 'destructive';
-      case 'medium': return 'secondary';
-      case 'low': return 'outline';
-      default: return 'outline';
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gradient-subtle">
       <div className="max-w-7xl mx-auto p-6 space-y-8">
@@ -346,30 +269,7 @@ const RiskAnalytics = () => {
         </div>
 
         {/* Risk Metrics Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {riskMetrics.map((metric, index) => (
-            <Card key={index} className="shadow-card">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-sm font-medium text-muted-foreground">{metric.title}</h3>
-                  <div className={`flex items-center ${metric.trend === 'up' ? 'text-destructive' : 'text-success'}`}>
-                    {metric.trend === 'up' ? (
-                      <TrendingUp className="h-4 w-4" />
-                    ) : (
-                      <TrendingDown className="h-4 w-4" />
-                    )}
-                    <span className="text-sm ml-1">{metric.change}</span>
-                  </div>
-                </div>
-                <div className="flex items-baseline space-x-1 mb-1">
-                  <span className={`text-3xl font-bold ${metric.color}`}>{metric.value}</span>
-                  <span className="text-sm text-muted-foreground">{metric.unit}</span>
-                </div>
-                <p className="text-xs text-muted-foreground">{metric.description}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        <RiskMetricsOverview metrics={riskMetrics} />
 
         <Tabs defaultValue="overview" className="space-y-6">
           <TabsList className="grid w-full grid-cols-5">
@@ -381,359 +281,23 @@ const RiskAnalytics = () => {
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">
-            <div className="grid grid-cols-1 gap-6">
-              {riskCategories.map((risk, index) => (
-                <Card key={index} className="shadow-card hover:shadow-elegant transition-all duration-300">
-                  <CardContent className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex-1">
-                        <div className="flex items-center space-x-3 mb-3">
-                          <h3 className="text-xl font-semibold">{risk.category}</h3>
-                          <Badge variant={getRiskBadgeVariant(risk.riskLevel)}>
-                            {risk.riskLevel} Risk
-                          </Badge>
-                          <Badge variant="outline">{risk.impact}</Badge>
-                        </div>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                          <div>
-                            <span className="text-sm font-medium text-muted-foreground">Risk Score</span>
-                            <div className="flex items-center space-x-2 mt-1">
-                              <span className={`text-2xl font-bold ${getRiskColor(risk.riskLevel)}`}>
-                                {risk.score}
-                              </span>
-                              <span className="text-sm text-muted-foreground">/100</span>
-                            </div>
-                          </div>
-                          <div>
-                            <span className="text-sm font-medium text-muted-foreground">Probability</span>
-                            <div className="mt-1">
-                              <span className="text-2xl font-bold text-primary">{risk.probability}%</span>
-                            </div>
-                          </div>
-                          <div>
-                            <span className="text-sm font-medium text-muted-foreground">Risk Level</span>
-                            <div className="mt-2">
-                              <Progress value={risk.score} className="h-2" />
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="space-y-3">
-                          <h4 className="font-semibold flex items-center">
-                            <AlertTriangle className="mr-2 h-4 w-4 text-warning" />
-                            Identified Issues
-                          </h4>
-                          <div className="space-y-2">
-                            {risk.issues.map((issue, issueIndex) => (
-                              <div key={issueIndex} className="flex items-start space-x-2 text-sm">
-                                <div className="w-2 h-2 bg-destructive rounded-full mt-2 flex-shrink-0"></div>
-                                <span>{issue}</span>
-                              </div>
-                            ))}
-                          </div>
-                          
-                          <div className="mt-4 p-3 bg-accent/10 border border-accent/20 rounded-lg">
-                            <p className="text-sm">
-                              <span className="font-medium text-accent">Mitigation Strategy:</span> {risk.mitigation}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col space-y-2 ml-6">
-                        <Button variant="professional" size="sm">
-                          <Eye className="mr-2 h-4 w-4" />
-                          Details
-                        </Button>
-                        <Button variant="outline" size="sm">
-                          <Target className="mr-2 h-4 w-4" />
-                          Mitigate
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <RiskCategoriesOverview categories={riskCategories} />
           </TabsContent>
 
           <TabsContent value="predictive" className="space-y-6">
-            <Card className="shadow-card">
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Activity className="mr-2 h-5 w-5 text-primary" />
-                  AI-Powered Risk Predictions
-                </CardTitle>
-                <CardDescription>
-                  Machine learning insights based on historical data and current trends
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {predictiveInsights.map((insight, index) => (
-                  <Card key={index} className="border border-border">
-                    <CardContent className="p-6">
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex-1">
-                          <div className="flex items-center space-x-3 mb-2">
-                            <h3 className="text-lg font-semibold">{insight.title}</h3>
-                            <Badge variant="outline">{insight.category}</Badge>
-                            <Badge variant={insight.impact === 'High' ? 'destructive' : 'secondary'}>
-                              {insight.impact} Impact
-                            </Badge>
-                          </div>
-                          
-                          <div className="grid grid-cols-2 gap-4 mb-3 text-sm">
-                            <div>
-                              <span className="font-medium text-muted-foreground">Probability:</span>
-                              <span className={`ml-2 font-bold ${insight.probability > 70 ? 'text-destructive' : insight.probability > 40 ? 'text-warning' : 'text-success'}`}>
-                                {insight.probability}%
-                              </span>
-                            </div>
-                            <div>
-                              <span className="font-medium text-muted-foreground">Timeline:</span>
-                              <span className="ml-2 font-bold text-primary">{insight.timeline}</span>
-                            </div>
-                          </div>
-
-                          <p className="text-muted-foreground mb-3">{insight.description}</p>
-                          
-                          <div className="p-3 bg-primary/10 border border-primary/20 rounded-lg">
-                            <p className="text-sm">
-                              <span className="font-medium text-primary">AI Recommendation:</span> {insight.recommendation}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="ml-6">
-                          <div className="text-center">
-                            <div className={`text-3xl font-bold ${insight.probability > 70 ? 'text-destructive' : insight.probability > 40 ? 'text-warning' : 'text-success'}`}>
-                              {insight.probability}%
-                            </div>
-                            <div className="text-xs text-muted-foreground">Risk Level</div>
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </CardContent>
-            </Card>
+            <PredictiveInsights insights={predictiveInsights} />
           </TabsContent>
 
           <TabsContent value="data-sources" className="space-y-6">
-            <Card className="shadow-card">
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Database className="mr-2 h-5 w-5 text-primary" />
-                  Business Data Source Integrations
-                </CardTitle>
-                <CardDescription>
-                  Connect your business systems to enable AI-powered compliance risk analysis
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 gap-6">
-                  {dataSourceIntegrations.map((integration, index) => {
-                    const statusInfo = getConnectionStatus(integration.status);
-                    const StatusIcon = statusInfo.icon;
-                    const IntegrationIcon = integration.icon;
-                    
-                    return (
-                      <Card key={index} className="border border-border hover:shadow-elegant transition-all duration-300">
-                        <CardContent className="p-6">
-                          <div className="flex items-start justify-between mb-4">
-                            <div className="flex items-start space-x-4 flex-1">
-                              <div className="p-3 bg-primary/10 rounded-lg">
-                                <IntegrationIcon className="h-6 w-6 text-primary" />
-                              </div>
-                              
-                              <div className="flex-1">
-                                <div className="flex items-center space-x-3 mb-2">
-                                  <h3 className="text-lg font-semibold">{integration.name}</h3>
-                                  <Badge variant="outline">{integration.category}</Badge>
-                                  <Badge variant={statusInfo.badge}>
-                                    {integration.status.replace('_', ' ').toUpperCase()}
-                                  </Badge>
-                                </div>
-                                
-                                <p className="text-muted-foreground mb-3">{integration.description}</p>
-                                
-                                {integration.status === 'connected' && (
-                                  <div className="grid grid-cols-2 gap-4 mb-3 text-sm">
-                                    <div>
-                                      <span className="font-medium text-muted-foreground">Last Sync:</span>
-                                      <span className="ml-2 text-success">{integration.lastSync}</span>
-                                    </div>
-                                    <div>
-                                      <span className="font-medium text-muted-foreground">Records:</span>
-                                      <span className="ml-2 font-bold text-primary">{integration.records}</span>
-                                    </div>
-                                  </div>
-                                )}
-                                
-                                <div className="space-y-3">
-                                  <div>
-                                    <h4 className="font-medium text-sm mb-2">Features:</h4>
-                                    <div className="flex flex-wrap gap-2">
-                                      {integration.features.map((feature, featureIndex) => (
-                                        <Badge key={featureIndex} variant="secondary" className="text-xs">
-                                          {feature}
-                                        </Badge>
-                                      ))}
-                                    </div>
-                                  </div>
-                                  
-                                  {integration.riskInsights.length > 0 && (
-                                    <div>
-                                      <h4 className="font-medium text-sm mb-2 flex items-center">
-                                        <Zap className="mr-1 h-3 w-3 text-warning" />
-                                        AI Risk Insights:
-                                      </h4>
-                                      <div className="space-y-1">
-                                        {integration.riskInsights.map((insight, insightIndex) => (
-                                          <div key={insightIndex} className="flex items-start space-x-2 text-sm">
-                                            <div className="w-2 h-2 bg-warning rounded-full mt-2 flex-shrink-0"></div>
-                                            <span className="text-muted-foreground">{insight}</span>
-                                          </div>
-                                        ))}
-                                      </div>
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                            
-                            <div className="flex flex-col space-y-2 ml-6">
-                              <div className="flex items-center space-x-2">
-                                <StatusIcon className={`h-5 w-5 ${statusInfo.color}`} />
-                                <span className={`text-sm font-medium ${statusInfo.color}`}>
-                                  {integration.status === 'connected' ? 'Connected' : 
-                                   integration.status === 'pending' ? 'Pending' : 'Available'}
-                                </span>
-                              </div>
-                              
-                              {integration.status === 'connected' ? (
-                                <div className="space-y-2">
-                                  <Button variant="outline" size="sm">
-                                    <Settings className="mr-2 h-4 w-4" />
-                                    Configure
-                                  </Button>
-                                  <Button variant="professional" size="sm">
-                                    <RefreshCw className="mr-2 h-4 w-4" />
-                                    Sync Now
-                                  </Button>
-                                </div>
-                              ) : integration.status === 'pending' ? (
-                                <Button variant="outline" size="sm">
-                                  <Clock className="mr-2 h-4 w-4" />
-                                  Complete Setup
-                                </Button>
-                              ) : (
-                                <Button variant="hero" size="sm">
-                                  <Link className="mr-2 h-4 w-4" />
-                                  Connect
-                                </Button>
-                              )}
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    );
-                  })}
-                </div>
-                
-                <Card className="border-2 border-dashed border-border">
-                  <CardContent className="p-6 text-center">
-                    <Plus className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                    <h3 className="text-lg font-semibold mb-2">Add Custom Integration</h3>
-                    <p className="text-muted-foreground mb-4">
-                      Connect your custom business systems via API or file upload
-                    </p>
-                    <Button variant="outline">
-                      <Plus className="mr-2 h-4 w-4" />
-                      Add Integration
-                    </Button>
-                  </CardContent>
-                </Card>
-              </CardContent>
-            </Card>
+            <DataSourceIntegrations integrations={dataSourceIntegrations} />
           </TabsContent>
 
           <TabsContent value="mitigation" className="space-y-6">
-            <Card className="shadow-card">
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Shield className="mr-2 h-5 w-5 text-primary" />
-                  Risk Mitigation Actions
-                </CardTitle>
-                <CardDescription>Track and manage risk mitigation initiatives</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {mitigationActions.map((action, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-2">
-                        <h3 className="font-semibold">{action.title}</h3>
-                        <Badge variant={getStatusBadge(action.status)}>
-                          {action.status.replace('_', ' ').toUpperCase()}
-                        </Badge>
-                        <Badge variant={getPriorityColor(action.priority)}>
-                          {action.priority.toUpperCase()}
-                        </Badge>
-                      </div>
-                      
-                      <div className="grid grid-cols-2 gap-4 text-sm text-muted-foreground mb-3">
-                        <div>
-                          <span className="font-medium">Deadline:</span> {action.deadline}
-                        </div>
-                        <div>
-                          <span className="font-medium">Assignee:</span> {action.assignee}
-                        </div>
-                      </div>
-
-                      {action.status !== 'completed' && (
-                        <div className="space-y-1">
-                          <div className="flex justify-between text-sm">
-                            <span className="text-muted-foreground">Progress</span>
-                            <span className="font-medium">{action.progress}%</span>
-                          </div>
-                          <Progress value={action.progress} className="h-2" />
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="flex space-x-2 ml-6">
-                      <Button variant="outline" size="sm">
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                      <Button variant="professional" size="sm">
-                        <Settings className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
+            <MitigationActions actions={mitigationActions} />
           </TabsContent>
 
           <TabsContent value="trends" className="space-y-6">
-            <Card className="shadow-card">
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <TrendingUp className="mr-2 h-5 w-5 text-primary" />
-                  Risk Trend Analysis
-                </CardTitle>
-                <CardDescription>Historical risk patterns and trend analysis</CardDescription>
-              </CardHeader>
-              <CardContent className="h-96 flex items-center justify-center text-muted-foreground">
-                <div className="text-center">
-                  <BarChart3 className="h-16 w-16 mx-auto mb-4" />
-                  <p className="text-lg mb-2">Risk Trend Charts</p>
-                  <p>Interactive charts and trend analysis coming soon</p>
-                </div>
-              </CardContent>
-            </Card>
+            <HistoricalTrends />
           </TabsContent>
         </Tabs>
       </div>
