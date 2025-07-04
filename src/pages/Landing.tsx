@@ -133,19 +133,20 @@ const Landing = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-gradient-primary text-primary-foreground">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+      <section className="py-24 bg-gradient-primary text-primary-foreground relative">
+        <div className="absolute inset-0 bg-primary/20"></div>
+        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="space-y-8">
-            <h2 className="text-3xl sm:text-4xl font-bold">
+            <h2 className="text-3xl sm:text-4xl font-bold drop-shadow-lg">
               Ready to Simplify Your Compliance?
             </h2>
-            <p className="text-lg text-primary-foreground/80">
+            <p className="text-lg text-primary-foreground/90 drop-shadow-md">
               Join thousands of Indian businesses who trust LegitMate for seamless compliance management
             </p>
             <Button 
               variant="secondary" 
               size="lg" 
-              className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 text-lg px-8 py-4 h-auto" 
+              className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 text-lg px-8 py-4 h-auto shadow-elegant" 
               asChild
             >
               <Link to="/onboarding">

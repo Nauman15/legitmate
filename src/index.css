@@ -48,10 +48,10 @@
     --input: 220 14% 73%;             /* Soft Silver input borders */
     --ring: 210 29% 24%;              /* Slate Blue focus rings */
     
-    /* Professional Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(210 29% 24%), hsl(210 29% 34%));
+    /* Professional Gradients - Enhanced Contrast */
+    --gradient-primary: linear-gradient(135deg, hsl(210 29% 18%), hsl(210 29% 24%));
     --gradient-accent: linear-gradient(135deg, hsl(172 66% 47%), hsl(172 66% 57%));
-    --gradient-hero: linear-gradient(135deg, hsl(210 29% 24%) 0%, hsl(172 66% 57%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(210 29% 18%) 0%, hsl(210 29% 24%) 100%);
     --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 29% 97%));
     --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(210 29% 97%));
     
