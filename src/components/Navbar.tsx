@@ -52,6 +52,16 @@ export const Navbar = () => {
                     ? 'text-primary bg-primary/10 border border-primary/20' 
                     : 'text-muted-foreground hover:text-foreground'
                 }`}
+                onClick={(e) => {
+                  // Handle features navigation with smooth scrolling
+                  if (item.path === '/#features') {
+                    e.preventDefault();
+                    const featuresSection = document.getElementById('features');
+                    if (featuresSection) {
+                      featuresSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }
+                }}
               >
                 {item.name}
               </Link>
@@ -116,7 +126,17 @@ export const Navbar = () => {
                       ? 'text-primary bg-primary/10'
                       : 'text-muted-foreground hover:text-primary hover:bg-accent'
                   }`}
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={(e) => {
+                    setIsMenuOpen(false);
+                    // Handle features navigation with smooth scrolling
+                    if (item.path === '/#features') {
+                      e.preventDefault();
+                      const featuresSection = document.getElementById('features');
+                      if (featuresSection) {
+                        featuresSection.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }
+                  }}
                 >
                   {item.name}
                 </Link>

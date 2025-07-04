@@ -54,7 +54,7 @@ const Landing = () => {
           <div className="text-center space-y-8">
             {/* Logo */}
             <div className="space-y-4">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold">
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white drop-shadow-lg">
                 LegitMate
               </h1>
               <p className="text-xl sm:text-2xl text-white/90 font-medium drop-shadow-md">
