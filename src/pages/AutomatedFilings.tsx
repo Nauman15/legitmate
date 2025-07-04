@@ -4,6 +4,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
 import { 
   FileCheck, 
   Calendar, 
@@ -17,64 +22,177 @@ import {
   FileText,
   Shield,
   Building,
-  TrendingUp
+  TrendingUp,
+  Bell,
+  Link as LinkIcon,
+  Plus,
+  Eye,
+  Loader2
 } from 'lucide-react';
 
 const AutomatedFilings = () => {
+  const { toast } = useToast();
+  const [selectedFilingType, setSelectedFilingType] = useState('');
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [integrationUrl, setIntegrationUrl] = useState('');
+
+  const filingTypes = [
+    {
+      id: 'gst-return',
+      name: 'GST Return',
+      description: 'GSTR-1, GSTR-3B, and other GST filings',
+      icon: Shield,
+      color: 'text-primary',
+      frequency: 'Monthly',
+      documents: ['Sales Register', 'Purchase Register', 'Tax Invoices'],
+      deadline: '11th of following month'
+    },
+    {
+      id: 'tds-filing',
+      name: 'TDS Filing',
+      description: 'TDS returns and quarterly statements',
+      icon: TrendingUp,
+      color: 'text-accent',
+      frequency: 'Quarterly',
+      documents: ['TDS Certificates', 'Challan Details', 'Form 16A'],
+      deadline: '31st of following quarter'
+    },
+    {
+      id: 'roc-filing',
+      name: 'ROC Filing',
+      description: 'Annual returns and company filings',
+      icon: Building,
+      color: 'text-success',
+      frequency: 'Annual',
+      documents: ['Financial Statements', 'Annual Return', 'Board Resolutions'],
+      deadline: '30th September annually'
+    },
+    {
+      id: 'other-statutory',
+      name: 'Other Statutory Documents',
+      description: 'PF, ESI, Labor Law, and other compliance filings',
+      icon: FileText,
+      color: 'text-warning',
+      frequency: 'Varies',
+      documents: ['Salary Register', 'Employee Data', 'Compliance Certificates'],
+      deadline: 'Varies by type'
+    }
+  ];
   const upcomingFilings = [
     {
       id: 1,
       name: 'GST GSTR-1',
+      type: 'gst-return',
       description: 'Monthly GST return for outward supplies',
       dueDate: '2024-04-11',
+      daysLeft: 3,
       status: 'pending',
       priority: 'high',
       category: 'GST',
       estimatedTime: '2 hours',
       autoStatus: 'enabled',
       documents: ['Sales Register', 'Invoice Data'],
-      progress: 85
+      progress: 85,
+      reminderSent: true
     },
     {
       id: 2,
-      name: 'TDS Return',
+      name: 'TDS Return - Q4 FY24',
+      type: 'tds-filing',
       description: 'Quarterly TDS return filing',
       dueDate: '2024-04-15',
+      daysLeft: 7,
       status: 'in_progress',
       priority: 'medium',
       category: 'Tax',
       estimatedTime: '1.5 hours',
       autoStatus: 'enabled',
       documents: ['TDS Certificate', 'Challan Details'],
-      progress: 45
+      progress: 45,
+      reminderSent: false
     },
     {
       id: 3,
-      name: 'EPF Monthly Return',
-      description: 'Employee Provident Fund monthly return',
-      dueDate: '2024-04-05',
-      status: 'draft',
-      priority: 'high',
-      category: 'Labor',
-      estimatedTime: '1 hour',
-      autoStatus: 'enabled',
-      documents: ['Salary Register', 'Employee Data'],
-      progress: 20
-    },
-    {
-      id: 4,
-      name: 'Annual Return',
+      name: 'Annual Return FY23-24',
+      type: 'roc-filing',
       description: 'Company annual return filing with ROC',
       dueDate: '2024-05-30',
+      daysLeft: 52,
       status: 'scheduled',
       priority: 'medium',
       category: 'Company',
       estimatedTime: '3 hours',
       autoStatus: 'manual',
       documents: ['Financial Statements', 'Board Resolutions'],
-      progress: 0
+      progress: 0,
+      reminderSent: false
+    },
+    {
+      id: 4,
+      name: 'EPF Monthly Return',
+      type: 'other-statutory',
+      description: 'Employee Provident Fund monthly return',
+      dueDate: '2024-04-05',
+      daysLeft: -3,
+      status: 'overdue',
+      priority: 'high',
+      category: 'Labor',
+      estimatedTime: '1 hour',
+      autoStatus: 'enabled',
+      documents: ['Salary Register', 'Employee Data'],
+      progress: 20,
+      reminderSent: true
     }
   ];
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    setUploadedFiles(prev => [...prev, ...files]);
+    toast({
+      title: "Files Uploaded",
+      description: `${files.length} file(s) uploaded successfully.`,
+    });
+  };
+
+  const removeFile = (index: number) => {
+    setUploadedFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleIntegrationSetup = () => {
+    if (!integrationUrl) {
+      toast({
+        title: "Integration URL Required",
+        description: "Please enter your accounting system webhook URL.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsProcessing(true);
+    // Simulate integration setup
+    setTimeout(() => {
+      setIsProcessing(false);
+      toast({
+        title: "Integration Successful",
+        description: "Your accounting system has been connected successfully.",
+      });
+    }, 2000);
+  };
+
+  const scheduleFiling = (filingType: string) => {
+    toast({
+      title: "Filing Scheduled",
+      description: `${filingType} has been scheduled for automatic processing.`,
+    });
+  };
+
+  const sendDeadlineReminder = (filingId: number) => {
+    toast({
+      title: "Reminder Sent",
+      description: "Deadline reminder has been sent via email and SMS.",
+    });
+  };
 
   const completedFilings = [
     {
@@ -147,6 +265,7 @@ const AutomatedFilings = () => {
       case 'rejected': return 'text-destructive';
       case 'draft': return 'text-muted-foreground';
       case 'scheduled': return 'text-accent';
+      case 'overdue': return 'text-destructive';
       default: return 'text-muted-foreground';
     }
   };
@@ -159,6 +278,7 @@ const AutomatedFilings = () => {
       case 'rejected': return 'destructive';
       case 'draft': return 'secondary';
       case 'scheduled': return 'outline';
+      case 'overdue': return 'destructive';
       default: return 'secondary';
     }
   };
@@ -224,13 +344,132 @@ const AutomatedFilings = () => {
           </Card>
         </div>
 
-        <Tabs defaultValue="upcoming" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+        <Tabs defaultValue="new-filing" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="new-filing">New Filing</TabsTrigger>
             <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
             <TabsTrigger value="completed">Completed</TabsTrigger>
-            <TabsTrigger value="automation">Automation</TabsTrigger>
-            <TabsTrigger value="calendar">Calendar</TabsTrigger>
+            <TabsTrigger value="integration">Integration</TabsTrigger>
+            <TabsTrigger value="reminders">Reminders</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="new-filing" className="space-y-6">
+            {/* Filing Type Selection */}
+            <Card className="shadow-card">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Plus className="mr-2 h-5 w-5 text-primary" />
+                  Create New Filing
+                </CardTitle>
+                <CardDescription>
+                  Select filing type and upload required documents
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {filingTypes.map((type) => (
+                    <Card 
+                      key={type.id}
+                      className={`cursor-pointer transition-all duration-200 hover:shadow-card ${
+                        selectedFilingType === type.id ? 'ring-2 ring-primary bg-primary/5' : ''
+                      }`}
+                      onClick={() => setSelectedFilingType(type.id)}
+                    >
+                      <CardContent className="p-4">
+                        <div className="flex items-start space-x-3">
+                          <type.icon className={`h-6 w-6 ${type.color} mt-1`} />
+                          <div className="flex-1">
+                            <h3 className="font-semibold">{type.name}</h3>
+                            <p className="text-sm text-muted-foreground mb-2">{type.description}</p>
+                            <div className="space-y-1 text-xs text-muted-foreground">
+                              <p><strong>Frequency:</strong> {type.frequency}</p>
+                              <p><strong>Deadline:</strong> {type.deadline}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+
+                {selectedFilingType && (
+                  <div className="space-y-4 p-4 bg-muted/30 rounded-lg">
+                    <h4 className="font-semibold">Document Upload</h4>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="file-upload">Upload Documents</Label>
+                        <Input
+                          id="file-upload"
+                          type="file"
+                          multiple
+                          accept=".pdf,.doc,.docx,.xlsx,.csv"
+                          onChange={handleFileUpload}
+                          className="mt-1"
+                        />
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Accepted formats: PDF, DOC, DOCX, XLSX, CSV
+                        </p>
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="filing-period">Filing Period</Label>
+                        <Select>
+                          <SelectTrigger className="mt-1">
+                            <SelectValue placeholder="Select period" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="march-2024">March 2024</SelectItem>
+                            <SelectItem value="q4-fy24">Q4 FY24</SelectItem>
+                            <SelectItem value="fy2023-24">FY 2023-24</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+
+                    {uploadedFiles.length > 0 && (
+                      <div className="space-y-2">
+                        <Label>Uploaded Files:</Label>
+                        {uploadedFiles.map((file, index) => (
+                          <div key={index} className="flex items-center justify-between p-2 bg-background rounded border">
+                            <div className="flex items-center space-x-2">
+                              <FileText className="h-4 w-4 text-primary" />
+                              <span className="text-sm">{file.name}</span>
+                              <Badge variant="outline" className="text-xs">
+                                {(file.size / 1024 / 1024).toFixed(2)} MB
+                              </Badge>
+                            </div>
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              onClick={() => removeFile(index)}
+                            >
+                              ×
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className="flex space-x-2">
+                      <Button 
+                        variant="professional" 
+                        onClick={() => scheduleFiling(selectedFilingType)}
+                        disabled={uploadedFiles.length === 0}
+                      >
+                        <Calendar className="mr-2 h-4 w-4" />
+                        Schedule Filing
+                      </Button>
+                      <Button variant="outline">
+                        <Eye className="mr-2 h-4 w-4" />
+                        Preview
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
 
           <TabsContent value="upcoming" className="space-y-6">
             <div className="grid grid-cols-1 gap-6">
@@ -251,6 +490,16 @@ const AutomatedFilings = () => {
                             <Badge variant={getStatusBadge(filing.status)}>
                               {filing.status.replace('_', ' ').toUpperCase()}
                             </Badge>
+                            {filing.daysLeft < 0 && (
+                              <Badge variant="destructive">
+                                {Math.abs(filing.daysLeft)} days overdue
+                              </Badge>
+                            )}
+                            {filing.daysLeft >= 0 && filing.daysLeft <= 7 && (
+                              <Badge variant="secondary">
+                                {filing.daysLeft} days left
+                              </Badge>
+                            )}
                           </div>
                         </div>
 
@@ -307,6 +556,15 @@ const AutomatedFilings = () => {
                           <FileText className="mr-2 h-4 w-4" />
                           Preview
                         </Button>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => sendDeadlineReminder(filing.id)}
+                          disabled={filing.reminderSent}
+                        >
+                          <Bell className="mr-2 h-4 w-4" />
+                          {filing.reminderSent ? 'Reminded' : 'Remind'}
+                        </Button>
                         {filing.autoStatus === 'enabled' && (
                           <Button variant="success" size="sm">
                             <CheckCircle className="mr-2 h-4 w-4" />
@@ -361,6 +619,146 @@ const AutomatedFilings = () => {
                     </div>
                   </div>
                 ))}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="integration" className="space-y-6">
+            <Card className="shadow-card">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <LinkIcon className="mr-2 h-5 w-5 text-primary" />
+                  Accounting System Integration
+                </CardTitle>
+                <CardDescription>
+                  Connect your accounting software for automated data sync
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <Card className="p-4">
+                    <h3 className="font-semibold mb-2">Popular Integrations</h3>
+                    <div className="space-y-3">
+                      {['Tally ERP', 'QuickBooks', 'Zoho Books', 'SAP Business One'].map((software) => (
+                        <div key={software} className="flex items-center justify-between p-2 bg-muted/30 rounded">
+                          <span className="text-sm">{software}</span>
+                          <Button variant="outline" size="sm">Connect</Button>
+                        </div>
+                      ))}
+                    </div>
+                  </Card>
+                  
+                  <Card className="p-4">
+                    <h3 className="font-semibold mb-2">Custom Integration</h3>
+                    <div className="space-y-3">
+                      <div>
+                        <Label htmlFor="webhook-url">Webhook URL</Label>
+                        <Input
+                          id="webhook-url"
+                          value={integrationUrl}
+                          onChange={(e) => setIntegrationUrl(e.target.value)}
+                          placeholder="https://your-system.com/webhook"
+                          className="mt-1"
+                        />
+                      </div>
+                      <Button 
+                        onClick={handleIntegrationSetup}
+                        disabled={isProcessing || !integrationUrl}
+                        className="w-full"
+                      >
+                        {isProcessing ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Connecting...
+                          </>
+                        ) : (
+                          <>
+                            <LinkIcon className="mr-2 h-4 w-4" />
+                            Setup Integration
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  </Card>
+                </div>
+                
+                <div className="p-4 bg-muted/30 rounded-lg">
+                  <h4 className="font-semibold mb-2">Integration Benefits:</h4>
+                  <ul className="text-sm text-muted-foreground space-y-1">
+                    <li>• Automatic data sync from your accounting system</li>
+                    <li>• Real-time document generation</li>
+                    <li>• Reduced manual data entry errors</li>
+                    <li>• Faster filing process with pre-filled forms</li>
+                  </ul>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="reminders" className="space-y-6">
+            <Card className="shadow-card">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Bell className="mr-2 h-5 w-5 text-primary" />
+                  Deadline Reminders
+                </CardTitle>
+                <CardDescription>
+                  Manage automated reminders for filing deadlines
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <h3 className="font-semibold">Reminder Settings</h3>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <Label className="text-sm">Email reminders</Label>
+                        <input type="checkbox" defaultChecked className="rounded" />
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <Label className="text-sm">SMS reminders</Label>
+                        <input type="checkbox" defaultChecked className="rounded" />
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <Label className="text-sm">Dashboard notifications</Label>
+                        <input type="checkbox" defaultChecked className="rounded" />
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label>Reminder schedule</Label>
+                      <Select defaultValue="7-3-1">
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="7-3-1">7, 3, 1 days before</SelectItem>
+                          <SelectItem value="14-7-3">14, 7, 3 days before</SelectItem>
+                          <SelectItem value="30-15-7">30, 15, 7 days before</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <h3 className="font-semibold">Recent Reminders</h3>
+                    <div className="space-y-2">
+                      {upcomingFilings.filter(f => f.reminderSent).map((filing) => (
+                        <div key={filing.id} className="p-3 bg-muted/30 rounded-lg">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="text-sm font-medium">{filing.name}</p>
+                              <p className="text-xs text-muted-foreground">
+                                Reminder sent for {filing.dueDate}
+                              </p>
+                            </div>
+                            <Badge variant="secondary" className="text-xs">Sent</Badge>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
