@@ -6,6 +6,8 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { useToast } from '@/hooks/use-toast';
 import { 
   FileText, 
   Upload, 
@@ -16,42 +18,66 @@ import {
   Download,
   Star,
   Search,
-  Filter
+  Filter,
+  FileCheck,
+  Edit,
+  Loader2,
+  AlertCircle
 } from 'lucide-react';
 
 const ContractReview = () => {
-  const [uploadedFile, setUploadedFile] = useState<string | null>(null);
+  const { toast } = useToast();
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisComplete, setAnalysisComplete] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
 
   const contractAnalysis = {
     riskScore: 75,
-    keyIssues: [
+    complianceIssues: [
       {
-        type: 'High Risk',
-        issue: 'Indemnity clause heavily favors counterparty',
+        type: 'Non-Compliance',
+        issue: 'Indemnity clause does not comply with Indian Contract Act Section 124',
         section: 'Section 8.2',
-        recommendation: 'Negotiate mutual indemnification',
-        severity: 'high'
+        recommendation: 'Revise indemnity clause to align with Indian Contract Act provisions. Mutual indemnification recommended.',
+        suggestedEdit: 'Each party shall indemnify the other against losses arising from their own negligent acts or omissions, subject to limitations under the Indian Contract Act, 1872.',
+        severity: 'high',
+        regulation: 'Indian Contract Act, 1872'
       },
       {
-        type: 'Medium Risk',
-        issue: 'Termination notice period is only 30 days',
+        type: 'Regulatory Risk',
+        issue: 'Termination clause may violate Industrial Disputes Act requirements',
         section: 'Section 12.1',
-        recommendation: 'Request 60-90 day notice period',
-        severity: 'medium'
+        recommendation: 'Extend notice period to comply with Indian labor law requirements (minimum 60 days for commercial agreements).',
+        suggestedEdit: 'Either party may terminate this agreement by providing ninety (90) days written notice, in accordance with Indian Commercial Law.',
+        severity: 'medium',
+        regulation: 'Industrial Disputes Act, 1947'
       },
       {
-        type: 'Low Risk',
-        issue: 'Governing law not specified',
+        type: 'Compliance Gap',
+        issue: 'Governing law clause absent - violates Indian Arbitration Act requirements',
         section: 'Section 15',
-        recommendation: 'Add Indian law as governing law',
-        severity: 'low'
+        recommendation: 'Add Indian governing law and dispute resolution clause as per Arbitration and Conciliation Act.',
+        suggestedEdit: 'This Agreement shall be governed by and construed in accordance with the laws of India. Any disputes shall be resolved through arbitration in accordance with the Arbitration and Conciliation Act, 2015.',
+        severity: 'high',
+        regulation: 'Arbitration and Conciliation Act, 2015'
+      },
+      {
+        type: 'Tax Compliance',
+        issue: 'GST implications not addressed in payment terms',
+        section: 'Section 5.3',
+        recommendation: 'Include GST compliance clause to avoid tax penalties.',
+        suggestedEdit: 'All payments under this Agreement shall be inclusive of applicable GST as per the Goods and Services Tax Act, 2017.',
+        severity: 'medium',
+        regulation: 'GST Act, 2017'
       }
     ],
+    complianceScore: 68,
     aiInsights: [
-      'Contract structure follows standard commercial agreement format',
-      'Payment terms are favorable with 30-day payment cycle',
-      'Intellectual property clauses need clarification',
-      'Force majeure clause is well-defined'
+      'Contract requires significant amendments to ensure Indian law compliance',
+      'Payment terms need GST compliance integration',
+      'Arbitration clause should reference Indian Arbitration Act 2015',
+      'Employment-related clauses must align with Indian Labor Code 2020'
     ]
   };
 
@@ -116,8 +142,93 @@ const ContractReview = () => {
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      setUploadedFile(file.name);
+      processFile(file);
     }
+  };
+
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setDragOver(false);
+    const file = event.dataTransfer.files[0];
+    if (file) {
+      processFile(file);
+    }
+  };
+
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setDragOver(true);
+  };
+
+  const handleDragLeave = () => {
+    setDragOver(false);
+  };
+
+  const processFile = (file: File) => {
+    // Validate file type and size
+    const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    const maxSize = 10 * 1024 * 1024; // 10MB
+
+    if (!allowedTypes.includes(file.type)) {
+      toast({
+        title: "Invalid File Type",
+        description: "Please upload a PDF, DOC, or DOCX file.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (file.size > maxSize) {
+      toast({
+        title: "File Too Large",
+        description: "Please upload a file smaller than 10MB.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setUploadedFile(file);
+    setAnalysisComplete(false);
+    toast({
+      title: "File Uploaded Successfully",
+      description: `${file.name} is ready for analysis.`,
+    });
+  };
+
+  const analyzeContract = async () => {
+    if (!uploadedFile) return;
+
+    setIsAnalyzing(true);
+    toast({
+      title: "Analysis Started",
+      description: "AI is scanning your contract for compliance issues...",
+    });
+
+    // Simulate AI analysis - replace with actual API call
+    try {
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      setAnalysisComplete(true);
+      toast({
+        title: "Analysis Complete",
+        description: "Contract analysis finished. Review the results below.",
+      });
+    } catch (error) {
+      toast({
+        title: "Analysis Failed",
+        description: "There was an error analyzing your contract. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  const downloadRevisedContract = () => {
+    toast({
+      title: "Download Started",
+      description: "Your revised contract with suggested edits is being prepared...",
+    });
+    // Implement actual download functionality
   };
 
   const getRiskColor = (score: number) => {
@@ -172,8 +283,15 @@ const ContractReview = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                  <div className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-primary/50 transition-colors">
-                    <Upload className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <div 
+                    className={`border-2 border-dashed rounded-lg p-8 text-center transition-all duration-300 ${
+                      dragOver ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
+                    }`}
+                    onDrop={handleDrop}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                  >
+                    <Upload className={`h-12 w-12 mx-auto mb-4 ${dragOver ? 'text-primary' : 'text-muted-foreground'}`} />
                     <p className="text-sm text-muted-foreground mb-2">
                       Drop your contract here or click to upload
                     </p>
@@ -195,16 +313,47 @@ const ContractReview = () => {
                   </div>
 
                   {uploadedFile && (
-                    <div className="bg-muted/30 p-4 rounded-lg">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-2">
-                          <FileText className="h-5 w-5 text-primary" />
-                          <span className="text-sm font-medium">{uploadedFile}</span>
+                    <div className="space-y-4">
+                      <div className="bg-muted/30 p-4 rounded-lg">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            <FileText className="h-5 w-5 text-primary" />
+                            <div>
+                              <span className="text-sm font-medium">{uploadedFile.name}</span>
+                              <p className="text-xs text-muted-foreground">
+                                {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
+                              </p>
+                            </div>
+                          </div>
+                          <Button 
+                            variant="professional" 
+                            size="sm" 
+                            onClick={analyzeContract}
+                            disabled={isAnalyzing}
+                          >
+                            {isAnalyzing ? (
+                              <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Analyzing...
+                              </>
+                            ) : (
+                              <>
+                                <FileCheck className="mr-2 h-4 w-4" />
+                                Analyze Contract
+                              </>
+                            )}
+                          </Button>
                         </div>
-                        <Button variant="professional" size="sm">
-                          Analyze Contract
-                        </Button>
                       </div>
+
+                      {isAnalyzing && (
+                        <Alert>
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                          <AlertDescription>
+                            AI is scanning your contract for Indian regulatory compliance issues. This may take a few moments...
+                          </AlertDescription>
+                        </Alert>
+                      )}
                     </div>
                   )}
                 </CardContent>
@@ -214,51 +363,78 @@ const ContractReview = () => {
               <Card className="shadow-card">
                 <CardHeader>
                   <CardTitle className="flex items-center justify-between">
-                    AI Analysis Results
+                    Indian Compliance Analysis
                     <Badge variant="secondary" className="bg-gradient-primary text-primary-foreground">
                       AI Powered
                     </Badge>
                   </CardTitle>
                   <CardDescription>
-                    Comprehensive contract risk assessment
+                    Comprehensive regulatory compliance assessment for Indian law
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                  {/* Risk Score */}
-                  <div className="text-center space-y-2">
-                    <div className="text-3xl font-bold text-foreground">
-                      <span className={getRiskColor(contractAnalysis.riskScore)}>
-                        {contractAnalysis.riskScore}%
-                      </span>
-                    </div>
-                    <p className="text-sm text-muted-foreground">Overall Risk Score</p>
-                    <Progress value={contractAnalysis.riskScore} className="h-2" />
-                  </div>
-
-                  {/* Key Issues */}
-                  <div className="space-y-3">
-                    <h4 className="font-semibold flex items-center">
-                      <AlertTriangle className="mr-2 h-4 w-4 text-warning" />
-                      Key Issues Found
-                    </h4>
-                    {contractAnalysis.keyIssues.map((issue, index) => (
-                      <div key={index} className="p-3 bg-muted/30 rounded-lg space-y-2">
-                        <div className="flex items-center justify-between">
-                          <Badge variant={getRiskBadgeVariant(issue.severity)}>
-                            {issue.type}
-                          </Badge>
-                          <span className="text-xs text-muted-foreground">{issue.section}</span>
+                  {analysisComplete || uploadedFile ? (
+                    <>
+                      {/* Compliance Score */}
+                      <div className="text-center space-y-2">
+                        <div className="text-3xl font-bold text-foreground">
+                          <span className={getRiskColor(contractAnalysis.complianceScore)}>
+                            {contractAnalysis.complianceScore}%
+                          </span>
                         </div>
-                        <p className="text-sm font-medium">{issue.issue}</p>
-                        <p className="text-xs text-muted-foreground">{issue.recommendation}</p>
+                        <p className="text-sm text-muted-foreground">Indian Law Compliance Score</p>
+                        <Progress value={contractAnalysis.complianceScore} className="h-2" />
                       </div>
-                    ))}
-                  </div>
 
-                  <Button variant="outline" className="w-full">
-                    <Eye className="mr-2 h-4 w-4" />
-                    View Detailed Analysis
-                  </Button>
+                      {/* Compliance Issues */}
+                      <div className="space-y-3">
+                        <h4 className="font-semibold flex items-center">
+                          <AlertCircle className="mr-2 h-4 w-4 text-destructive" />
+                          Compliance Issues Found
+                        </h4>
+                        {contractAnalysis.complianceIssues.map((issue, index) => (
+                          <div key={index} className="p-4 bg-muted/30 rounded-lg space-y-3 border-l-4 border-l-destructive">
+                            <div className="flex items-center justify-between">
+                              <Badge variant={getRiskBadgeVariant(issue.severity)}>
+                                {issue.type}
+                              </Badge>
+                              <span className="text-xs text-muted-foreground">{issue.section}</span>
+                            </div>
+                            <div>
+                              <p className="text-sm font-medium text-destructive">{issue.issue}</p>
+                              <p className="text-xs text-muted-foreground mt-1">
+                                <strong>Regulation:</strong> {issue.regulation}
+                              </p>
+                            </div>
+                            <div className="bg-background p-3 rounded border">
+                              <p className="text-xs text-muted-foreground mb-1"><strong>Recommendation:</strong></p>
+                              <p className="text-sm">{issue.recommendation}</p>
+                            </div>
+                            <div className="bg-success/5 p-3 rounded border border-success/20">
+                              <p className="text-xs text-success mb-1"><strong>Suggested Edit:</strong></p>
+                              <p className="text-sm">{issue.suggestedEdit}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="flex space-x-2">
+                        <Button variant="outline" className="flex-1">
+                          <Eye className="mr-2 h-4 w-4" />
+                          View Full Report
+                        </Button>
+                        <Button variant="professional" className="flex-1" onClick={downloadRevisedContract}>
+                          <Download className="mr-2 h-4 w-4" />
+                          Download Revised
+                        </Button>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="text-center py-8 text-muted-foreground">
+                      <FileCheck className="h-12 w-12 mx-auto mb-4" />
+                      <p>Upload a contract to see compliance analysis</p>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </div>
