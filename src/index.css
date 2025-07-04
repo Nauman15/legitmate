@@ -1,67 +1,65 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Text:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Professional Design System - Deep Blue, Muted Gold, Earth Tones
-All colors are HSL format for consistency and easy theme switching */
+/* Professional Color System - Clean, Minimal, Modern Design */
 
 @layer base {
   :root {
-    /* Core Brand Colors - Professional Deep Blue Palette */
-    --primary: 215 85% 35%;          /* Deep Professional Blue #1e40af */
-    --primary-foreground: 0 0% 98%;  /* Clean White */
-    --primary-light: 215 75% 45%;    /* Lighter Blue for highlights */
-    --primary-dark: 215 90% 25%;     /* Darker Blue for depth */
-    --primary-glow: 215 65% 55%;     /* Glowing Blue for accents */
+    /* Professional Color Palette */
+    --primary: 210 29% 24%;           /* Slate Blue #2C3E50 */
+    --primary-foreground: 0 0% 100%;  /* White text on slate blue */
+    --primary-light: 210 29% 34%;    /* Lighter slate blue */
+    --primary-dark: 210 29% 18%;     /* Darker slate blue */
     
-    /* Earth Tone Secondary Palette */
-    --secondary: 42 25% 55%;         /* Muted Earth Tone #8b7355 */
-    --secondary-foreground: 0 0% 98%;
-    --secondary-light: 42 35% 65%;   /* Lighter Earth */
-    --secondary-dark: 42 20% 45%;    /* Darker Earth */
+    --background: 210 14% 91%;        /* Platinum Grey #E5E8EC */
+    --foreground: 220 7% 29%;         /* Graphite #444950 */
     
-    /* Muted Gold Accent */
-    --accent: 45 70% 55%;            /* Muted Gold #c49c48 */
-    --accent-foreground: 0 0% 98%;   /* White text on gold */
-    --accent-light: 45 60% 65%;      /* Light Gold */
-    --accent-dark: 45 80% 45%;       /* Rich Gold */
-    --accent-glow: 45 50% 70%;       /* Soft Gold Glow */
+    --card: 0 0% 100%;                /* White #FFFFFF */
+    --card-foreground: 220 7% 29%;    /* Graphite text on white cards */
     
-    /* Status Colors - Professional Variants */
-    --success: 145 60% 42%;          /* Professional Green */
-    --success-foreground: 0 0% 98%;
-    --warning: 35 80% 55%;           /* Warm Orange */
-    --warning-foreground: 0 0% 98%;
-    --destructive: 355 70% 50%;      /* Professional Red */
-    --destructive-foreground: 0 0% 98%;
+    --popover: 0 0% 100%;             /* White */
+    --popover-foreground: 220 7% 29%; /* Graphite */
     
-    /* Neutral Palette - Clean and Minimal */
-    --background: 0 0% 98%;          /* Clean Off-White */
-    --foreground: 215 15% 15%;       /* Deep Blue-Gray Text */
-    --card: 0 0% 100%;               /* Pure White Cards */
-    --card-foreground: 215 15% 15%;  /* Card Text */
-    --popover: 0 0% 100%;            /* White Popover */
-    --popover-foreground: 215 15% 15%;
+    --secondary: 220 14% 73%;         /* Soft Silver #B0B7C3 */
+    --secondary-foreground: 220 7% 29%; /* Graphite text */
+    --secondary-light: 220 14% 83%;   /* Lighter silver */
+    --secondary-dark: 220 14% 63%;    /* Darker silver */
     
-    --muted: 215 12% 94%;            /* Light Blue-Gray Background */
-    --muted-foreground: 215 8% 48%;  /* Muted Text */
-    --border: 215 15% 86%;           /* Subtle Borders */
-    --input: 215 15% 86%;            /* Input Borders */
-    --ring: 215 85% 35%;             /* Focus Ring - Primary Blue */
+    --muted: 210 29% 97%;             /* Light Mist #F7F9FA */
+    --muted-foreground: 220 7% 45%;   /* Muted graphite */
+    
+    --accent: 172 66% 57%;            /* Cool Aqua #4FD1C5 */
+    --accent-foreground: 0 0% 100%;   /* White text on aqua */
+    --accent-light: 172 66% 67%;      /* Lighter aqua */
+    --accent-dark: 172 66% 47%;       /* Darker aqua */
+    
+    --destructive: 0 100% 70%;        /* Gentle Coral #FF6B6B */
+    --destructive-foreground: 0 0% 100%; /* White text on coral */
+    
+    --success: 145 60% 42%;           /* Professional green */
+    --success-foreground: 0 0% 100%;
+    
+    --warning: 38 92% 50%;            /* Professional orange */
+    --warning-foreground: 0 0% 100%;
+    
+    --border: 220 14% 73%;            /* Soft Silver borders */
+    --input: 220 14% 73%;             /* Soft Silver input borders */
+    --ring: 210 29% 24%;              /* Slate Blue focus rings */
     
     /* Professional Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
-    --gradient-accent: linear-gradient(135deg, hsl(var(--accent-dark)), hsl(var(--accent)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
-    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(var(--muted)) / 0.3);
+    --gradient-primary: linear-gradient(135deg, hsl(210 29% 24%), hsl(210 29% 34%));
+    --gradient-accent: linear-gradient(135deg, hsl(172 66% 47%), hsl(172 66% 57%));
+    --gradient-hero: linear-gradient(135deg, hsl(210 29% 24%) 0%, hsl(172 66% 57%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 29% 97%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(210 29% 97%));
     
-    /* Elegant Shadows */
-    --shadow-card: 0 4px 12px -2px hsl(var(--primary) / 0.08);
-    --shadow-elegant: 0 8px 25px -5px hsl(var(--primary) / 0.12);
-    --shadow-glow: 0 0 20px hsl(var(--accent) / 0.15);
-    --shadow-professional: 0 2px 8px -1px hsl(var(--primary) / 0.06);
+    /* Professional Shadows */
+    --shadow-card: 0 4px 12px -2px hsl(210 29% 24% / 0.08);
+    --shadow-elegant: 0 8px 25px -5px hsl(210 29% 24% / 0.12);
+    --shadow-glow: 0 0 20px hsl(172 66% 57% / 0.15);
+    --shadow-professional: 0 2px 8px -1px hsl(210 29% 24% / 0.06);
     
     /* Smooth Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -70,77 +68,80 @@ All colors are HSL format for consistency and easy theme switching */
     --radius: 0.75rem;
 
     /* Sidebar Colors */
-    --sidebar-background: 215 20% 96%;
-    --sidebar-foreground: 215 15% 15%;
-    --sidebar-primary: 215 85% 35%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 215 12% 92%;
-    --sidebar-accent-foreground: 215 15% 15%;
-    --sidebar-border: 215 15% 86%;
-    --sidebar-ring: 215 85% 35%;
+    --sidebar-background: 210 29% 97%;
+    --sidebar-foreground: 220 7% 29%;
+    --sidebar-primary: 210 29% 24%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 14% 93%;
+    --sidebar-accent-foreground: 220 7% 29%;
+    --sidebar-border: 220 14% 73%;
+    --sidebar-ring: 210 29% 24%;
   }
 
   .dark {
-    /* Dark Mode - Professional Dark Theme */
-    --primary: 215 80% 60%;          /* Brighter Blue for dark mode */
-    --primary-foreground: 215 25% 8%;
-    --primary-light: 215 70% 70%;
-    --primary-dark: 215 85% 45%;
-    --primary-glow: 215 60% 75%;
+    /* Dark Mode - Inverted Professional Palette */
+    --primary: 172 66% 57%;           /* Cool Aqua as primary in dark */
+    --primary-foreground: 210 29% 18%;
+    --primary-light: 172 66% 67%;
+    --primary-dark: 172 66% 47%;
     
-    --secondary: 42 30% 45%;         /* Warmer Earth in dark */
-    --secondary-foreground: 215 10% 90%;
-    --secondary-light: 42 40% 55%;
-    --secondary-dark: 42 20% 35%;
+    --background: 220 7% 15%;         /* Dark graphite background */
+    --foreground: 220 14% 85%;        /* Light text */
     
-    --accent: 45 75% 65%;            /* Brighter Gold for dark */
-    --accent-foreground: 215 25% 8%;
-    --accent-light: 45 65% 75%;
-    --accent-dark: 45 85% 55%;
-    --accent-glow: 45 55% 80%;
+    --card: 220 7% 18%;               /* Dark cards */
+    --card-foreground: 220 14% 85%;
     
-    --success: 145 55% 50%;
-    --success-foreground: 215 25% 8%;
-    --warning: 35 75% 60%;
-    --warning-foreground: 215 25% 8%;
-    --destructive: 355 65% 55%;
-    --destructive-foreground: 215 10% 90%;
+    --popover: 220 7% 18%;
+    --popover-foreground: 220 14% 85%;
     
-    --background: 215 25% 6%;        /* Deep Blue-Black */
-    --foreground: 215 10% 90%;       /* Light Blue-White */
-    --card: 215 20% 10%;             /* Dark Blue Cards */
-    --card-foreground: 215 10% 85%;
-    --popover: 215 20% 10%;
-    --popover-foreground: 215 10% 85%;
+    --secondary: 220 7% 25%;          /* Dark secondary */
+    --secondary-foreground: 220 14% 85%;
+    --secondary-light: 220 7% 35%;
+    --secondary-dark: 220 7% 20%;
     
-    --muted: 215 18% 14%;            /* Dark Blue-Gray */
-    --muted-foreground: 215 8% 65%;
-    --border: 215 15% 18%;           /* Subtle Dark Borders */
-    --input: 215 15% 18%;
-    --ring: 215 80% 60%;
+    --muted: 220 7% 22%;              /* Dark muted */
+    --muted-foreground: 220 14% 65%;
+    
+    --accent: 172 66% 57%;            /* Cool Aqua accent */
+    --accent-foreground: 220 7% 15%;
+    --accent-light: 172 66% 67%;
+    --accent-dark: 172 66% 47%;
+    
+    --destructive: 0 100% 70%;        /* Gentle Coral */
+    --destructive-foreground: 220 7% 15%;
+    
+    --success: 145 60% 50%;
+    --success-foreground: 220 7% 15%;
+    
+    --warning: 38 92% 55%;
+    --warning-foreground: 220 7% 15%;
+    
+    --border: 220 7% 25%;
+    --input: 220 7% 25%;
+    --ring: 172 66% 57%;
     
     /* Dark Mode Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary-dark)), hsl(var(--primary)));
-    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-light)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary-dark)) 0%, hsl(var(--accent)) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--card)));
-    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(var(--muted)));
+    --gradient-primary: linear-gradient(135deg, hsl(172 66% 47%), hsl(172 66% 57%));
+    --gradient-accent: linear-gradient(135deg, hsl(172 66% 57%), hsl(172 66% 67%));
+    --gradient-hero: linear-gradient(135deg, hsl(210 29% 24%) 0%, hsl(172 66% 57%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(220 7% 15%), hsl(220 7% 18%));
+    --gradient-card: linear-gradient(145deg, hsl(220 7% 18%), hsl(220 7% 22%));
     
     /* Dark Mode Shadows */
     --shadow-card: 0 4px 12px -2px hsl(0 0% 0% / 0.25);
     --shadow-elegant: 0 8px 25px -5px hsl(0 0% 0% / 0.35);
-    --shadow-glow: 0 0 20px hsl(var(--accent) / 0.25);
+    --shadow-glow: 0 0 20px hsl(172 66% 57% / 0.25);
     --shadow-professional: 0 2px 8px -1px hsl(0 0% 0% / 0.2);
     
     /* Dark Sidebar */
-    --sidebar-background: 215 25% 8%;
-    --sidebar-foreground: 215 10% 90%;
-    --sidebar-primary: 215 80% 60%;
-    --sidebar-primary-foreground: 215 25% 8%;
-    --sidebar-accent: 215 18% 12%;
-    --sidebar-accent-foreground: 215 10% 85%;
-    --sidebar-border: 215 15% 18%;
-    --sidebar-ring: 215 80% 60%;
+    --sidebar-background: 220 7% 15%;
+    --sidebar-foreground: 220 14% 85%;
+    --sidebar-primary: 172 66% 57%;
+    --sidebar-primary-foreground: 220 7% 15%;
+    --sidebar-accent: 220 7% 20%;
+    --sidebar-accent-foreground: 220 14% 80%;
+    --sidebar-border: 220 7% 25%;
+    --sidebar-ring: 172 66% 57%;
   }
 }
 
@@ -151,26 +152,29 @@ All colors are HSL format for consistency and easy theme switching */
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
     line-height: 1.6;
+    letter-spacing: -0.01em;
   }
   
-  /* Typography Hierarchy */
+  /* Clean Typography Hierarchy */
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif tracking-tight;
+    @apply font-sans font-semibold tracking-tight text-foreground;
     line-height: 1.2;
+    letter-spacing: -0.025em;
   }
   
   h1 {
-    @apply text-3xl md:text-4xl lg:text-5xl font-semibold;
+    @apply text-3xl md:text-4xl lg:text-5xl;
   }
   
   h2 {
-    @apply text-2xl md:text-3xl font-semibold;
+    @apply text-2xl md:text-3xl;
   }
   
   h3 {
-    @apply text-xl md:text-2xl font-semibold;
+    @apply text-xl md:text-2xl;
   }
   
   h4 {
@@ -178,11 +182,16 @@ All colors are HSL format for consistency and easy theme switching */
   }
   
   p {
-    @apply leading-relaxed text-foreground/90;
+    @apply leading-relaxed text-foreground;
   }
   
-  /* Focus States */
+  /* Clean Focus States */
   :focus-visible {
     @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+  
+  /* Professional Links */
+  a {
+    @apply text-accent hover:text-accent-dark transition-colors duration-200;
   }
 }
