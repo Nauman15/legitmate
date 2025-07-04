@@ -57,7 +57,7 @@ const Landing = () => {
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold">
                 LegitMate
               </h1>
-              <p className="text-xl sm:text-2xl text-accent-glow font-medium">
+              <p className="text-xl sm:text-2xl text-white/90 font-medium drop-shadow-md">
                 Effortless Legal & Regulatory Compliance for Indian Businesses
               </p>
             </div>
@@ -84,7 +84,7 @@ const Landing = () => {
             </div>
 
             {/* Trust indicators */}
-            <div className="flex items-center justify-center space-x-8 text-sm text-primary-foreground/70 pt-8">
+            <div className="flex items-center justify-center space-x-8 text-sm text-white/80 pt-8 drop-shadow-sm">
               <div className="flex items-center space-x-2">
                 <CheckCircle className="h-4 w-4" />
                 <span>30-day free trial</span>
