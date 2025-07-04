@@ -7,9 +7,10 @@ export const Navbar = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
-  // Mock authentication state - replace with your actual auth logic
-  const isAuthenticated = location.pathname !== '/'; // Show auth UI when not on landing page
-  const user = { name: 'Nauman', initial: 'N' }; // Replace with actual user data
+  // Define public routes that should show non-authenticated UI
+  const publicRoutes = ['/', '/login', '/onboarding'];
+  const isAuthenticated = !publicRoutes.includes(location.pathname);
+  const user = { name: 'User', initial: 'U' }; // Replace with actual user data when implementing real auth
   
   const isActive = (path: string) => location.pathname === path;
   
