@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
+import { FeedbackButton } from "@/components/FeedbackButton";
 import Landing from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
 import Onboarding from "./pages/Onboarding";
@@ -18,6 +19,9 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// Test Mode - Set to false for production
+const TEST_MODE = import.meta.env.DEV || false;
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -25,6 +29,11 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <div className="min-h-screen">
+          {TEST_MODE && (
+            <div className="bg-warning text-warning-foreground text-center py-2 text-sm font-medium">
+              🚧 TEST MODE - Internal Review Version
+            </div>
+          )}
           <Navbar />
           <Routes>
             <Route path="/" element={<Landing />} />
@@ -39,6 +48,7 @@ const App = () => (
             <Route path="/settings" element={<Settings />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <FeedbackButton />
         </div>
       </BrowserRouter>
     </TooltipProvider>
