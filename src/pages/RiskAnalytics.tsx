@@ -7,14 +7,16 @@ import {
   DollarSign,
   Users,
   FileText,
-  Database
+  Database,
+  Shield,
+  FileCheck
 } from 'lucide-react';
 import { RiskMetricsOverview } from '@/components/risk-analytics/RiskMetricsOverview';
 import { RiskCategoriesOverview } from '@/components/risk-analytics/RiskCategoriesOverview';
 import { PredictiveInsights } from '@/components/risk-analytics/PredictiveInsights';
 import { DataSourceIntegrations } from '@/components/risk-analytics/DataSourceIntegrations';
 import { MitigationActions } from '@/components/risk-analytics/MitigationActions';
-import { HistoricalTrends } from '@/components/risk-analytics/HistoricalTrends';
+import { HistoricalDataImport } from '@/components/risk-analytics/HistoricalDataImport';
 
 const RiskAnalytics = () => {
   const riskMetrics = [
@@ -177,70 +179,158 @@ const RiskAnalytics = () => {
 
   const dataSourceIntegrations = [
     {
-      name: 'Tally ERP',
-      category: 'Accounting',
+      name: 'Tally ERP 9 / Prime',
+      category: 'Accounting Software',
       icon: DollarSign,
       status: 'connected',
-      description: 'GST returns, financial data, and tax compliance analysis',
+      description: 'Complete accounting solution - GST returns, financial data, inventory management',
       lastSync: '2 hours ago',
       records: '45,230',
-      riskInsights: ['GST filing delays detected', 'TDS calculation discrepancies'],
-      features: ['Auto GST filing', 'Real-time tax monitoring', 'Financial risk analysis']
+      riskInsights: ['GST filing delays detected', 'TDS calculation discrepancies', 'Late payment penalties risk'],
+      features: ['Auto GST filing', 'Real-time tax monitoring', 'Financial risk analysis', 'Inventory compliance']
+    },
+    {
+      name: 'Marg ERP',
+      category: 'Accounting Software',
+      icon: DollarSign,
+      status: 'connected',
+      description: 'Popular Indian accounting software with GST and inventory management',
+      lastSync: '4 hours ago',
+      records: '28,450',
+      riskInsights: ['E-way bill generation delays', 'Input tax credit mismatches'],
+      features: ['GST compliance', 'Inventory tracking', 'Financial reporting', 'Multi-branch support']
+    },
+    {
+      name: 'Busy Accounting',
+      category: 'Accounting Software',
+      icon: DollarSign,
+      status: 'available',
+      description: 'Comprehensive business accounting with GST and inventory features',
+      lastSync: 'Not connected',
+      records: '0',
+      riskInsights: [],
+      features: ['GST filing', 'Inventory management', 'Financial analytics', 'Payroll integration']
     },
     {
       name: 'SAP SuccessFactors',
       category: 'HR Management',
       icon: Users,
       status: 'connected',
-      description: 'Employee data, payroll, and labor law compliance monitoring',
+      description: 'Enterprise HR solution - employee data, payroll, compliance monitoring',
       lastSync: '1 hour ago',
       records: '1,245',
-      riskInsights: ['Overtime policy violations in Engineering', 'Missing PF contributions'],
-      features: ['Labor law compliance', 'Payroll risk analysis', 'Employee policy monitoring']
+      riskInsights: ['Overtime policy violations in Engineering', 'Missing PF contributions for 3 employees'],
+      features: ['Labor law compliance', 'Payroll risk analysis', 'Employee policy monitoring', 'Leave management']
     },
     {
-      name: 'MCA API',
-      category: 'Company Filings',
-      icon: FileText,
-      status: 'pending',
-      description: 'Company registration data and ROC filing status',
+      name: 'Keka HR',
+      category: 'HR Management',
+      icon: Users,
+      status: 'connected',
+      description: 'Modern Indian HR platform with payroll and compliance features',
+      lastSync: '3 hours ago',
+      records: '892',
+      riskInsights: ['POSH training pending for 15 employees', 'Contract renewal alerts'],
+      features: ['Payroll compliance', 'Employee lifecycle', 'Attendance tracking', 'Performance management']
+    },
+    {
+      name: 'Razorpay Payroll',
+      category: 'Payroll Software',
+      icon: Users,
+      status: 'available',
+      description: 'Automated payroll with statutory compliance and tax calculations',
       lastSync: 'Not connected',
       records: '0',
       riskInsights: [],
-      features: ['ROC filing tracking', 'Company law compliance', 'Annual return monitoring']
+      features: ['Auto tax calculations', 'Statutory compliance', 'Employee self-service', 'Financial integration']
+    },
+    {
+      name: 'Greytip Software',
+      category: 'Payroll Software',
+      icon: Users,
+      status: 'pending',
+      description: 'Cloud-based payroll and HR management for Indian businesses',
+      lastSync: 'Setup in progress',
+      records: '0',
+      riskInsights: [],
+      features: ['Payroll processing', 'Statutory reports', 'Employee portal', 'Compliance tracking']
     },
     {
       name: 'GSTN Portal',
-      category: 'Tax Compliance',
+      category: 'Government Portal',
       icon: Database,
       status: 'connected',
-      description: 'Direct GST portal integration for real-time compliance',
+      description: 'Direct GST portal integration for real-time compliance and filing',
       lastSync: '30 minutes ago',
       records: '8,456',
-      riskInsights: ['Input tax credit mismatch detected', 'Late filing risk identified'],
-      features: ['Real-time GST monitoring', 'Auto-sync returns', 'Compliance alerts']
+      riskInsights: ['Input tax credit mismatch detected', 'Late filing risk identified for March'],
+      features: ['Real-time GST monitoring', 'Auto-sync returns', 'Compliance alerts', 'E-way bill tracking']
+    },
+    {
+      name: 'MCA Portal',
+      category: 'Government Portal',
+      icon: FileText,
+      status: 'pending',
+      description: 'Ministry of Corporate Affairs portal for company filings and compliance',
+      lastSync: 'Not connected',
+      records: '0',
+      riskInsights: [],
+      features: ['ROC filing tracking', 'Company law compliance', 'Annual return monitoring', 'Director compliance']
+    },
+    {
+      name: 'EPFO Portal',
+      category: 'Government Portal',
+      icon: Shield,
+      status: 'available',
+      description: 'Employee Provident Fund Organization portal for PF compliance',
+      lastSync: 'Not connected',
+      records: '0',
+      riskInsights: [],
+      features: ['PF compliance tracking', 'Contribution monitoring', 'Employee verification', 'Penalty alerts']
+    },
+    {
+      name: 'ESIC Portal',
+      category: 'Government Portal',
+      icon: Shield,
+      status: 'available',
+      description: 'Employee State Insurance Corporation portal for ESI compliance',
+      lastSync: 'Not connected',
+      records: '0',
+      riskInsights: [],
+      features: ['ESI contribution tracking', 'Medical benefit monitoring', 'Compliance reporting', 'Coverage verification']
     },
     {
       name: 'Zoho Books',
-      category: 'Accounting',
+      category: 'Cloud Accounting',
       icon: DollarSign,
       status: 'available',
-      description: 'Cloud accounting software integration',
+      description: 'Cloud-based accounting with Indian GST and compliance features',
       lastSync: 'Not connected',
       records: '0',
       riskInsights: [],
-      features: ['Financial risk assessment', 'Tax compliance tracking', 'Audit trail analysis']
+      features: ['GST compliance', 'Financial reporting', 'Inventory management', 'Multi-currency support']
     },
     {
-      name: 'Workday HCM',
-      category: 'HR Management',
-      icon: Users,
+      name: 'ClearTax',
+      category: 'Tax Software',
+      icon: FileCheck,
       status: 'available',
-      description: 'Human capital management and workforce analytics',
+      description: 'Automated tax filing and compliance management platform',
       lastSync: 'Not connected',
       records: '0',
       riskInsights: [],
-      features: ['HR compliance monitoring', 'Policy violation detection', 'Employee risk analysis']
+      features: ['GST filing automation', 'TDS management', 'Income tax compliance', 'Reconciliation tools']
+    },
+    {
+      name: 'Pagarbook',
+      category: 'Payroll Software',
+      icon: Users,
+      status: 'available',
+      description: 'Digital payroll and HR management for Indian SMEs',
+      lastSync: 'Not connected',
+      records: '0',
+      riskInsights: [],
+      features: ['Digital salary payments', 'Attendance tracking', 'Statutory compliance', 'Employee loans']
     }
   ];
 
@@ -277,7 +367,7 @@ const RiskAnalytics = () => {
             <TabsTrigger value="predictive">Predictive Analytics</TabsTrigger>
             <TabsTrigger value="data-sources">Data Sources</TabsTrigger>
             <TabsTrigger value="mitigation">Mitigation Actions</TabsTrigger>
-            <TabsTrigger value="trends">Historical Trends</TabsTrigger>
+            <TabsTrigger value="trends">Historical Data</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">
@@ -297,7 +387,7 @@ const RiskAnalytics = () => {
           </TabsContent>
 
           <TabsContent value="trends" className="space-y-6">
-            <HistoricalTrends />
+            <HistoricalDataImport />
           </TabsContent>
         </Tabs>
       </div>
