@@ -1,118 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Text:wght@400;600&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Professional Design System - Deep Blue, Muted Gold, Earth Tones
+All colors are HSL format for consistency and easy theme switching */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 210 25% 8%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 210 25% 8%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 210 25% 8%;
-
-    --primary: 218 54% 20%;
-    --primary-foreground: 0 0% 98%;
-    --primary-glow: 218 54% 35%;
-
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 210 25% 8%;
-
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
-
-    --accent: 43 74% 49%;
-    --accent-foreground: 0 0% 98%;
-    --accent-glow: 43 60% 65%;
-
-    --success: 142 76% 36%;
+    /* Core Brand Colors - Professional Deep Blue Palette */
+    --primary: 215 85% 35%;          /* Deep Professional Blue #1e40af */
+    --primary-foreground: 0 0% 98%;  /* Clean White */
+    --primary-light: 215 75% 45%;    /* Lighter Blue for highlights */
+    --primary-dark: 215 90% 25%;     /* Darker Blue for depth */
+    --primary-glow: 215 65% 55%;     /* Glowing Blue for accents */
+    
+    /* Earth Tone Secondary Palette */
+    --secondary: 42 25% 55%;         /* Muted Earth Tone #8b7355 */
+    --secondary-foreground: 0 0% 98%;
+    --secondary-light: 42 35% 65%;   /* Lighter Earth */
+    --secondary-dark: 42 20% 45%;    /* Darker Earth */
+    
+    /* Muted Gold Accent */
+    --accent: 45 70% 55%;            /* Muted Gold #c49c48 */
+    --accent-foreground: 0 0% 98%;   /* White text on gold */
+    --accent-light: 45 60% 65%;      /* Light Gold */
+    --accent-dark: 45 80% 45%;       /* Rich Gold */
+    --accent-glow: 45 50% 70%;       /* Soft Gold Glow */
+    
+    /* Status Colors - Professional Variants */
+    --success: 145 60% 42%;          /* Professional Green */
     --success-foreground: 0 0% 98%;
-
-    --warning: 38 92% 50%;
+    --warning: 35 80% 55%;           /* Warm Orange */
     --warning-foreground: 0 0% 98%;
-
-    --destructive: 0 84% 60%;
+    --destructive: 355 70% 50%;      /* Professional Red */
     --destructive-foreground: 0 0% 98%;
-
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 213 94% 32%;
-
-    /* Professional gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(218 54% 20%), hsl(218 54% 35%));
-    --gradient-accent: linear-gradient(135deg, hsl(43 74% 49%), hsl(43 60% 65%));
-    --gradient-hero: linear-gradient(135deg, hsl(218 54% 20%) 0%, hsl(43 74% 49%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 40% 98%));
-
-    /* Professional shadows */
-    --shadow-elegant: 0 10px 30px -10px hsl(218 54% 20% / 0.15);
-    --shadow-glow: 0 0 40px hsl(218 54% 35% / 0.2);
-    --shadow-card: 0 4px 12px -2px hsl(218 54% 20% / 0.08);
-
-    /* Transitions */
+    
+    /* Neutral Palette - Clean and Minimal */
+    --background: 0 0% 98%;          /* Clean Off-White */
+    --foreground: 215 15% 15%;       /* Deep Blue-Gray Text */
+    --card: 0 0% 100%;               /* Pure White Cards */
+    --card-foreground: 215 15% 15%;  /* Card Text */
+    --popover: 0 0% 100%;            /* White Popover */
+    --popover-foreground: 215 15% 15%;
+    
+    --muted: 215 12% 94%;            /* Light Blue-Gray Background */
+    --muted-foreground: 215 8% 48%;  /* Muted Text */
+    --border: 215 15% 86%;           /* Subtle Borders */
+    --input: 215 15% 86%;            /* Input Borders */
+    --ring: 215 85% 35%;             /* Focus Ring - Primary Blue */
+    
+    /* Professional Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent-dark)), hsl(var(--accent)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(var(--muted)) / 0.3);
+    
+    /* Elegant Shadows */
+    --shadow-card: 0 4px 12px -2px hsl(var(--primary) / 0.08);
+    --shadow-elegant: 0 8px 25px -5px hsl(var(--primary) / 0.12);
+    --shadow-glow: 0 0 20px hsl(var(--accent) / 0.15);
+    --shadow-professional: 0 2px 8px -1px hsl(var(--primary) / 0.06);
+    
+    /* Smooth Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    
+    --radius: 0.75rem;
 
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
+    /* Sidebar Colors */
+    --sidebar-background: 215 20% 96%;
+    --sidebar-foreground: 215 15% 15%;
+    --sidebar-primary: 215 85% 35%;
     --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 215 12% 92%;
+    --sidebar-accent-foreground: 215 15% 15%;
+    --sidebar-border: 215 15% 86%;
+    --sidebar-ring: 215 85% 35%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Dark Mode - Professional Dark Theme */
+    --primary: 215 80% 60%;          /* Brighter Blue for dark mode */
+    --primary-foreground: 215 25% 8%;
+    --primary-light: 215 70% 70%;
+    --primary-dark: 215 85% 45%;
+    --primary-glow: 215 60% 75%;
+    
+    --secondary: 42 30% 45%;         /* Warmer Earth in dark */
+    --secondary-foreground: 215 10% 90%;
+    --secondary-light: 42 40% 55%;
+    --secondary-dark: 42 20% 35%;
+    
+    --accent: 45 75% 65%;            /* Brighter Gold for dark */
+    --accent-foreground: 215 25% 8%;
+    --accent-light: 45 65% 75%;
+    --accent-dark: 45 85% 55%;
+    --accent-glow: 45 55% 80%;
+    
+    --success: 145 55% 50%;
+    --success-foreground: 215 25% 8%;
+    --warning: 35 75% 60%;
+    --warning-foreground: 215 25% 8%;
+    --destructive: 355 65% 55%;
+    --destructive-foreground: 215 10% 90%;
+    
+    --background: 215 25% 6%;        /* Deep Blue-Black */
+    --foreground: 215 10% 90%;       /* Light Blue-White */
+    --card: 215 20% 10%;             /* Dark Blue Cards */
+    --card-foreground: 215 10% 85%;
+    --popover: 215 20% 10%;
+    --popover-foreground: 215 10% 85%;
+    
+    --muted: 215 18% 14%;            /* Dark Blue-Gray */
+    --muted-foreground: 215 8% 65%;
+    --border: 215 15% 18%;           /* Subtle Dark Borders */
+    --input: 215 15% 18%;
+    --ring: 215 80% 60%;
+    
+    /* Dark Mode Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary-dark)), hsl(var(--primary)));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-light)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary-dark)) 0%, hsl(var(--accent)) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--card)));
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(var(--muted)));
+    
+    /* Dark Mode Shadows */
+    --shadow-card: 0 4px 12px -2px hsl(0 0% 0% / 0.25);
+    --shadow-elegant: 0 8px 25px -5px hsl(0 0% 0% / 0.35);
+    --shadow-glow: 0 0 20px hsl(var(--accent) / 0.25);
+    --shadow-professional: 0 2px 8px -1px hsl(0 0% 0% / 0.2);
+    
+    /* Dark Sidebar */
+    --sidebar-background: 215 25% 8%;
+    --sidebar-foreground: 215 10% 90%;
+    --sidebar-primary: 215 80% 60%;
+    --sidebar-primary-foreground: 215 25% 8%;
+    --sidebar-accent: 215 18% 12%;
+    --sidebar-accent-foreground: 215 10% 85%;
+    --sidebar-border: 215 15% 18%;
+    --sidebar-ring: 215 80% 60%;
   }
 }
 
@@ -122,6 +150,39 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    line-height: 1.6;
+  }
+  
+  /* Typography Hierarchy */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif tracking-tight;
+    line-height: 1.2;
+  }
+  
+  h1 {
+    @apply text-3xl md:text-4xl lg:text-5xl font-semibold;
+  }
+  
+  h2 {
+    @apply text-2xl md:text-3xl font-semibold;
+  }
+  
+  h3 {
+    @apply text-xl md:text-2xl font-semibold;
+  }
+  
+  h4 {
+    @apply text-lg md:text-xl font-medium;
+  }
+  
+  p {
+    @apply leading-relaxed text-foreground/90;
+  }
+  
+  /* Focus States */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
   }
 }

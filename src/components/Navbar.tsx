@@ -18,27 +18,29 @@ export const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-background/95 backdrop-blur-sm border-b border-border sticky top-0 z-50">
+    <nav className="bg-background/95 backdrop-blur-md border-b border-border/50 sticky top-0 z-50 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <Shield className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold bg-gradient-hero bg-clip-text text-transparent">
+          <Link to="/" className="flex items-center space-x-3 group">
+            <div className="p-2 bg-gradient-primary rounded-xl group-hover:scale-110 transition-transform duration-300">
+              <Shield className="h-6 w-6 text-white" />
+            </div>
+            <span className="text-xl font-serif font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               LegitMate
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-1">
             {navigationItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.path}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
+                className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 hover:bg-muted/50 ${
                   isActive(item.path) 
-                    ? 'text-primary' 
-                    : 'text-muted-foreground'
+                    ? 'text-primary bg-primary/10 border border-primary/20' 
+                    : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 {item.name}
