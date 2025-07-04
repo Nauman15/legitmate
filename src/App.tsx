@@ -13,6 +13,7 @@ import AutomatedFilings from "./pages/AutomatedFilings";
 import PolicyCompliance from "./pages/PolicyCompliance";
 import RiskAnalytics from "./pages/RiskAnalytics";
 import KnowledgeBase from "./pages/KnowledgeBase";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/policy-compliance" element={<PolicyCompliance />} />
             <Route path="/risk-analytics" element={<RiskAnalytics />} />
             <Route path="/knowledge-base" element={<KnowledgeBase />} />
+            <Route path="/settings" element={<Settings />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

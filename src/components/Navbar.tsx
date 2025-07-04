@@ -14,6 +14,7 @@ export const Navbar = () => {
     { name: 'Dashboard', path: '/dashboard' },
     { name: 'Features', path: '/#features' },
     { name: 'Knowledge Base', path: '/knowledge-base' },
+    { name: 'Settings', path: '/settings' },
   ];
 
   return (
