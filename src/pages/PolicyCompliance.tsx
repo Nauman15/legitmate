@@ -6,6 +6,8 @@ import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { useToast } from '@/hooks/use-toast';
 import { 
   Users, 
   Shield, 
@@ -19,11 +21,22 @@ import {
   Settings,
   Upload,
   Download,
-  Eye
+  Eye,
+  FileCheck,
+  Loader2,
+  AlertCircle,
+  TrendingUp,
+  Calendar,
+  History
 } from 'lucide-react';
 
 const PolicyCompliance = () => {
+  const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState('');
+  const [uploadedDocuments, setUploadedDocuments] = useState<File[]>([]);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisComplete, setAnalysisComplete] = useState(false);
+  const [selectedDocument, setSelectedDocument] = useState<string | null>(null);
 
   const policyCategories = [
     {
@@ -95,32 +108,6 @@ const PolicyCompliance = () => {
       totalEmployees: 50,
       nextReview: '2025-01-10',
       owner: 'Legal Team'
-    },
-    {
-      id: 4,
-      name: 'Expense Reimbursement Policy',
-      category: 'Financial Policies',
-      version: '2.0',
-      lastUpdated: '2024-03-01',
-      status: 'draft',
-      compliance: 0,
-      acknowledgments: 0,
-      totalEmployees: 50,
-      nextReview: '2024-12-01',
-      owner: 'Finance Team'
-    },
-    {
-      id: 5,
-      name: 'Remote Work Policy',
-      category: 'HR & Employment',
-      version: '1.2',
-      lastUpdated: '2024-02-28',
-      status: 'active',
-      compliance: 76,
-      acknowledgments: 38,
-      totalEmployees: 50,
-      nextReview: '2024-11-28',
-      owner: 'HR Department'
     }
   ];
 
@@ -145,15 +132,100 @@ const PolicyCompliance = () => {
       compliance: 100,
       issues: 0,
       lastAudit: '2024-03-05'
-    },
-    {
-      policy: 'POSH Policy',
-      department: 'All Departments',
-      compliance: 92,
-      issues: 1,
-      lastAudit: '2024-03-01'
     }
   ];
+
+  const auditTrail = [
+    {
+      id: 1,
+      document: 'Employee Handbook v2.1',
+      action: 'Compliance Analysis Completed',
+      analyst: 'AI System',
+      timestamp: '2024-03-15 14:30:00',
+      result: 'Passed',
+      issues: 2,
+      score: 87,
+      details: 'Minor gaps identified in POSH policy section'
+    },
+    {
+      id: 2,
+      document: 'Remote Work Policy v1.2',
+      action: 'Gap Analysis',
+      analyst: 'Legal Team',
+      timestamp: '2024-03-10 11:15:00',
+      result: 'Review Required',
+      issues: 4,
+      score: 72,
+      details: 'Data security requirements need updates'
+    },
+    {
+      id: 3,
+      document: 'Code of Conduct v3.0',
+      action: 'Initial Upload & Analysis',
+      analyst: 'AI System',
+      timestamp: '2024-03-08 09:45:00',
+      result: 'Passed',
+      issues: 1,
+      score: 92,
+      details: 'Fully compliant with Indian labor laws'
+    },
+    {
+      id: 4,
+      document: 'Data Protection Manual',
+      action: 'Regulatory Compliance Check',
+      analyst: 'Compliance Officer',
+      timestamp: '2024-03-05 16:20:00',
+      result: 'Failed',
+      issues: 8,
+      score: 45,
+      details: 'Major gaps in DPDP Act 2023 compliance'
+    }
+  ];
+
+  const complianceGaps = [
+    {
+      type: 'Critical',
+      title: 'POSH Policy Missing Mandatory Clauses',
+      description: 'Sexual harassment policy lacks mandatory complaint committee structure as per POSH Act 2013',
+      regulation: 'POSH Act 2013, Section 4',
+      recommendation: 'Add detailed committee structure, complaint procedure, and timeline requirements',
+      priority: 'high'
+    },
+    {
+      type: 'High',
+      title: 'Data Protection Officer Not Defined',
+      description: 'Employee handbook missing DPO designation and responsibilities per DPDP Act 2023',
+      regulation: 'DPDP Act 2023, Section 10',
+      recommendation: 'Define DPO role, responsibilities, and contact information',
+      priority: 'high'
+    },
+    {
+      type: 'Medium',
+      title: 'Incomplete Grievance Redressal Mechanism',
+      description: 'Current policy lacks clear escalation matrix and timeline for grievance resolution',
+      regulation: 'Industrial Relations Code 2020',
+      recommendation: 'Add 3-tier grievance mechanism with defined timelines',
+      priority: 'medium'
+    }
+  ];
+
+  const summaryReport = {
+    overallScore: 78,
+    totalDocuments: 12,
+    analyzedDocuments: 8,
+    criticalIssues: 3,
+    highIssues: 7,
+    mediumIssues: 12,
+    lowIssues: 8,
+    lastAnalysis: '2024-03-15',
+    complianceRate: 85,
+    recommendations: [
+      'Immediate update required for POSH policy compliance',
+      'Data protection policies need DPDP Act 2023 alignment', 
+      'Grievance procedures require standardization',
+      'Regular quarterly compliance reviews recommended'
+    ]
+  };
 
   const recentActivity = [
     {
@@ -173,14 +245,76 @@ const PolicyCompliance = () => {
       description: 'Remote work policy violation reported in Sales dept',
       timestamp: '2 days ago',
       type: 'issue'
-    },
-    {
-      action: 'Training Completed',
-      description: '15 employees completed POSH training',
-      timestamp: '3 days ago',
-      type: 'training'
     }
   ];
+
+  const handleDocumentUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    const validFiles = files.filter(file => {
+      const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+      return validTypes.includes(file.type) && file.size <= 10 * 1024 * 1024; // 10MB limit
+    });
+
+    if (validFiles.length !== files.length) {
+      toast({
+        title: "Some files were skipped",
+        description: "Only PDF, DOC, and DOCX files under 10MB are supported.",
+        variant: "destructive"
+      });
+    }
+
+    setUploadedDocuments(prev => [...prev, ...validFiles]);
+    toast({
+      title: "Documents Uploaded",
+      description: `${validFiles.length} document(s) uploaded successfully.`,
+    });
+  };
+
+  const removeDocument = (index: number) => {
+    setUploadedDocuments(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const analyzeDocument = async (documentName: string) => {
+    setIsAnalyzing(true);
+    setSelectedDocument(documentName);
+    
+    toast({
+      title: "Analysis Started",
+      description: "AI is scanning your document for compliance gaps...",
+    });
+
+    // Simulate AI analysis
+    try {
+      await new Promise(resolve => setTimeout(resolve, 4000));
+      setAnalysisComplete(true);
+      toast({
+        title: "Analysis Complete",
+        description: "Compliance gap analysis finished. Check the results below.",
+      });
+    } catch (error) {
+      toast({
+        title: "Analysis Failed",
+        description: "There was an error analyzing your document. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  const generateSummaryReport = () => {
+    toast({
+      title: "Report Generated",
+      description: "Compliance summary report has been generated and is ready for download.",
+    });
+  };
+
+  const exportAuditTrail = () => {
+    toast({
+      title: "Export Started",
+      description: "Audit trail data is being prepared for download...",
+    });
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -264,13 +398,179 @@ const PolicyCompliance = () => {
           ))}
         </div>
 
-        <Tabs defaultValue="policies" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+        <Tabs defaultValue="upload" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-6">
+            <TabsTrigger value="upload">Upload & Analyze</TabsTrigger>
             <TabsTrigger value="policies">Policies</TabsTrigger>
             <TabsTrigger value="compliance">Compliance</TabsTrigger>
+            <TabsTrigger value="reports">Summary Reports</TabsTrigger>
+            <TabsTrigger value="audit">Audit Trail</TabsTrigger>
             <TabsTrigger value="training">Training</TabsTrigger>
-            <TabsTrigger value="reports">Reports</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="upload" className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Document Upload Section */}
+              <Card className="shadow-card">
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Upload className="mr-2 h-5 w-5 text-primary" />
+                    Upload Policy Documents
+                  </CardTitle>
+                  <CardDescription>
+                    Upload internal policies, employee handbooks, or compliance documents for AI analysis
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-primary/50 transition-colors">
+                    <Upload className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                    <p className="text-sm text-muted-foreground mb-2">
+                      Drop your policy documents here or click to upload
+                    </p>
+                    <Input
+                      type="file"
+                      multiple
+                      accept=".pdf,.doc,.docx"
+                      onChange={handleDocumentUpload}
+                      className="hidden"
+                      id="policy-upload"
+                    />
+                    <Label htmlFor="policy-upload">
+                      <Button variant="outline" className="cursor-pointer">
+                        Choose Files
+                      </Button>
+                    </Label>
+                    <div className="text-xs text-muted-foreground mt-2">
+                      Supported formats: PDF, DOC, DOCX (Max 10MB each)
+                    </div>
+                  </div>
+
+                  {uploadedDocuments.length > 0 && (
+                    <div className="space-y-2">
+                      <Label>Uploaded Documents:</Label>
+                      {uploadedDocuments.map((file, index) => (
+                        <div key={index} className="flex items-center justify-between p-3 bg-muted/30 rounded border">
+                          <div className="flex items-center space-x-2">
+                            <FileText className="h-4 w-4 text-primary" />
+                            <div>
+                              <span className="text-sm font-medium">{file.name}</span>
+                              <p className="text-xs text-muted-foreground">
+                                {(file.size / 1024 / 1024).toFixed(2)} MB
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex space-x-2">
+                            <Button 
+                              variant="professional" 
+                              size="sm"
+                              onClick={() => analyzeDocument(file.name)}
+                              disabled={isAnalyzing}
+                            >
+                              {isAnalyzing && selectedDocument === file.name ? (
+                                <>
+                                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                  Analyzing...
+                                </>
+                              ) : (
+                                <>
+                                  <FileCheck className="mr-2 h-4 w-4" />
+                                  Analyze
+                                </>
+                              )}
+                            </Button>
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              onClick={() => removeDocument(index)}
+                            >
+                              ×
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {isAnalyzing && (
+                    <Alert>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <AlertDescription>
+                        AI is analyzing your document for compliance gaps against Indian labor laws, data protection regulations, and industry standards. This may take a few moments...
+                      </AlertDescription>
+                    </Alert>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Compliance Gap Analysis Results */}
+              <Card className="shadow-card">
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <AlertCircle className="mr-2 h-5 w-5 text-destructive" />
+                    Compliance Gap Analysis
+                  </CardTitle>
+                  <CardDescription>
+                    AI-powered compliance checking against Indian regulations
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {analysisComplete || selectedDocument ? (
+                    <div className="space-y-6">
+                      {/* Overall Score */}
+                      <div className="text-center space-y-2">
+                        <div className="text-3xl font-bold text-foreground">
+                          <span className={getComplianceColor(summaryReport.overallScore)}>
+                            {summaryReport.overallScore}%
+                          </span>
+                        </div>
+                        <p className="text-sm text-muted-foreground">Compliance Score</p>
+                        <Progress value={summaryReport.overallScore} className="h-2" />
+                      </div>
+
+                      {/* Issues Summary */}
+                      {complianceGaps.map((gap, index) => (
+                        <div key={index} className="p-4 bg-muted/30 rounded-lg space-y-3 border-l-4 border-l-destructive">
+                          <div className="flex items-center justify-between">
+                            <Badge variant={gap.priority === 'high' ? 'destructive' : gap.priority === 'medium' ? 'secondary' : 'outline'}>
+                              {gap.type}
+                            </Badge>
+                            <Badge variant="outline" className="text-xs">{gap.priority.toUpperCase()}</Badge>
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-destructive">{gap.title}</p>
+                            <p className="text-xs text-muted-foreground mt-1">{gap.description}</p>
+                            <p className="text-xs text-muted-foreground mt-1">
+                              <strong>Regulation:</strong> {gap.regulation}
+                            </p>
+                          </div>
+                          <div className="bg-success/5 p-3 rounded border border-success/20">
+                            <p className="text-xs text-success mb-1"><strong>Recommendation:</strong></p>
+                            <p className="text-sm">{gap.recommendation}</p>
+                          </div>
+                        </div>
+                      ))}
+
+                      <div className="flex space-x-2">
+                        <Button variant="professional" onClick={generateSummaryReport}>
+                          <Download className="mr-2 h-4 w-4" />
+                          Generate Report
+                        </Button>
+                        <Button variant="outline">
+                          <Eye className="mr-2 h-4 w-4" />
+                          View Details
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 text-muted-foreground">
+                      <FileCheck className="h-12 w-12 mx-auto mb-4" />
+                      <p>Upload and analyze a document to see compliance gaps</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
 
           <TabsContent value="policies" className="space-y-6">
             <Card className="shadow-card">
@@ -425,6 +725,142 @@ const PolicyCompliance = () => {
             </div>
           </TabsContent>
 
+          <TabsContent value="reports" className="space-y-6">
+            <Card className="shadow-card">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <TrendingUp className="mr-2 h-5 w-5 text-primary" />
+                  Compliance Summary Report
+                </CardTitle>
+                <CardDescription>
+                  Comprehensive overview of policy compliance status
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {/* Key Metrics */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                  <div className="text-center space-y-2">
+                    <div className="text-3xl font-bold text-primary">{summaryReport.overallScore}%</div>
+                    <div className="text-sm text-muted-foreground">Overall Score</div>
+                  </div>
+                  <div className="text-center space-y-2">
+                    <div className="text-3xl font-bold text-success">{summaryReport.complianceRate}%</div>
+                    <div className="text-sm text-muted-foreground">Compliance Rate</div>
+                  </div>
+                  <div className="text-center space-y-2">
+                    <div className="text-3xl font-bold text-warning">{summaryReport.criticalIssues}</div>
+                    <div className="text-sm text-muted-foreground">Critical Issues</div>
+                  </div>
+                  <div className="text-center space-y-2">
+                    <div className="text-3xl font-bold text-accent">{summaryReport.analyzedDocuments}/{summaryReport.totalDocuments}</div>
+                    <div className="text-sm text-muted-foreground">Documents Analyzed</div>
+                  </div>
+                </div>
+
+                {/* Recommendations */}
+                <div className="space-y-4">
+                  <h3 className="font-semibold">Key Recommendations</h3>
+                  <div className="space-y-2">
+                    {summaryReport.recommendations.map((rec, index) => (
+                      <div key={index} className="flex items-start space-x-3 p-3 bg-muted/30 rounded-lg">
+                        <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                        <p className="text-sm">{rec}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex space-x-2">
+                  <Button variant="professional" onClick={generateSummaryReport}>
+                    <Download className="mr-2 h-4 w-4" />
+                    Download Full Report
+                  </Button>
+                  <Button variant="outline">
+                    <Calendar className="mr-2 h-4 w-4" />
+                    Schedule Review
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="audit" className="space-y-6">
+            <Card className="shadow-card">
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <History className="mr-2 h-5 w-5 text-primary" />
+                    Audit Trail
+                  </div>
+                  <Button variant="outline" onClick={exportAuditTrail}>
+                    <Download className="mr-2 h-4 w-4" />
+                    Export Trail
+                  </Button>
+                </CardTitle>
+                <CardDescription>
+                  Complete history of all compliance checks and document analyses
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {auditTrail.map((entry) => (
+                  <Card key={entry.id} className="border border-border">
+                    <CardContent className="p-4">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1 space-y-2">
+                          <div className="flex items-center space-x-3">
+                            <h3 className="font-semibold">{entry.document}</h3>
+                            <Badge variant={entry.result === 'Passed' ? 'default' : entry.result === 'Failed' ? 'destructive' : 'secondary'}>
+                              {entry.result}
+                            </Badge>
+                            <Badge variant="outline" className="text-xs">
+                              Score: {entry.score}%
+                            </Badge>
+                          </div>
+                          
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                            <div>
+                              <span className="font-medium text-muted-foreground">Action:</span>
+                              <p className="font-semibold">{entry.action}</p>
+                            </div>
+                            <div>
+                              <span className="font-medium text-muted-foreground">Analyst:</span>
+                              <p className="font-semibold">{entry.analyst}</p>
+                            </div>
+                            <div>
+                              <span className="font-medium text-muted-foreground">Timestamp:</span>
+                              <p className="font-semibold">{entry.timestamp}</p>
+                            </div>
+                            <div>
+                              <span className="font-medium text-muted-foreground">Issues Found:</span>
+                              <p className={`font-semibold ${entry.issues > 0 ? 'text-destructive' : 'text-success'}`}>
+                                {entry.issues}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="p-3 bg-muted/30 rounded border">
+                            <p className="text-sm"><strong>Details:</strong> {entry.details}</p>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col space-y-2 ml-4">
+                          <Button variant="outline" size="sm">
+                            <Eye className="mr-2 h-4 w-4" />
+                            View
+                          </Button>
+                          <Button variant="outline" size="sm">
+                            <Download className="mr-2 h-4 w-4" />
+                            Export
+                          </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
           <TabsContent value="training" className="space-y-6">
             <Card className="shadow-card">
               <CardHeader>
@@ -439,58 +875,6 @@ const PolicyCompliance = () => {
                 </div>
               </CardContent>
             </Card>
-          </TabsContent>
-
-          <TabsContent value="reports" className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card className="shadow-card">
-                <CardHeader>
-                  <CardTitle>Compliance Summary</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span>Overall Compliance Score</span>
-                    <span className="text-2xl font-bold text-success">87%</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span>Active Policies</span>
-                    <span className="text-xl font-semibold">38</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span>Pending Acknowledgments</span>
-                    <span className="text-xl font-semibold text-warning">12</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span>Policy Violations</span>
-                    <span className="text-xl font-semibold text-destructive">3</span>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="shadow-card">
-                <CardHeader>
-                  <CardTitle>Quick Actions</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <Button variant="professional" className="w-full justify-start">
-                    <Download className="mr-2 h-4 w-4" />
-                    Generate Compliance Report
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    <FileText className="mr-2 h-4 w-4" />
-                    Export Policy List
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    <Users className="mr-2 h-4 w-4" />
-                    Training Status Report
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    <AlertTriangle className="mr-2 h-4 w-4" />
-                    Violation Summary
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
           </TabsContent>
         </Tabs>
       </div>
