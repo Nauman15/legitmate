@@ -16,7 +16,17 @@ import {
   Settings,
   RefreshCw,
   Eye,
-  Filter
+  Filter,
+  Database,
+  Link,
+  CheckCircle,
+  XCircle,
+  Clock,
+  Users,
+  DollarSign,
+  FileText,
+  Zap,
+  Plus
 } from 'lucide-react';
 
 const RiskAnalytics = () => {
@@ -184,6 +194,88 @@ const RiskAnalytics = () => {
     }
   ];
 
+  const dataSourceIntegrations = [
+    {
+      name: 'Tally ERP',
+      category: 'Accounting',
+      icon: DollarSign,
+      status: 'connected',
+      description: 'GST returns, financial data, and tax compliance analysis',
+      lastSync: '2 hours ago',
+      records: '45,230',
+      riskInsights: ['GST filing delays detected', 'TDS calculation discrepancies'],
+      features: ['Auto GST filing', 'Real-time tax monitoring', 'Financial risk analysis']
+    },
+    {
+      name: 'SAP SuccessFactors',
+      category: 'HR Management',
+      icon: Users,
+      status: 'connected',
+      description: 'Employee data, payroll, and labor law compliance monitoring',
+      lastSync: '1 hour ago',
+      records: '1,245',
+      riskInsights: ['Overtime policy violations in Engineering', 'Missing PF contributions'],
+      features: ['Labor law compliance', 'Payroll risk analysis', 'Employee policy monitoring']
+    },
+    {
+      name: 'MCA API',
+      category: 'Company Filings',
+      icon: FileText,
+      status: 'pending',
+      description: 'Company registration data and ROC filing status',
+      lastSync: 'Not connected',
+      records: '0',
+      riskInsights: [],
+      features: ['ROC filing tracking', 'Company law compliance', 'Annual return monitoring']
+    },
+    {
+      name: 'GSTN Portal',
+      category: 'Tax Compliance',
+      icon: Database,
+      status: 'connected',
+      description: 'Direct GST portal integration for real-time compliance',
+      lastSync: '30 minutes ago',
+      records: '8,456',
+      riskInsights: ['Input tax credit mismatch detected', 'Late filing risk identified'],
+      features: ['Real-time GST monitoring', 'Auto-sync returns', 'Compliance alerts']
+    },
+    {
+      name: 'Zoho Books',
+      category: 'Accounting',
+      icon: DollarSign,
+      status: 'available',
+      description: 'Cloud accounting software integration',
+      lastSync: 'Not connected',
+      records: '0',
+      riskInsights: [],
+      features: ['Financial risk assessment', 'Tax compliance tracking', 'Audit trail analysis']
+    },
+    {
+      name: 'Workday HCM',
+      category: 'HR Management',
+      icon: Users,
+      status: 'available',
+      description: 'Human capital management and workforce analytics',
+      lastSync: 'Not connected',
+      records: '0',
+      riskInsights: [],
+      features: ['HR compliance monitoring', 'Policy violation detection', 'Employee risk analysis']
+    }
+  ];
+
+  const getConnectionStatus = (status: string): { color: string; icon: any; badge: "default" | "secondary" | "outline" | "destructive" } => {
+    switch (status) {
+      case 'connected':
+        return { color: 'text-success', icon: CheckCircle, badge: 'default' };
+      case 'pending':
+        return { color: 'text-warning', icon: Clock, badge: 'secondary' };
+      case 'available':
+        return { color: 'text-muted-foreground', icon: XCircle, badge: 'outline' };
+      default:
+        return { color: 'text-muted-foreground', icon: XCircle, badge: 'outline' };
+    }
+  };
+
   const getRiskColor = (level: string) => {
     switch (level.toLowerCase()) {
       case 'high': return 'text-destructive';
@@ -280,9 +372,10 @@ const RiskAnalytics = () => {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="overview">Risk Overview</TabsTrigger>
             <TabsTrigger value="predictive">Predictive Analytics</TabsTrigger>
+            <TabsTrigger value="data-sources">Data Sources</TabsTrigger>
             <TabsTrigger value="mitigation">Mitigation Actions</TabsTrigger>
             <TabsTrigger value="trends">Historical Trends</TabsTrigger>
           </TabsList>
@@ -424,6 +517,145 @@ const RiskAnalytics = () => {
                     </CardContent>
                   </Card>
                 ))}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="data-sources" className="space-y-6">
+            <Card className="shadow-card">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Database className="mr-2 h-5 w-5 text-primary" />
+                  Business Data Source Integrations
+                </CardTitle>
+                <CardDescription>
+                  Connect your business systems to enable AI-powered compliance risk analysis
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 gap-6">
+                  {dataSourceIntegrations.map((integration, index) => {
+                    const statusInfo = getConnectionStatus(integration.status);
+                    const StatusIcon = statusInfo.icon;
+                    const IntegrationIcon = integration.icon;
+                    
+                    return (
+                      <Card key={index} className="border border-border hover:shadow-elegant transition-all duration-300">
+                        <CardContent className="p-6">
+                          <div className="flex items-start justify-between mb-4">
+                            <div className="flex items-start space-x-4 flex-1">
+                              <div className="p-3 bg-primary/10 rounded-lg">
+                                <IntegrationIcon className="h-6 w-6 text-primary" />
+                              </div>
+                              
+                              <div className="flex-1">
+                                <div className="flex items-center space-x-3 mb-2">
+                                  <h3 className="text-lg font-semibold">{integration.name}</h3>
+                                  <Badge variant="outline">{integration.category}</Badge>
+                                  <Badge variant={statusInfo.badge}>
+                                    {integration.status.replace('_', ' ').toUpperCase()}
+                                  </Badge>
+                                </div>
+                                
+                                <p className="text-muted-foreground mb-3">{integration.description}</p>
+                                
+                                {integration.status === 'connected' && (
+                                  <div className="grid grid-cols-2 gap-4 mb-3 text-sm">
+                                    <div>
+                                      <span className="font-medium text-muted-foreground">Last Sync:</span>
+                                      <span className="ml-2 text-success">{integration.lastSync}</span>
+                                    </div>
+                                    <div>
+                                      <span className="font-medium text-muted-foreground">Records:</span>
+                                      <span className="ml-2 font-bold text-primary">{integration.records}</span>
+                                    </div>
+                                  </div>
+                                )}
+                                
+                                <div className="space-y-3">
+                                  <div>
+                                    <h4 className="font-medium text-sm mb-2">Features:</h4>
+                                    <div className="flex flex-wrap gap-2">
+                                      {integration.features.map((feature, featureIndex) => (
+                                        <Badge key={featureIndex} variant="secondary" className="text-xs">
+                                          {feature}
+                                        </Badge>
+                                      ))}
+                                    </div>
+                                  </div>
+                                  
+                                  {integration.riskInsights.length > 0 && (
+                                    <div>
+                                      <h4 className="font-medium text-sm mb-2 flex items-center">
+                                        <Zap className="mr-1 h-3 w-3 text-warning" />
+                                        AI Risk Insights:
+                                      </h4>
+                                      <div className="space-y-1">
+                                        {integration.riskInsights.map((insight, insightIndex) => (
+                                          <div key={insightIndex} className="flex items-start space-x-2 text-sm">
+                                            <div className="w-2 h-2 bg-warning rounded-full mt-2 flex-shrink-0"></div>
+                                            <span className="text-muted-foreground">{insight}</span>
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div className="flex flex-col space-y-2 ml-6">
+                              <div className="flex items-center space-x-2">
+                                <StatusIcon className={`h-5 w-5 ${statusInfo.color}`} />
+                                <span className={`text-sm font-medium ${statusInfo.color}`}>
+                                  {integration.status === 'connected' ? 'Connected' : 
+                                   integration.status === 'pending' ? 'Pending' : 'Available'}
+                                </span>
+                              </div>
+                              
+                              {integration.status === 'connected' ? (
+                                <div className="space-y-2">
+                                  <Button variant="outline" size="sm">
+                                    <Settings className="mr-2 h-4 w-4" />
+                                    Configure
+                                  </Button>
+                                  <Button variant="professional" size="sm">
+                                    <RefreshCw className="mr-2 h-4 w-4" />
+                                    Sync Now
+                                  </Button>
+                                </div>
+                              ) : integration.status === 'pending' ? (
+                                <Button variant="outline" size="sm">
+                                  <Clock className="mr-2 h-4 w-4" />
+                                  Complete Setup
+                                </Button>
+                              ) : (
+                                <Button variant="hero" size="sm">
+                                  <Link className="mr-2 h-4 w-4" />
+                                  Connect
+                                </Button>
+                              )}
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </div>
+                
+                <Card className="border-2 border-dashed border-border">
+                  <CardContent className="p-6 text-center">
+                    <Plus className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                    <h3 className="text-lg font-semibold mb-2">Add Custom Integration</h3>
+                    <p className="text-muted-foreground mb-4">
+                      Connect your custom business systems via API or file upload
+                    </p>
+                    <Button variant="outline">
+                      <Plus className="mr-2 h-4 w-4" />
+                      Add Integration
+                    </Button>
+                  </CardContent>
+                </Card>
               </CardContent>
             </Card>
           </TabsContent>
