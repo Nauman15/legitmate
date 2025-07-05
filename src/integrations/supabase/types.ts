@@ -9,6 +9,101 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      contract_analyses: {
+        Row: {
+          analysis_type: string
+          contract_id: string
+          created_at: string
+          id: string
+          issue_description: string
+          recommendation: string | null
+          regulation_reference: string | null
+          section_reference: string | null
+          severity: string
+          suggested_edit: string | null
+        }
+        Insert: {
+          analysis_type: string
+          contract_id: string
+          created_at?: string
+          id?: string
+          issue_description: string
+          recommendation?: string | null
+          regulation_reference?: string | null
+          section_reference?: string | null
+          severity: string
+          suggested_edit?: string | null
+        }
+        Update: {
+          analysis_type?: string
+          contract_id?: string
+          created_at?: string
+          id?: string
+          issue_description?: string
+          recommendation?: string | null
+          regulation_reference?: string | null
+          section_reference?: string | null
+          severity?: string
+          suggested_edit?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contract_analyses_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contracts: {
+        Row: {
+          analyzed_at: string | null
+          compliance_score: number | null
+          contract_type: string | null
+          created_at: string
+          file_path: string
+          file_size: number
+          id: string
+          name: string
+          risk_score: number | null
+          status: string
+          updated_at: string
+          uploaded_at: string
+          user_id: string
+        }
+        Insert: {
+          analyzed_at?: string | null
+          compliance_score?: number | null
+          contract_type?: string | null
+          created_at?: string
+          file_path: string
+          file_size: number
+          id?: string
+          name: string
+          risk_score?: number | null
+          status?: string
+          updated_at?: string
+          uploaded_at?: string
+          user_id: string
+        }
+        Update: {
+          analyzed_at?: string | null
+          compliance_score?: number | null
+          contract_type?: string | null
+          created_at?: string
+          file_path?: string
+          file_size?: number
+          id?: string
+          name?: string
+          risk_score?: number | null
+          status?: string
+          updated_at?: string
+          uploaded_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           business_name: string | null
