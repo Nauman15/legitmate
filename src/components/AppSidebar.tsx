@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { useIndianCompliance } from '@/hooks/useIndianCompliance';
 import {
   Sidebar,
   SidebarContent,
@@ -50,8 +51,11 @@ export function AppSidebar() {
   const sidebar = useSidebar();
   const collapsed = sidebar?.state === 'collapsed';
   const { user, signOut } = useAuth();
+  const { getCriticalAlertsCount } = useIndianCompliance();
   const location = useLocation();
   const currentPath = location.pathname;
+
+  const criticalAlertsCount = getCriticalAlertsCount();
 
   const isActive = (path: string) => currentPath === path;
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
@@ -130,9 +134,9 @@ export function AppSidebar() {
                       {!collapsed && (
                         <>
                           <span className="flex-1 text-sm font-medium">{item.title}</span>
-                          {item.title === 'Regulatory Alerts' && (
+                          {item.title === 'Regulatory Alerts' && criticalAlertsCount > 0 && (
                             <Badge variant="destructive" className="ml-auto h-5 text-xs font-semibold">
-                              3
+                              {criticalAlertsCount}
                             </Badge>
                           )}
                           <ChevronRight className="h-3 w-3 opacity-50" />

@@ -12,6 +12,7 @@ interface IndianComplianceData {
   complianceScore: number;
   nextFilingDeadlines: FilingDeadline[];
   riskAlerts: RiskAlert[];
+  regulatoryAlerts: RegulatoryAlert[];
   poshCompliance?: POSHCompliance;
   dpdpCompliance?: DPDPCompliance;
 }
@@ -32,6 +33,20 @@ interface RiskAlert {
   severity: 'low' | 'medium' | 'high' | 'critical';
   actionRequired: boolean;
   dueDate?: string;
+}
+
+interface RegulatoryAlert {
+  id: string;
+  title: string;
+  description: string;
+  category: 'gst' | 'labor' | 'company' | 'tax' | 'fema' | 'other';
+  priority: 'high' | 'medium' | 'low';
+  date: string;
+  deadline: string;
+  source: string;
+  impact: string;
+  status: 'new' | 'acknowledged' | 'reviewed' | 'action_taken';
+  actionRequired: string;
 }
 
 interface POSHCompliance {
@@ -68,6 +83,7 @@ export const useIndianCompliance = () => {
         complianceScore: 0,
         nextFilingDeadlines: [],
         riskAlerts: [],
+        regulatoryAlerts: [],
         poshCompliance: undefined,
         dpdpCompliance: undefined
       };
@@ -97,6 +113,43 @@ export const useIndianCompliance = () => {
     await fetchComplianceData();
   };
 
+  // Get dynamic counts for alerts by priority
+  const getAlertStats = () => {
+    if (!complianceData) return { high: 0, medium: 0, reviewed: 0, actionRequired: 0 };
+    
+    const alerts = complianceData.regulatoryAlerts;
+    return {
+      high: alerts.filter(alert => alert.priority === 'high').length,
+      medium: alerts.filter(alert => alert.priority === 'medium').length,
+      reviewed: alerts.filter(alert => alert.status === 'reviewed').length,
+      actionRequired: alerts.filter(alert => alert.status === 'new' && alert.actionRequired).length
+    };
+  };
+
+  // Get alert counts by category
+  const getAlertCategoryCounts = () => {
+    if (!complianceData) return { all: 0, gst: 0, labor: 0, company: 0, tax: 0, fema: 0 };
+    
+    const alerts = complianceData.regulatoryAlerts;
+    return {
+      all: alerts.length,
+      gst: alerts.filter(alert => alert.category === 'gst').length,
+      labor: alerts.filter(alert => alert.category === 'labor').length,
+      company: alerts.filter(alert => alert.category === 'company').length,
+      tax: alerts.filter(alert => alert.category === 'tax').length,
+      fema: alerts.filter(alert => alert.category === 'fema').length
+    };
+  };
+
+  // Get count of critical alerts for sidebar badge
+  const getCriticalAlertsCount = () => {
+    if (!complianceData) return 0;
+    
+    return complianceData.regulatoryAlerts.filter(alert => 
+      alert.priority === 'high' && alert.status === 'new'
+    ).length;
+  };
+
   useEffect(() => {
     fetchComplianceData();
   }, [user]);
@@ -107,6 +160,9 @@ export const useIndianCompliance = () => {
     error,
     refreshCompliance: fetchComplianceData,
     updatePOSHCompliance,
-    updateDPDPCompliance
+    updateDPDPCompliance,
+    getAlertStats,
+    getAlertCategoryCounts,
+    getCriticalAlertsCount
   };
 };

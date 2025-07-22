@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -17,92 +18,45 @@ import {
   Shield,
   Users
 } from 'lucide-react';
+import { useIndianCompliance } from '@/hooks/useIndianCompliance';
+import { EmptyAlertsState } from '@/components/regulatory/EmptyAlertsState';
 
 const RegulatoryAlerts = () => {
+  const { complianceData, loading, getAlertStats, getAlertCategoryCounts } = useIndianCompliance();
   const [selectedCategory, setSelectedCategory] = useState('all');
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-subtle">
+        <div className="max-w-7xl mx-auto p-6">
+          <div className="animate-pulse space-y-8">
+            <div className="h-8 bg-muted rounded w-1/3"></div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              {[1, 2, 3, 4].map(i => (
+                <div key={i} className="h-24 bg-muted rounded"></div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show empty state if no alerts exist
+  if (!complianceData?.regulatoryAlerts.length) {
+    return <EmptyAlertsState />;
+  }
+
+  const alertStats = getAlertStats();
+  const categoryCounts = getAlertCategoryCounts();
+
   const alertCategories = [
-    { id: 'all', name: 'All Alerts', count: 15 },
-    { id: 'gst', name: 'GST', count: 5 },
-    { id: 'labor', name: 'Labor Laws', count: 3 },
-    { id: 'company', name: 'Company Law', count: 4 },
-    { id: 'tax', name: 'Income Tax', count: 2 },
-    { id: 'fema', name: 'FEMA', count: 1 }
-  ];
-
-  const alerts = [
-    {
-      id: 1,
-      title: 'GST Rate Changes for Textile Industry',
-      description: 'New GST rates effective from April 1, 2024, for textile and apparel sector',
-      category: 'gst',
-      priority: 'high',
-      date: '2024-03-20',
-      deadline: '2024-04-01',
-      source: 'CBIC',
-      impact: 'Direct',
-      status: 'new',
-      actionRequired: 'Update product pricing and GST calculations'
-    },
-    {
-      id: 2,
-      title: 'New EPF Contribution Rules',
-      description: 'Updated provident fund contribution rules for employees earning above ₹15,000',
-      category: 'labor',
-      priority: 'medium',
-      date: '2024-03-18',
-      deadline: '2024-04-15',
-      source: 'EPFO',
-      impact: 'HR Policy',
-      status: 'acknowledged',
-      actionRequired: 'Review and update HR policies'
-    },
-    {
-      id: 3,
-      title: 'Annual Return Filing Extension',
-      description: 'MCA extends deadline for Annual Return filing due to technical issues',
-      category: 'company',
-      priority: 'low',
-      date: '2024-03-15',
-      deadline: '2024-05-30',
-      source: 'MCA',
-      impact: 'Compliance',
-      status: 'reviewed',
-      actionRequired: 'Schedule filing before extended deadline'
-    },
-    {
-      id: 4,
-      title: 'Digital Signature Certificate Renewal',
-      description: 'Mandatory renewal of Class 3 DSC for company filings',
-      category: 'company',
-      priority: 'high',
-      date: '2024-03-12',
-      deadline: '2024-03-31',
-      source: 'CCA India',
-      impact: 'Filing Process',
-      status: 'action_taken',
-      actionRequired: 'Renew DSC before expiry'
-    },
-    {
-      id: 5,
-      title: 'TDS Rate Revision Notification',
-      description: 'Revised TDS rates for professional services under Section 194J',
-      category: 'tax',
-      priority: 'medium',
-      date: '2024-03-10',
-      deadline: '2024-04-01',
-      source: 'CBDT',
-      impact: 'Financial',
-      status: 'new',
-      actionRequired: 'Update TDS deduction rates'
-    }
-  ];
-
-  const upcomingDeadlines = [
-    { task: 'GST GSTR-1 Filing', date: '2024-03-31', category: 'GST', priority: 'high' },
-    { task: 'TDS Return Q4', date: '2024-04-15', category: 'Tax', priority: 'medium' },
-    { task: 'EPF Contribution', date: '2024-04-05', category: 'Labor', priority: 'high' },
-    { task: 'Annual Return Filing', date: '2024-05-30', category: 'Company', priority: 'low' }
+    { id: 'all', name: 'All Alerts', count: categoryCounts.all },
+    { id: 'gst', name: 'GST', count: categoryCounts.gst },
+    { id: 'labor', name: 'Labor Laws', count: categoryCounts.labor },
+    { id: 'company', name: 'Company Law', count: categoryCounts.company },
+    { id: 'tax', name: 'Income Tax', count: categoryCounts.tax },
+    { id: 'fema', name: 'FEMA', count: categoryCounts.fema }
   ];
 
   const getPriorityColor = (priority: string) => {
@@ -135,8 +89,8 @@ const RegulatoryAlerts = () => {
   };
 
   const filteredAlerts = selectedCategory === 'all' 
-    ? alerts 
-    : alerts.filter(alert => alert.category === selectedCategory);
+    ? complianceData.regulatoryAlerts 
+    : complianceData.regulatoryAlerts.filter(alert => alert.category === selectedCategory);
 
   return (
     <div className="min-h-screen bg-gradient-subtle">
@@ -162,36 +116,36 @@ const RegulatoryAlerts = () => {
           </div>
         </div>
 
-        {/* Stats Cards */}
+        {/* Dynamic Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card className="shadow-card">
             <CardContent className="p-6 text-center">
-              <div className="text-3xl font-bold text-destructive">5</div>
+              <div className="text-3xl font-bold text-destructive">{alertStats.high}</div>
               <div className="text-sm text-muted-foreground">High Priority</div>
             </CardContent>
           </Card>
           <Card className="shadow-card">
             <CardContent className="p-6 text-center">
-              <div className="text-3xl font-bold text-warning">8</div>
+              <div className="text-3xl font-bold text-warning">{alertStats.medium}</div>
               <div className="text-sm text-muted-foreground">Medium Priority</div>
             </CardContent>
           </Card>
           <Card className="shadow-card">
             <CardContent className="p-6 text-center">
-              <div className="text-3xl font-bold text-success">12</div>
+              <div className="text-3xl font-bold text-success">{alertStats.reviewed}</div>
               <div className="text-sm text-muted-foreground">Reviewed</div>
             </CardContent>
           </Card>
           <Card className="shadow-card">
             <CardContent className="p-6 text-center">
-              <div className="text-3xl font-bold text-primary">3</div>
+              <div className="text-3xl font-bold text-primary">{alertStats.actionRequired}</div>
               <div className="text-sm text-muted-foreground">Action Required</div>
             </CardContent>
           </Card>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Category Filter */}
+          {/* Dynamic Category Filter */}
           <div className="lg:col-span-1">
             <Card className="shadow-card">
               <CardHeader>
@@ -217,7 +171,7 @@ const RegulatoryAlerts = () => {
               </CardContent>
             </Card>
 
-            {/* Upcoming Deadlines */}
+            {/* Dynamic Upcoming Deadlines from Filing Calendar */}
             <Card className="shadow-card mt-6">
               <CardHeader>
                 <CardTitle className="flex items-center text-lg">
@@ -225,21 +179,29 @@ const RegulatoryAlerts = () => {
                   Upcoming Deadlines
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
-                {upcomingDeadlines.map((deadline, index) => (
-                  <div key={index} className="p-3 bg-muted/30 rounded-lg">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <p className="font-medium text-sm">{deadline.task}</p>
-                        <p className="text-xs text-muted-foreground">{deadline.date}</p>
+              <CardContent>
+                {complianceData.nextFilingDeadlines.length > 0 ? (
+                  <div className="space-y-3">
+                    {complianceData.nextFilingDeadlines.slice(0, 4).map((deadline, index) => (
+                      <div key={index} className="p-3 bg-muted/30 rounded-lg">
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <p className="font-medium text-sm">{deadline.filingType}</p>
+                            <p className="text-xs text-muted-foreground">{deadline.dueDate}</p>
+                          </div>
+                          <Badge variant={getPriorityColor(deadline.penaltyRisk)} className="text-xs">
+                            {deadline.penaltyRisk}
+                          </Badge>
+                        </div>
                       </div>
-                      <Badge variant={getPriorityColor(deadline.priority)} className="text-xs">
-                        {deadline.priority}
-                      </Badge>
-                    </div>
-                    <p className="text-xs text-muted-foreground mt-1">{deadline.category}</p>
+                    ))}
                   </div>
-                ))}
+                ) : (
+                  <div className="text-center py-6">
+                    <Calendar className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
+                    <p className="text-sm text-muted-foreground">No upcoming deadlines</p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>
