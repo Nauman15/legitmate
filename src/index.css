@@ -14,22 +14,22 @@
     --primary-dark: 136 35% 18%;     /* Darker forest green */
     --primary-glow: 136 35% 44%;     /* Glow variant */
     
-    --background: 45 15% 97%;         /* Warm Parchment White #F8F9FA */
-    --foreground: 210 11% 15%;        /* Charcoal Black #2D3436 */
+    --background: 45 15% 98%;         /* Improved Parchment White #FAFBFB */
+    --foreground: 210 11% 10%;        /* Darker charcoal for better contrast */
     
     --card: 0 0% 100%;                /* Pure White */
-    --card-foreground: 210 11% 15%;  /* Charcoal text on white cards */
+    --card-foreground: 210 11% 10%;   /* Dark charcoal text on white cards */
     
-    --popover: 0 0% 100%;             /* White */
-    --popover-foreground: 210 11% 15%; /* Charcoal */
+    --popover: 0 0% 100%;             /* Solid White background */
+    --popover-foreground: 210 11% 10%; /* Dark charcoal text */
     
-    --secondary: 24 25% 55%;          /* Warm Gold #D4A574 */
-    --secondary-foreground: 210 11% 15%; /* Charcoal text */
-    --secondary-light: 24 25% 65%;   /* Lighter gold */
-    --secondary-dark: 24 25% 45%;    /* Darker gold */
+    --secondary: 24 25% 45%;          /* Darker Warm Gold for better contrast */
+    --secondary-foreground: 0 0% 100%; /* White text on secondary */
+    --secondary-light: 24 25% 55%;   /* Original gold for hover */
+    --secondary-dark: 24 25% 35%;    /* Darker gold for active */
     
-    --muted: 45 15% 95%;              /* Light Parchment #F6F7F8 */
-    --muted-foreground: 210 11% 40%;  /* Medium charcoal for better contrast */
+    --muted: 45 15% 96%;              /* Light Parchment #F8F9FA */
+    --muted-foreground: 210 11% 25%;  /* Much darker for better contrast */
     
     --accent: 0 32% 35%;              /* Rich Burgundy #722F37 */
     --accent-foreground: 0 0% 100%;   /* White text on burgundy */
@@ -37,26 +37,26 @@
     --accent-dark: 0 32% 25%;         /* Darker burgundy */
     --accent-glow: 0 32% 55%;         /* Lighter accent for highlights */
     
-    --destructive: 0 65% 48%;         /* Deep Crimson #B91C1C */
+    --destructive: 0 65% 45%;         /* Darker crimson for better contrast */
     --destructive-foreground: 0 0% 100%; /* White text on crimson */
     
-    --success: 150 60% 35%;           /* Emerald Green */
+    --success: 150 60% 30%;           /* Darker emerald for better contrast */
     --success-foreground: 0 0% 100%;
     
-    --warning: 38 85% 55%;            /* Amber */
+    --warning: 38 85% 45%;            /* Darker amber for better contrast */
     --warning-foreground: 0 0% 100%;
     
-    --border: 210 11% 85%;            /* Lighter borders for better visibility */
-    --input: 210 11% 85%;             /* Lighter input borders */
+    --border: 210 11% 80%;            /* Darker borders for better definition */
+    --input: 210 11% 80%;             /* Darker input borders */
     --ring: 136 35% 24%;              /* Forest green focus rings */
     
     /* Legal Precision Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(136 35% 18%), hsl(136 35% 24%));
     --gradient-accent: linear-gradient(135deg, hsl(0 32% 25%), hsl(0 32% 35%));
     --gradient-hero: linear-gradient(135deg, hsl(136 35% 18%) 0%, hsl(0 32% 35%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(45 15% 95%));
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(45 15% 97%));
-    --gradient-legal: linear-gradient(135deg, hsl(24 25% 55%) 0%, hsl(24 25% 45%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(45 15% 96%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(45 15% 98%));
+    --gradient-legal: linear-gradient(135deg, hsl(24 25% 45%) 0%, hsl(24 25% 35%) 100%);
     
     /* Legal Document Shadows & Effects */
     --shadow-card: 0 4px 12px -2px hsl(136 35% 24% / 0.08);
@@ -67,7 +67,7 @@
     --shadow-stamp: inset 0 2px 4px hsl(0 32% 35% / 0.2);
     
     /* Legal Paper Textures */
-    --texture-paper: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f8f9fa' fill-opacity='0.03'%3E%3Ccircle cx='5' cy='5' r='1'/%3E%3Ccircle cx='25' cy='15' r='1'/%3E%3Ccircle cx='45' cy='25' r='1'/%3E%3Ccircle cx='15' cy='35' r='1'/%3E%3Ccircle cx='35' cy='45' r='1'/%3E%3Ccircle cx='55' cy='55' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    --texture-paper: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f8f9fa' fill-opacity='0.02'%3E%3Ccircle cx='5' cy='5' r='1'/%3E%3Ccircle cx='25' cy='15' r='1'/%3E%3Ccircle cx='45' cy='25' r='1'/%3E%3Ccircle cx='15' cy='35' r='1'/%3E%3Ccircle cx='35' cy='45' r='1'/%3E%3Ccircle cx='55' cy='55' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     
     /* Smooth Legal Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -78,64 +78,64 @@
 
     /* Enhanced Sidebar Colors for Better Visibility */
     --sidebar-background: 0 0% 100%;              /* Pure white background */
-    --sidebar-foreground: 210 11% 15%;           /* Dark charcoal text for high contrast */
+    --sidebar-foreground: 210 11% 10%;           /* Dark charcoal text for high contrast */
     --sidebar-primary: 136 35% 24%;              /* Deep forest green */
     --sidebar-primary-foreground: 0 0% 100%;     /* White text on primary */
-    --sidebar-accent: 136 35% 96%;               /* Very light forest green */
-    --sidebar-accent-foreground: 210 11% 15%;    /* Dark text on light accent */
-    --sidebar-border: 210 11% 90%;               /* Light gray borders */
+    --sidebar-accent: 136 35% 95%;               /* Very light forest green */
+    --sidebar-accent-foreground: 210 11% 10%;    /* Dark text on light accent */
+    --sidebar-border: 210 11% 85%;               /* Visible gray borders */
     --sidebar-ring: 136 35% 24%;                 /* Forest green focus ring */
   }
 
   .dark {
     /* Dark Mode - Legal Night Theme */
     --primary: 24 25% 55%;            /* Warm Gold as primary in dark */
-    --primary-foreground: 210 11% 15%;
+    --primary-foreground: 210 11% 10%;
     --primary-light: 24 25% 65%;
     --primary-dark: 24 25% 45%;
     
-    --background: 210 11% 12%;        /* Deep charcoal background */
-    --foreground: 45 15% 88%;         /* Light parchment text */
+    --background: 210 11% 8%;         /* Darker charcoal background */
+    --foreground: 45 15% 92%;         /* Light parchment text */
     
-    --card: 210 11% 15%;              /* Dark charcoal cards */
-    --card-foreground: 45 15% 88%;
+    --card: 210 11% 12%;              /* Dark charcoal cards */
+    --card-foreground: 45 15% 92%;
     
-    --popover: 210 11% 15%;
-    --popover-foreground: 45 15% 88%;
+    --popover: 210 11% 12%;           /* Solid dark background */
+    --popover-foreground: 45 15% 92%;
     
-    --secondary: 210 11% 22%;         /* Dark secondary */
-    --secondary-foreground: 45 15% 88%;
-    --secondary-light: 210 11% 32%;
-    --secondary-dark: 210 11% 18%;
+    --secondary: 210 11% 18%;         /* Dark secondary */
+    --secondary-foreground: 45 15% 92%;
+    --secondary-light: 210 11% 28%;
+    --secondary-dark: 210 11% 12%;
     
-    --muted: 210 11% 18%;             /* Dark muted */
-    --muted-foreground: 45 15% 70%;   /* Improved contrast in dark mode */
+    --muted: 210 11% 14%;             /* Dark muted */
+    --muted-foreground: 45 15% 75%;   /* Much lighter for better contrast */
     
     --accent: 0 32% 45%;              /* Burgundy accent */
-    --accent-foreground: 45 15% 88%;
+    --accent-foreground: 45 15% 92%;
     --accent-light: 0 32% 55%;
     --accent-dark: 0 32% 35%;
     --accent-glow: 0 32% 75%;
     
     --destructive: 0 65% 58%;         /* Lighter crimson */
-    --destructive-foreground: 210 11% 12%;
+    --destructive-foreground: 210 11% 8%;
     
     --success: 150 60% 45%;
-    --success-foreground: 210 11% 12%;
+    --success-foreground: 210 11% 8%;
     
     --warning: 38 85% 60%;
-    --warning-foreground: 210 11% 12%;
+    --warning-foreground: 210 11% 8%;
     
-    --border: 210 11% 22%;
-    --input: 210 11% 22%;
+    --border: 210 11% 20%;
+    --input: 210 11% 20%;
     --ring: 24 25% 55%;
     
     /* Dark Mode Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(24 25% 45%), hsl(24 25% 55%));
     --gradient-accent: linear-gradient(135deg, hsl(0 32% 35%), hsl(0 32% 45%));
     --gradient-hero: linear-gradient(135deg, hsl(136 35% 18%) 0%, hsl(24 25% 55%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(210 11% 12%), hsl(210 11% 15%));
-    --gradient-card: linear-gradient(145deg, hsl(210 11% 15%), hsl(210 11% 18%));
+    --gradient-subtle: linear-gradient(180deg, hsl(210 11% 8%), hsl(210 11% 12%));
+    --gradient-card: linear-gradient(145deg, hsl(210 11% 12%), hsl(210 11% 14%));
     
     /* Dark Mode Shadows */
     --shadow-card: 0 4px 12px -2px hsl(0 0% 0% / 0.3);
@@ -144,13 +144,13 @@
     --shadow-professional: 0 2px 8px -1px hsl(0 0% 0% / 0.25);
     
     /* Enhanced Dark Sidebar */
-    --sidebar-background: 210 11% 8%;             /* Darker background */
-    --sidebar-foreground: 45 15% 85%;            /* Light text for contrast */
+    --sidebar-background: 210 11% 6%;             /* Darker background */
+    --sidebar-foreground: 45 15% 90%;            /* Light text for contrast */
     --sidebar-primary: 24 25% 55%;               /* Warm gold primary */
-    --sidebar-primary-foreground: 210 11% 15%;   /* Dark text on gold */
-    --sidebar-accent: 210 11% 15%;               /* Dark accent */
-    --sidebar-accent-foreground: 45 15% 85%;     /* Light text on dark accent */
-    --sidebar-border: 210 11% 20%;               /* Lighter borders in dark */
+    --sidebar-primary-foreground: 210 11% 10%;   /* Dark text on gold */
+    --sidebar-accent: 210 11% 12%;               /* Dark accent */
+    --sidebar-accent-foreground: 45 15% 90%;     /* Light text on dark accent */
+    --sidebar-border: 210 11% 16%;               /* Lighter borders in dark */
     --sidebar-ring: 24 25% 55%;                  /* Gold focus ring */
   }
 }
@@ -321,17 +321,42 @@
     @apply bg-accent/10;
   }
   
-  /* Legal status badges */
+  /* Enhanced Legal status badges with better contrast */
   .status-approved {
-    @apply bg-success/10 text-success border border-success/20 rounded-full px-3 py-1 text-sm font-medium;
+    @apply bg-success/20 text-success border border-success/30 rounded-full px-3 py-1 text-sm font-semibold;
   }
   
   .status-pending {
-    @apply bg-warning/10 text-warning border border-warning/20 rounded-full px-3 py-1 text-sm font-medium;
+    @apply bg-warning/20 text-warning border border-warning/30 rounded-full px-3 py-1 text-sm font-semibold;
   }
   
   .status-rejected {
-    @apply bg-destructive/10 text-destructive border border-destructive/20 rounded-full px-3 py-1 text-sm font-medium;
+    @apply bg-destructive/20 text-destructive border border-destructive/30 rounded-full px-3 py-1 text-sm font-semibold;
+  }
+
+  /* Enhanced dropdown and popover styling */
+  .dropdown-content, .popover-content {
+    @apply bg-popover text-popover-foreground border border-border shadow-elegant;
+    backdrop-filter: none !important;
+    z-index: 50;
+  }
+
+  .dropdown-item {
+    @apply text-foreground hover:bg-muted hover:text-foreground focus:bg-muted focus:text-foreground;
+  }
+
+  /* Form element improvements */
+  .form-label {
+    @apply text-foreground font-medium;
+  }
+
+  .form-description {
+    @apply text-muted-foreground font-normal;
+  }
+
+  /* Enhanced contrast for interactive elements */
+  .interactive-text {
+    @apply text-foreground hover:text-accent focus:text-accent;
   }
 }
 
