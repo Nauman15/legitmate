@@ -1,149 +1,158 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=JetBrains+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Professional Color System - Clean, Minimal, Modern Design */
+/* Legal Precision Design System - Judicial Authority Theme */
 
 @layer base {
   :root {
-    /* Professional Color Palette */
-    --primary: 210 29% 24%;           /* Slate Blue #2C3E50 */
-    --primary-foreground: 0 0% 100%;  /* White text on slate blue */
-    --primary-light: 210 29% 34%;    /* Lighter slate blue */
-    --primary-dark: 210 29% 18%;     /* Darker slate blue */
+    /* Legal Precision Color Palette - Judicial Authority */
+    --primary: 136 35% 24%;           /* Deep Forest Green #1B4332 */
+    --primary-foreground: 0 0% 100%;  /* White text on forest green */
+    --primary-light: 136 35% 34%;    /* Lighter forest green */
+    --primary-dark: 136 35% 18%;     /* Darker forest green */
+    --primary-glow: 136 35% 44%;     /* Glow variant */
     
-    --background: 210 14% 91%;        /* Platinum Grey #E5E8EC */
-    --foreground: 220 7% 29%;         /* Graphite #444950 */
+    --background: 45 15% 97%;         /* Warm Parchment White #F8F9FA */
+    --foreground: 210 11% 15%;        /* Charcoal Black #2D3436 */
     
-    --card: 0 0% 100%;                /* White #FFFFFF */
-    --card-foreground: 220 7% 29%;    /* Graphite text on white cards */
+    --card: 0 0% 100%;                /* Pure White */
+    --card-foreground: 210 11% 15%;  /* Charcoal text on white cards */
     
     --popover: 0 0% 100%;             /* White */
-    --popover-foreground: 220 7% 29%; /* Graphite */
+    --popover-foreground: 210 11% 15%; /* Charcoal */
     
-    --secondary: 220 14% 73%;         /* Soft Silver #B0B7C3 */
-    --secondary-foreground: 220 7% 29%; /* Graphite text */
-    --secondary-light: 220 14% 83%;   /* Lighter silver */
-    --secondary-dark: 220 14% 63%;    /* Darker silver */
+    --secondary: 24 25% 55%;          /* Warm Gold #D4A574 */
+    --secondary-foreground: 210 11% 15%; /* Charcoal text */
+    --secondary-light: 24 25% 65%;   /* Lighter gold */
+    --secondary-dark: 24 25% 45%;    /* Darker gold */
     
-    --muted: 210 29% 97%;             /* Light Mist #F7F9FA */
-    --muted-foreground: 220 7% 35%;   /* Stronger muted graphite for better contrast */
+    --muted: 45 15% 95%;              /* Light Parchment #F6F7F8 */
+    --muted-foreground: 210 11% 40%;  /* Medium charcoal for better contrast */
     
-    --accent: 172 66% 57%;            /* Cool Aqua #4FD1C5 */
-    --accent-foreground: 0 0% 100%;   /* White text on aqua */
-    --accent-light: 172 66% 67%;      /* Lighter aqua */
-    --accent-dark: 172 66% 47%;       /* Darker aqua */
-    --accent-glow: 172 66% 77%;       /* Lighter accent for highlights */
+    --accent: 0 32% 35%;              /* Rich Burgundy #722F37 */
+    --accent-foreground: 0 0% 100%;   /* White text on burgundy */
+    --accent-light: 0 32% 45%;        /* Lighter burgundy */
+    --accent-dark: 0 32% 25%;         /* Darker burgundy */
+    --accent-glow: 0 32% 55%;         /* Lighter accent for highlights */
     
-    --destructive: 0 100% 70%;        /* Gentle Coral #FF6B6B */
-    --destructive-foreground: 0 0% 100%; /* White text on coral */
+    --destructive: 0 65% 48%;         /* Deep Crimson #B91C1C */
+    --destructive-foreground: 0 0% 100%; /* White text on crimson */
     
-    --success: 145 60% 42%;           /* Professional green */
+    --success: 150 60% 35%;           /* Emerald Green */
     --success-foreground: 0 0% 100%;
     
-    --warning: 38 92% 50%;            /* Professional orange */
+    --warning: 38 85% 55%;            /* Amber */
     --warning-foreground: 0 0% 100%;
     
-    --border: 220 14% 65%;            /* Stronger Silver borders for better definition */
-    --input: 220 14% 65%;             /* Stronger Silver input borders */
-    --ring: 210 29% 24%;              /* Slate Blue focus rings */
+    --border: 210 11% 75%;            /* Light charcoal borders */
+    --input: 210 11% 75%;             /* Light charcoal input borders */
+    --ring: 136 35% 24%;              /* Forest green focus rings */
     
-    /* Professional Gradients - Enhanced Contrast */
-    --gradient-primary: linear-gradient(135deg, hsl(210 29% 18%), hsl(210 29% 24%));
-    --gradient-accent: linear-gradient(135deg, hsl(172 66% 47%), hsl(172 66% 57%));
-    --gradient-hero: linear-gradient(135deg, hsl(210 29% 18%) 0%, hsl(210 29% 24%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 29% 97%));
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(210 29% 97%));
+    /* Legal Precision Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(136 35% 18%), hsl(136 35% 24%));
+    --gradient-accent: linear-gradient(135deg, hsl(0 32% 25%), hsl(0 32% 35%));
+    --gradient-hero: linear-gradient(135deg, hsl(136 35% 18%) 0%, hsl(0 32% 35%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(45 15% 95%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(45 15% 97%));
+    --gradient-legal: linear-gradient(135deg, hsl(24 25% 55%) 0%, hsl(24 25% 45%) 100%);
     
-    /* Professional Shadows */
-    --shadow-card: 0 4px 12px -2px hsl(210 29% 24% / 0.08);
-    --shadow-elegant: 0 8px 25px -5px hsl(210 29% 24% / 0.12);
-    --shadow-glow: 0 0 20px hsl(172 66% 57% / 0.15);
-    --shadow-professional: 0 2px 8px -1px hsl(210 29% 24% / 0.06);
+    /* Legal Document Shadows & Effects */
+    --shadow-card: 0 4px 12px -2px hsl(136 35% 24% / 0.08);
+    --shadow-elegant: 0 8px 25px -5px hsl(136 35% 24% / 0.12);
+    --shadow-glow: 0 0 20px hsl(24 25% 55% / 0.15);
+    --shadow-professional: 0 2px 8px -1px hsl(136 35% 24% / 0.06);
+    --shadow-document: 0 6px 20px -6px hsl(136 35% 24% / 0.15);
+    --shadow-stamp: inset 0 2px 4px hsl(0 32% 35% / 0.2);
     
-    /* Smooth Transitions */
+    /* Legal Paper Textures */
+    --texture-paper: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f8f9fa' fill-opacity='0.03'%3E%3Ccircle cx='5' cy='5' r='1'/%3E%3Ccircle cx='25' cy='15' r='1'/%3E%3Ccircle cx='45' cy='25' r='1'/%3E%3Ccircle cx='15' cy='35' r='1'/%3E%3Ccircle cx='35' cy='45' r='1'/%3E%3Ccircle cx='55' cy='55' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    
+    /* Smooth Legal Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-stamp: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
     /* Sidebar Colors */
-    --sidebar-background: 210 29% 97%;
-    --sidebar-foreground: 220 7% 29%;
-    --sidebar-primary: 210 29% 24%;
+    --sidebar-background: 136 35% 96%;
+    --sidebar-foreground: 210 11% 15%;
+    --sidebar-primary: 136 35% 24%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 14% 93%;
-    --sidebar-accent-foreground: 220 7% 29%;
-    --sidebar-border: 220 14% 73%;
-    --sidebar-ring: 210 29% 24%;
+    --sidebar-accent: 45 15% 93%;
+    --sidebar-accent-foreground: 210 11% 15%;
+    --sidebar-border: 210 11% 80%;
+    --sidebar-ring: 136 35% 24%;
   }
 
   .dark {
-    /* Dark Mode - Inverted Professional Palette */
-    --primary: 172 66% 57%;           /* Cool Aqua as primary in dark */
-    --primary-foreground: 210 29% 18%;
-    --primary-light: 172 66% 67%;
-    --primary-dark: 172 66% 47%;
+    /* Dark Mode - Legal Night Theme */
+    --primary: 24 25% 55%;            /* Warm Gold as primary in dark */
+    --primary-foreground: 210 11% 15%;
+    --primary-light: 24 25% 65%;
+    --primary-dark: 24 25% 45%;
     
-    --background: 220 7% 15%;         /* Dark graphite background */
-    --foreground: 220 14% 85%;        /* Light text */
+    --background: 210 11% 12%;        /* Deep charcoal background */
+    --foreground: 45 15% 88%;         /* Light parchment text */
     
-    --card: 220 7% 18%;               /* Dark cards */
-    --card-foreground: 220 14% 85%;
+    --card: 210 11% 15%;              /* Dark charcoal cards */
+    --card-foreground: 45 15% 88%;
     
-    --popover: 220 7% 18%;
-    --popover-foreground: 220 14% 85%;
+    --popover: 210 11% 15%;
+    --popover-foreground: 45 15% 88%;
     
-    --secondary: 220 7% 25%;          /* Dark secondary */
-    --secondary-foreground: 220 14% 85%;
-    --secondary-light: 220 7% 35%;
-    --secondary-dark: 220 7% 20%;
+    --secondary: 210 11% 22%;         /* Dark secondary */
+    --secondary-foreground: 45 15% 88%;
+    --secondary-light: 210 11% 32%;
+    --secondary-dark: 210 11% 18%;
     
-    --muted: 220 7% 22%;              /* Dark muted */
-    --muted-foreground: 220 14% 75%;  /* Improved contrast in dark mode */
+    --muted: 210 11% 18%;             /* Dark muted */
+    --muted-foreground: 45 15% 70%;   /* Improved contrast in dark mode */
     
-    --accent: 172 66% 57%;            /* Cool Aqua accent */
-    --accent-foreground: 220 7% 15%;
-    --accent-light: 172 66% 67%;
-    --accent-dark: 172 66% 47%;
-    --accent-glow: 172 66% 87%;       /* High contrast accent glow for dark mode */
+    --accent: 0 32% 45%;              /* Burgundy accent */
+    --accent-foreground: 45 15% 88%;
+    --accent-light: 0 32% 55%;
+    --accent-dark: 0 32% 35%;
+    --accent-glow: 0 32% 75%;
     
-    --destructive: 0 100% 70%;        /* Gentle Coral */
-    --destructive-foreground: 220 7% 15%;
+    --destructive: 0 65% 58%;         /* Lighter crimson */
+    --destructive-foreground: 210 11% 12%;
     
-    --success: 145 60% 50%;
-    --success-foreground: 220 7% 15%;
+    --success: 150 60% 45%;
+    --success-foreground: 210 11% 12%;
     
-    --warning: 38 92% 55%;
-    --warning-foreground: 220 7% 15%;
+    --warning: 38 85% 60%;
+    --warning-foreground: 210 11% 12%;
     
-    --border: 220 7% 25%;
-    --input: 220 7% 25%;
-    --ring: 172 66% 57%;
+    --border: 210 11% 22%;
+    --input: 210 11% 22%;
+    --ring: 24 25% 55%;
     
     /* Dark Mode Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(172 66% 47%), hsl(172 66% 57%));
-    --gradient-accent: linear-gradient(135deg, hsl(172 66% 57%), hsl(172 66% 67%));
-    --gradient-hero: linear-gradient(135deg, hsl(210 29% 24%) 0%, hsl(172 66% 57%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(220 7% 15%), hsl(220 7% 18%));
-    --gradient-card: linear-gradient(145deg, hsl(220 7% 18%), hsl(220 7% 22%));
+    --gradient-primary: linear-gradient(135deg, hsl(24 25% 45%), hsl(24 25% 55%));
+    --gradient-accent: linear-gradient(135deg, hsl(0 32% 35%), hsl(0 32% 45%));
+    --gradient-hero: linear-gradient(135deg, hsl(136 35% 18%) 0%, hsl(24 25% 55%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(210 11% 12%), hsl(210 11% 15%));
+    --gradient-card: linear-gradient(145deg, hsl(210 11% 15%), hsl(210 11% 18%));
     
     /* Dark Mode Shadows */
-    --shadow-card: 0 4px 12px -2px hsl(0 0% 0% / 0.25);
-    --shadow-elegant: 0 8px 25px -5px hsl(0 0% 0% / 0.35);
-    --shadow-glow: 0 0 20px hsl(172 66% 57% / 0.25);
-    --shadow-professional: 0 2px 8px -1px hsl(0 0% 0% / 0.2);
+    --shadow-card: 0 4px 12px -2px hsl(0 0% 0% / 0.3);
+    --shadow-elegant: 0 8px 25px -5px hsl(0 0% 0% / 0.4);
+    --shadow-glow: 0 0 20px hsl(24 25% 55% / 0.3);
+    --shadow-professional: 0 2px 8px -1px hsl(0 0% 0% / 0.25);
     
     /* Dark Sidebar */
-    --sidebar-background: 220 7% 15%;
-    --sidebar-foreground: 220 14% 85%;
-    --sidebar-primary: 172 66% 57%;
-    --sidebar-primary-foreground: 220 7% 15%;
-    --sidebar-accent: 220 7% 20%;
-    --sidebar-accent-foreground: 220 14% 80%;
-    --sidebar-border: 220 7% 25%;
-    --sidebar-ring: 172 66% 57%;
+    --sidebar-background: 210 11% 12%;
+    --sidebar-foreground: 45 15% 88%;
+    --sidebar-primary: 24 25% 55%;
+    --sidebar-primary-foreground: 210 11% 12%;
+    --sidebar-accent: 210 11% 18%;
+    --sidebar-accent-foreground: 45 15% 85%;
+    --sidebar-border: 210 11% 22%;
+    --sidebar-ring: 24 25% 55%;
   }
 }
 
@@ -158,42 +167,203 @@
     font-feature-settings: "rlig" 1, "calt" 1;
     line-height: 1.6;
     letter-spacing: -0.01em;
+    background-image: var(--texture-paper);
   }
   
-  /* Clean Typography Hierarchy */
+  /* Legal Typography Hierarchy */
   h1, h2, h3, h4, h5, h6 {
-    @apply font-sans font-semibold tracking-tight text-foreground;
+    @apply font-serif font-semibold tracking-tight text-foreground;
+    font-family: 'Crimson Text', Georgia, serif;
     line-height: 1.2;
     letter-spacing: -0.025em;
   }
   
   h1 {
-    @apply text-3xl md:text-4xl lg:text-5xl;
+    @apply text-4xl md:text-5xl lg:text-6xl;
+    font-weight: 700;
   }
   
   h2 {
-    @apply text-2xl md:text-3xl;
+    @apply text-3xl md:text-4xl;
+    font-weight: 600;
   }
   
   h3 {
-    @apply text-xl md:text-2xl;
+    @apply text-2xl md:text-3xl;
+    font-weight: 600;
   }
   
   h4 {
-    @apply text-lg md:text-xl font-medium;
+    @apply text-xl md:text-2xl font-medium;
+  }
+  
+  /* Legal document text styling */
+  .contract-text, .legal-text {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    @apply text-sm leading-relaxed tracking-wide;
+  }
+  
+  /* Quote styling for legal excerpts */
+  blockquote {
+    @apply border-l-4 border-accent pl-6 italic text-muted-foreground;
+    font-family: 'Crimson Text', Georgia, serif;
   }
   
   p {
     @apply leading-relaxed text-foreground;
   }
   
-  /* Clean Focus States */
+  /* Legal Focus States */
   :focus-visible {
     @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+    box-shadow: var(--shadow-glow);
   }
   
-  /* Professional Links */
+  /* Professional Legal Links */
   a {
-    @apply text-accent hover:text-accent-dark transition-colors duration-200;
+    @apply text-accent hover:text-accent-dark transition-all duration-200;
+    position: relative;
+  }
+  
+  a:hover::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(1);
+    transition: transform 0.2s ease-in-out;
+  }
+}
+
+/* Legal Component Utilities */
+@layer components {
+  /* Document-style card */
+  .card-document {
+    @apply bg-card border border-border rounded-lg shadow-document;
+    background-image: var(--texture-paper);
+    position: relative;
+  }
+  
+  .card-document::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(-45deg, transparent 46%, var(--border) 49%, var(--border) 51%, transparent 54%);
+    border-radius: 0 0.5rem 0 0;
+  }
+  
+  /* Stamp/seal button effect */
+  .btn-stamp {
+    @apply relative overflow-hidden transition-all duration-200;
+    transform-style: preserve-3d;
+  }
+  
+  .btn-stamp:active {
+    transform: translateY(1px) scale(0.98);
+    box-shadow: var(--shadow-stamp);
+  }
+  
+  .btn-stamp::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, hsl(var(--accent-glow) / 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s ease;
+    z-index: 0;
+  }
+  
+  .btn-stamp:hover::before {
+    width: 200%;
+    height: 200%;
+  }
+  
+  /* Legal section divider */
+  .legal-divider {
+    @apply relative my-8;
+  }
+  
+  .legal-divider::before {
+    content: '§';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: hsl(var(--background));
+    padding: 0 1rem;
+    font-family: 'Crimson Text', serif;
+    font-size: 1.5rem;
+    color: hsl(var(--accent));
+  }
+  
+  .legal-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: hsl(var(--border));
+  }
+  
+  /* Hexagonal accent elements */
+  .hex-accent {
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    @apply bg-accent/10;
+  }
+  
+  /* Legal status badges */
+  .status-approved {
+    @apply bg-success/10 text-success border border-success/20 rounded-full px-3 py-1 text-sm font-medium;
+  }
+  
+  .status-pending {
+    @apply bg-warning/10 text-warning border border-warning/20 rounded-full px-3 py-1 text-sm font-medium;
+  }
+  
+  .status-rejected {
+    @apply bg-destructive/10 text-destructive border border-destructive/20 rounded-full px-3 py-1 text-sm font-medium;
+  }
+}
+
+/* Legal Animation Keyframes */
+@layer utilities {
+  @keyframes stamp-press {
+    0% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(0.95) rotate(-2deg); }
+    100% { transform: scale(1) rotate(0deg); }
+  }
+  
+  @keyframes document-flip {
+    0% { transform: rotateY(0deg); }
+    50% { transform: rotateY(-90deg); }
+    100% { transform: rotateY(0deg); }
+  }
+  
+  @keyframes seal-glow {
+    0%, 100% { box-shadow: 0 0 5px hsl(var(--accent) / 0.3); }
+    50% { box-shadow: 0 0 20px hsl(var(--accent) / 0.6), 0 0 30px hsl(var(--accent) / 0.4); }
+  }
+  
+  .animate-stamp {
+    animation: stamp-press 0.3s ease-in-out;
+  }
+  
+  .animate-document-flip {
+    animation: document-flip 0.6s ease-in-out;
+  }
+  
+  .animate-seal-glow {
+    animation: seal-glow 2s ease-in-out infinite;
   }
 }
