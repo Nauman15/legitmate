@@ -7,64 +7,64 @@
 
 @layer base {
   :root {
-    /* Modern Professional Color Palette */
-    --primary: 210 22% 22%;           /* Slate Blue #2C3E50 */
+    /* Modern Professional Color Palette - Enhanced Contrast */
+    --primary: 210 40% 18%;           /* Darker Slate Blue #1A2332 for better contrast */
     --primary-foreground: 0 0% 100%;  /* Pure white text */
-    --primary-light: 210 22% 32%;    /* Lighter slate blue */
-    --primary-dark: 210 22% 18%;     /* Darker slate blue */
-    --primary-glow: 210 22% 42%;     /* Glow variant */
+    --primary-light: 210 40% 28%;     /* Lighter slate blue */
+    --primary-dark: 210 40% 14%;      /* Darker slate blue */
+    --primary-glow: 210 40% 38%;      /* Glow variant */
     
-    --background: 210 33% 98%;        /* Light Mist #F7F9FA */
-    --foreground: 215 13% 34%;        /* Graphite #444950 */
+    --background: 210 25% 98%;         /* Light Mist #F7F9FA */
+    --foreground: 215 20% 20%;         /* Darker Graphite #333840 for better readability */
     
-    --card: 0 0% 100%;                /* Pure White Cards */
-    --card-foreground: 215 13% 34%;   /* Graphite Text on Cards */
+    --card: 0 0% 100%;                 /* Pure White Cards */
+    --card-foreground: 215 20% 20%;    /* Darker Graphite Text on Cards */
     
-    --popover: 0 0% 100%;             /* Pure White Popover */
-    --popover-foreground: 215 13% 34%; /* Graphite Text in Popovers */
+    --popover: 0 0% 100%;              /* Pure White Popover */
+    --popover-foreground: 215 20% 20%; /* Darker Graphite Text in Popovers */
     
-    --secondary: 215 13% 34%;         /* Graphite for secondary elements */
+    --secondary: 215 20% 20%;          /* Darker Graphite for secondary elements */
     --secondary-foreground: 0 0% 100%; /* White text on graphite */
-    --secondary-light: 215 13% 44%;   /* Lighter graphite for hover */
-    --secondary-dark: 215 13% 24%;    /* Darker graphite for active */
+    --secondary-light: 215 20% 30%;    /* Lighter graphite for hover */
+    --secondary-dark: 215 20% 15%;     /* Darker graphite for active */
     
-    --muted: 214 32% 91%;             /* Platinum Grey #E5E8EC */
-    --muted-foreground: 215 13% 34%;  /* Graphite Text on Platinum */
+    --muted: 210 20% 92%;              /* Lighter Platinum Grey #EAECF0 */
+    --muted-foreground: 215 20% 25%;   /* Much darker text on muted backgrounds #3A404A */
     
-    --accent: 178 77% 55%;            /* Cool Aqua #4FD1C5 */
-    --accent-foreground: 0 0% 100%;   /* White text on aqua */
-    --accent-light: 178 77% 65%;      /* Lighter aqua */
-    --accent-dark: 178 77% 45%;       /* Darker aqua */
-    --accent-glow: 178 77% 75%;       /* Glow aqua */
+    --accent: 178 77% 45%;             /* Slightly darker Cool Aqua #2ABAB0 for better contrast */
+    --accent-foreground: 0 0% 100%;    /* White text on aqua */
+    --accent-light: 178 77% 55%;       /* Lighter aqua */
+    --accent-dark: 178 77% 35%;        /* Darker aqua */
+    --accent-glow: 178 77% 65%;        /* Glow aqua */
     
-    --destructive: 0 79% 63%;         /* Gentle Coral #FF6B6B */
+    --destructive: 0 79% 58%;          /* Slightly darker Gentle Coral #FF5555 */
     --destructive-foreground: 0 0% 100%;
     
-    --success: 150 60% 25%;           /* Keep existing success color */
+    --success: 150 60% 25%;            /* Keep existing success color */
     --success-foreground: 0 0% 100%;
     
-    --warning: 38 85% 40%;            /* Keep existing warning color */
+    --warning: 38 85% 35%;             /* Darker warning color for better contrast */
     --warning-foreground: 0 0% 100%;
     
-    --border: 214 27% 84%;            /* Soft Silver #B0B7C3 */
-    --input: 214 27% 84%;             /* Soft Silver Input Borders */
-    --ring: 210 22% 22%;              /* Slate blue focus rings */
+    --border: 210 15% 75%;             /* Darker Soft Silver #9BA3B0 for better visibility */
+    --input: 210 15% 75%;              /* Darker input borders */
+    --ring: 210 40% 18%;               /* Darker slate blue focus rings */
     
     /* Enhanced Gradients with new colors */
-    --gradient-primary: linear-gradient(135deg, hsl(210 22% 18%), hsl(210 22% 22%));
-    --gradient-accent: linear-gradient(135deg, hsl(178 77% 45%), hsl(178 77% 55%));
-    --gradient-hero: linear-gradient(135deg, hsl(210 22% 32%) 0%, hsl(178 77% 55%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(210 33% 98%), hsl(214 32% 96%));
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(214 32% 96%));
-    --gradient-legal: linear-gradient(135deg, hsl(215 13% 34%) 0%, hsl(215 13% 24%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(210 40% 14%), hsl(210 40% 18%));
+    --gradient-accent: linear-gradient(135deg, hsl(178 77% 35%), hsl(178 77% 45%));
+    --gradient-hero: linear-gradient(135deg, hsl(210 40% 28%) 0%, hsl(178 77% 45%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(210 25% 98%), hsl(210 20% 96%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(210 20% 96%));
+    --gradient-legal: linear-gradient(135deg, hsl(215 20% 20%) 0%, hsl(215 20% 15%) 100%);
     
     /* High-Contrast Shadows with new palette */
-    --shadow-card: 0 4px 12px -2px hsl(210 22% 22% / 0.08);
-    --shadow-elegant: 0 8px 25px -5px hsl(210 22% 22% / 0.12);
-    --shadow-glow: 0 0 20px hsl(178 77% 55% / 0.25);
-    --shadow-professional: 0 2px 8px -1px hsl(210 22% 22% / 0.06);
-    --shadow-document: 0 6px 20px -6px hsl(210 22% 22% / 0.15);
-    --shadow-stamp: inset 0 2px 4px hsl(178 77% 55% / 0.2);
+    --shadow-card: 0 4px 12px -2px hsl(210 40% 18% / 0.08);
+    --shadow-elegant: 0 8px 25px -5px hsl(210 40% 18% / 0.12);
+    --shadow-glow: 0 0 20px hsl(178 77% 45% / 0.25);
+    --shadow-professional: 0 2px 8px -1px hsl(210 40% 18% / 0.06);
+    --shadow-document: 0 6px 20px -6px hsl(210 40% 18% / 0.15);
+    --shadow-stamp: inset 0 2px 4px hsl(178 77% 45% / 0.2);
     
     /* Paper Texture */
     --texture-paper: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f8f9fa' fill-opacity='0.02'%3E%3Ccircle cx='5' cy='5' r='1'/%3E%3Ccircle cx='25' cy='15' r='1'/%3E%3Ccircle cx='45' cy='25' r='1'/%3E%3Ccircle cx='15' cy='35' r='1'/%3E%3Ccircle cx='35' cy='45' r='1'/%3E%3Ccircle cx='55' cy='55' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
@@ -78,41 +78,41 @@
 
     /* Enhanced Sidebar with new colors */
     --sidebar-background: 0 0% 100%;      /* Pure white */
-    --sidebar-foreground: 215 13% 34%;    /* Graphite text */
-    --sidebar-primary: 210 22% 22%;       /* Slate blue */
+    --sidebar-foreground: 215 20% 20%;    /* Darker graphite text */
+    --sidebar-primary: 210 40% 18%;       /* Darker slate blue */
     --sidebar-primary-foreground: 0 0% 100%; /* White on slate blue */
-    --sidebar-accent: 214 32% 91%;        /* Platinum grey accent */
-    --sidebar-accent-foreground: 215 13% 34%; /* Graphite text on platinum */
-    --sidebar-border: 214 27% 84%;        /* Soft silver borders */
-    --sidebar-ring: 210 22% 22%;          /* Slate blue focus ring */
+    --sidebar-accent: 210 20% 92%;        /* Light platinum grey accent */
+    --sidebar-accent-foreground: 215 20% 20%; /* Darker graphite text on platinum */
+    --sidebar-border: 210 15% 75%;        /* Darker silver borders */
+    --sidebar-ring: 210 40% 18%;          /* Darker slate blue focus ring */
   }
 
   .dark {
-    /* Dark Mode - Modern Professional */
+    /* Dark Mode - Modern Professional with Better Contrast */
     --primary: 178 77% 55%;           /* Cool Aqua as primary in dark */
-    --primary-foreground: 210 22% 22%; /* Slate blue text on aqua */
+    --primary-foreground: 210 40% 18%; /* Darker slate blue text on aqua */
     --primary-light: 178 77% 65%;
     --primary-dark: 178 77% 45%;
     
     --background: 215 28% 8%;         /* Very Dark Background */
-    --foreground: 0 0% 100%;          /* Pure White Text */
+    --foreground: 0 0% 95%;           /* Near-white text for maximum contrast */
     
     --card: 215 28% 12%;              /* Dark Cards */
-    --card-foreground: 0 0% 100%;     /* Pure White Text on Cards */
+    --card-foreground: 0 0% 95%;      /* Near-white text on cards */
     
     --popover: 215 28% 12%;           /* Dark Popover */
-    --popover-foreground: 0 0% 100%;  /* Pure White Text */
+    --popover-foreground: 0 0% 95%;   /* Near-white text */
     
     --secondary: 215 13% 20%;         /* Dark Graphite Secondary */
-    --secondary-foreground: 0 0% 100%; /* White text */
+    --secondary-foreground: 0 0% 95%; /* Near-white text */
     --secondary-light: 215 13% 30%;
     --secondary-dark: 215 13% 15%;
     
     --muted: 215 28% 15%;             /* Dark Muted Background */
-    --muted-foreground: 0 0% 85%;     /* Light Gray Text */
+    --muted-foreground: 0 0% 80%;     /* Light text on dark muted */
     
     --accent: 178 77% 55%;            /* Cool Aqua */
-    --accent-foreground: 210 22% 22%; /* Slate blue text on aqua */
+    --accent-foreground: 210 40% 18%; /* Darker slate blue text on aqua */
     --accent-light: 178 77% 65%;
     --accent-dark: 178 77% 45%;
     --accent-glow: 178 77% 75%;
@@ -132,7 +132,7 @@
     
     /* Dark Gradients with new colors */
     --gradient-primary: linear-gradient(135deg, hsl(178 77% 45%), hsl(178 77% 55%));
-    --gradient-accent: linear-gradient(135deg, hsl(210 22% 18%), hsl(210 22% 22%));
+    --gradient-accent: linear-gradient(135deg, hsl(210 40% 14%), hsl(210 40% 18%));
     --gradient-hero: linear-gradient(135deg, hsl(215 13% 30%) 0%, hsl(178 77% 50%) 100%);
     --gradient-subtle: linear-gradient(180deg, hsl(215 28% 8%), hsl(215 28% 12%));
     --gradient-card: linear-gradient(145deg, hsl(215 28% 12%), hsl(215 28% 15%));
@@ -145,11 +145,11 @@
     
     /* Dark Sidebar */
     --sidebar-background: 215 28% 10%;    /* Dark background */
-    --sidebar-foreground: 0 0% 100%;     /* Pure white text */
+    --sidebar-foreground: 0 0% 95%;      /* Near-white text */
     --sidebar-primary: 178 77% 55%;      /* Aqua primary */
-    --sidebar-primary-foreground: 210 22% 22%; /* Slate blue on aqua */
+    --sidebar-primary-foreground: 210 40% 18%; /* Darker slate blue on aqua */
     --sidebar-accent: 215 28% 15%;       /* Dark accent */
-    --sidebar-accent-foreground: 0 0% 100%; /* White text */
+    --sidebar-accent-foreground: 0 0% 95%; /* Near-white text */
     --sidebar-border: 215 13% 20%;       /* Lighter borders */
     --sidebar-ring: 178 77% 55%;         /* Aqua focus ring */
   }
@@ -175,7 +175,7 @@
     font-family: 'Crimson Text', Georgia, serif;
     line-height: 1.2;
     letter-spacing: -0.025em;
-    color: hsl(var(--foreground)) !important; /* Force maximum contrast */
+    color: hsl(var(--foreground));
   }
   
   h1 {
@@ -201,19 +201,19 @@
   .contract-text, .legal-text {
     font-family: 'JetBrains Mono', 'Courier New', monospace;
     @apply text-sm leading-relaxed tracking-wide;
-    color: hsl(var(--foreground)) !important;
+    color: hsl(var(--foreground));
   }
   
   /* Quote styling */
   blockquote {
     @apply border-l-4 border-accent pl-6 italic;
     font-family: 'Crimson Text', Georgia, serif;
-    color: hsl(var(--muted-foreground)) !important;
+    color: hsl(var(--muted-foreground));
   }
   
   p {
     @apply leading-relaxed;
-    color: hsl(var(--foreground)) !important;
+    color: hsl(var(--foreground));
   }
   
   /* Enhanced Focus States */
@@ -225,12 +225,12 @@
   /* Professional Links */
   a {
     @apply transition-all duration-200;
-    color: hsl(var(--accent)) !important;
+    color: hsl(var(--accent));
     position: relative;
   }
   
   a:hover {
-    color: hsl(var(--accent-dark)) !important;
+    color: hsl(var(--accent-dark));
   }
   
   a:hover::after {
@@ -324,67 +324,59 @@
     background: hsl(var(--border));
   }
   
-  /* Enhanced Status Badges */
+  /* Enhanced Status Badges with Better Contrast */
   .status-approved {
     @apply bg-success/20 border border-success/40 rounded-full px-3 py-1 text-sm font-semibold;
-    color: hsl(var(--success)) !important;
+    color: hsl(var(--success));
   }
   
   .status-pending {
     @apply bg-warning/20 border border-warning/40 rounded-full px-3 py-1 text-sm font-semibold;
-    color: hsl(var(--warning)) !important;
+    color: hsl(var(--warning));
   }
   
   .status-rejected {
     @apply bg-destructive/20 border border-destructive/40 rounded-full px-3 py-1 text-sm font-semibold;
-    color: hsl(var(--destructive)) !important;
+    color: hsl(var(--destructive));
   }
 
-  /* Enhanced Dropdown Styling */
+  /* Enhanced Dropdown Styling with Better Visibility */
   .dropdown-content, .popover-content {
     @apply bg-popover text-popover-foreground border border-border shadow-elegant;
-    backdrop-filter: none !important;
+    backdrop-filter: none;
     z-index: 50;
-    color: hsl(var(--popover-foreground)) !important;
+    color: hsl(var(--popover-foreground));
   }
 
   .dropdown-item {
     @apply hover:bg-muted hover:text-foreground focus:bg-muted focus:text-foreground;
-    color: hsl(var(--popover-foreground)) !important;
+    color: hsl(var(--popover-foreground));
   }
 
-  /* Form Element Improvements */
+  /* Form Element Improvements with High Contrast */
   .form-label {
-    color: hsl(var(--foreground)) !important;
+    color: hsl(var(--foreground));
     @apply font-medium;
   }
 
   .form-description {
-    color: hsl(var(--muted-foreground)) !important;
+    color: hsl(var(--muted-foreground));
     @apply font-normal;
   }
 
   /* Interactive Text Utility */
   .interactive-text {
-    color: hsl(var(--foreground)) !important;
+    color: hsl(var(--foreground));
     @apply hover:text-accent focus:text-accent;
   }
 
-  /* Force Visible Text Classes */
-  .text-force-visible {
-    color: #000000 !important;
+  /* High Contrast Text Classes */
+  .text-high-contrast {
+    color: hsl(var(--foreground));
   }
   
-  .dark .text-force-visible {
-    color: #ffffff !important;
-  }
-  
-  .text-force-muted {
-    color: #374151 !important;
-  }
-  
-  .dark .text-force-muted {
-    color: #d1d5db !important;
+  .text-high-contrast-muted {
+    color: hsl(var(--muted-foreground));
   }
 
   /* Setup Prompt Styling */
@@ -393,11 +385,11 @@
   }
 
   .setup-prompt h3 {
-    color: hsl(var(--primary)) !important;
+    color: hsl(var(--primary));
   }
 
   .setup-prompt p {
-    color: hsl(var(--muted-foreground)) !important;
+    color: hsl(var(--muted-foreground));
   }
 
   /* Action Card Styling */
@@ -407,6 +399,24 @@
 
   .action-card:hover {
     transform: translateY(-2px);
+  }
+
+  /* Navigation Text Fixes */
+  .nav-text {
+    color: hsl(var(--foreground));
+  }
+  
+  .nav-text-muted {
+    color: hsl(var(--muted-foreground));
+  }
+  
+  /* Card Text Improvements */
+  .card-text {
+    color: hsl(var(--card-foreground));
+  }
+  
+  .card-text-muted {
+    color: hsl(var(--muted-foreground));
   }
 }
 
