@@ -56,8 +56,8 @@ export function AppSidebar() {
   const isActive = (path: string) => currentPath === path;
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
     isActive 
-      ? 'bg-primary text-primary-foreground font-semibold shadow-sm border-r-2 border-primary-dark' 
-      : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground font-medium';
+      ? 'sidebar-nav-link active bg-primary text-primary-foreground font-semibold shadow-sm border-r-2 border-primary-dark' 
+      : 'sidebar-nav-link hover:bg-sidebar-accent hover:text-sidebar-accent-foreground font-medium';
 
   const userInitial = user?.email?.[0]?.toUpperCase() || 'U';
   const userName = user?.email?.split('@')[0] || 'User';
@@ -71,10 +71,10 @@ export function AppSidebar() {
           </div>
           {!collapsed && (
             <div>
-              <h2 className="text-lg font-serif font-bold sidebar-text">
+              <h2 className="text-lg font-serif font-bold sidebar-text-force-black">
                 LegitMate
               </h2>
-              <p className="text-xs sidebar-text font-medium">Compliance Platform</p>
+              <p className="text-xs sidebar-text-force-black-muted font-medium">Compliance Platform</p>
             </div>
           )}
         </div>
@@ -83,7 +83,7 @@ export function AppSidebar() {
       <SidebarContent className="px-2 py-4">
         {/* Main Navigation */}
         <SidebarGroup>
-          <SidebarGroupLabel className="sidebar-text-group font-semibold px-2 mb-2 text-xs uppercase tracking-wide">
+          <SidebarGroupLabel className="sidebar-text-force-black-muted font-semibold px-2 mb-2 text-xs uppercase tracking-wide">
             {!collapsed && 'Main Navigation'}
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -113,7 +113,7 @@ export function AppSidebar() {
 
         {/* Compliance Section */}
         <SidebarGroup className="mt-6">
-          <SidebarGroupLabel className="sidebar-text-group font-semibold px-2 mb-2 text-xs uppercase tracking-wide">
+          <SidebarGroupLabel className="sidebar-text-force-black-muted font-semibold px-2 mb-2 text-xs uppercase tracking-wide">
             {!collapsed && 'Compliance'}
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -148,7 +148,7 @@ export function AppSidebar() {
 
         {/* Resources Section */}
         <SidebarGroup className="mt-6">
-          <SidebarGroupLabel className="sidebar-text-group font-semibold px-2 mb-2 text-xs uppercase tracking-wide">
+          <SidebarGroupLabel className="sidebar-text-force-black-muted font-semibold px-2 mb-2 text-xs uppercase tracking-wide">
             {!collapsed && 'Resources'}
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -185,10 +185,10 @@ export function AppSidebar() {
                 {userInitial}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold sidebar-text-user truncate">
+                <p className="text-sm font-semibold sidebar-text-force-black truncate">
                   {userName}
                 </p>
-                <p className="text-xs sidebar-text-user truncate font-medium">
+                <p className="text-xs sidebar-text-force-black-muted truncate font-medium">
                   {user?.email}
                 </p>
               </div>
@@ -198,7 +198,7 @@ export function AppSidebar() {
             variant="ghost"
             size="sm"
             onClick={() => signOut()}
-            className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground p-2 font-medium"
+            className="sidebar-text-force-black hover:bg-sidebar-accent hover:text-sidebar-accent-foreground p-2 font-medium"
             title="Sign Out"
           >
             <LogOut className="h-4 w-4" />
