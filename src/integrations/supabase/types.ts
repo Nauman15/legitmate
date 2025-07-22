@@ -53,6 +53,153 @@ export type Database = {
         }
         Relationships: []
       }
+      business_integrations: {
+        Row: {
+          created_at: string | null
+          credentials_encrypted: Json | null
+          id: string
+          integration_name: string
+          integration_type: string
+          last_sync: string | null
+          metadata: Json | null
+          status: string | null
+          sync_frequency: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          credentials_encrypted?: Json | null
+          id?: string
+          integration_name: string
+          integration_type: string
+          last_sync?: string | null
+          metadata?: Json | null
+          status?: string | null
+          sync_frequency?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          credentials_encrypted?: Json | null
+          id?: string
+          integration_name?: string
+          integration_type?: string
+          last_sync?: string | null
+          metadata?: Json | null
+          status?: string | null
+          sync_frequency?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      compliance_tasks: {
+        Row: {
+          assigned_to: string | null
+          attachments: Json | null
+          completed_at: string | null
+          completion_notes: string | null
+          created_at: string | null
+          description: string | null
+          due_date: string | null
+          id: string
+          priority: string | null
+          related_contract_id: string | null
+          related_filing_id: string | null
+          reminder_sent: boolean | null
+          status: string | null
+          task_type: string
+          title: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          attachments?: Json | null
+          completed_at?: string | null
+          completion_notes?: string | null
+          created_at?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          priority?: string | null
+          related_contract_id?: string | null
+          related_filing_id?: string | null
+          reminder_sent?: boolean | null
+          status?: string | null
+          task_type: string
+          title: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          assigned_to?: string | null
+          attachments?: Json | null
+          completed_at?: string | null
+          completion_notes?: string | null
+          created_at?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          priority?: string | null
+          related_contract_id?: string | null
+          related_filing_id?: string | null
+          reminder_sent?: boolean | null
+          status?: string | null
+          task_type?: string
+          title?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      compliance_templates: {
+        Row: {
+          business_type: string | null
+          checklist_items: Json
+          created_at: string | null
+          created_by: string | null
+          filing_calendar: Json | null
+          id: string
+          industry: string
+          is_active: boolean | null
+          name: string
+          risk_factors: Json | null
+          state: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          business_type?: string | null
+          checklist_items?: Json
+          created_at?: string | null
+          created_by?: string | null
+          filing_calendar?: Json | null
+          id?: string
+          industry: string
+          is_active?: boolean | null
+          name: string
+          risk_factors?: Json | null
+          state?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          business_type?: string | null
+          checklist_items?: Json
+          created_at?: string | null
+          created_by?: string | null
+          filing_calendar?: Json | null
+          id?: string
+          industry?: string
+          is_active?: boolean | null
+          name?: string
+          risk_factors?: Json | null
+          state?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       contract_analyses: {
         Row: {
           analysis_type: string
@@ -313,60 +460,540 @@ export type Database = {
           },
         ]
       }
-      profiles: {
+      dpdp_compliance: {
         Row: {
-          business_name: string | null
-          company_size: string | null
-          compliance_requirements: string[] | null
+          breach_notification_process: boolean | null
+          compliance_score: number | null
+          consent_management_setup: boolean | null
+          consent_records: Json | null
+          created_at: string
+          cross_border_transfers: Json | null
+          data_categories: Json | null
+          data_localization_compliant: boolean | null
+          data_mapping_completed: boolean | null
+          data_protection_officer_appointed: boolean | null
+          id: string
+          last_audit_date: string | null
+          next_audit_due: string | null
+          privacy_policy_updated: boolean | null
+          processing_purposes: Json | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          breach_notification_process?: boolean | null
+          compliance_score?: number | null
+          consent_management_setup?: boolean | null
+          consent_records?: Json | null
+          created_at?: string
+          cross_border_transfers?: Json | null
+          data_categories?: Json | null
+          data_localization_compliant?: boolean | null
+          data_mapping_completed?: boolean | null
+          data_protection_officer_appointed?: boolean | null
+          id?: string
+          last_audit_date?: string | null
+          next_audit_due?: string | null
+          privacy_policy_updated?: boolean | null
+          processing_purposes?: Json | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          breach_notification_process?: boolean | null
+          compliance_score?: number | null
+          consent_management_setup?: boolean | null
+          consent_records?: Json | null
+          created_at?: string
+          cross_border_transfers?: Json | null
+          data_categories?: Json | null
+          data_localization_compliant?: boolean | null
+          data_mapping_completed?: boolean | null
+          data_protection_officer_appointed?: boolean | null
+          id?: string
+          last_audit_date?: string | null
+          next_audit_due?: string | null
+          privacy_policy_updated?: boolean | null
+          processing_purposes?: Json | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      filing_calendar: {
+        Row: {
+          auto_calculate_penalty: boolean | null
+          business_type: string | null
+          created_at: string
+          due_date: string
+          filing_name: string
+          filing_type: string
+          frequency: string
+          id: string
+          notifications_enabled: boolean | null
+          penalty_amount: number | null
+          state: string | null
+          status: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          auto_calculate_penalty?: boolean | null
+          business_type?: string | null
+          created_at?: string
+          due_date: string
+          filing_name: string
+          filing_type: string
+          frequency: string
+          id?: string
+          notifications_enabled?: boolean | null
+          penalty_amount?: number | null
+          state?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          auto_calculate_penalty?: boolean | null
+          business_type?: string | null
+          created_at?: string
+          due_date?: string
+          filing_name?: string
+          filing_type?: string
+          frequency?: string
+          id?: string
+          notifications_enabled?: boolean | null
+          penalty_amount?: number | null
+          state?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      government_notifications: {
+        Row: {
+          applicable_to: string[] | null
+          content: string
+          created_at: string | null
+          effective_date: string | null
+          id: string
+          impact_level: string | null
+          notification_date: string
+          notification_type: string
+          processed: boolean | null
+          source: string
+          tags: string[] | null
+          title: string
+          url: string | null
+        }
+        Insert: {
+          applicable_to?: string[] | null
+          content: string
+          created_at?: string | null
+          effective_date?: string | null
+          id?: string
+          impact_level?: string | null
+          notification_date: string
+          notification_type: string
+          processed?: boolean | null
+          source: string
+          tags?: string[] | null
+          title: string
+          url?: string | null
+        }
+        Update: {
+          applicable_to?: string[] | null
+          content?: string
+          created_at?: string | null
+          effective_date?: string | null
+          id?: string
+          impact_level?: string | null
+          notification_date?: string
+          notification_type?: string
+          processed?: boolean | null
+          source?: string
+          tags?: string[] | null
+          title?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
+      gst_classifications: {
+        Row: {
+          category: string | null
+          cess_rate: number | null
+          cgst_rate: number
+          created_at: string
+          description: string
+          hsn_code: string
+          id: string
+          igst_rate: number
+          is_active: boolean | null
+          sgst_rate: number
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          cess_rate?: number | null
+          cgst_rate?: number
+          created_at?: string
+          description: string
+          hsn_code: string
+          id?: string
+          igst_rate?: number
+          is_active?: boolean | null
+          sgst_rate?: number
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          cess_rate?: number | null
+          cgst_rate?: number
+          created_at?: string
+          description?: string
+          hsn_code?: string
+          id?: string
+          igst_rate?: number
+          is_active?: boolean | null
+          sgst_rate?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      indian_contract_categories: {
+        Row: {
+          applicable_laws: string[] | null
+          compliance_checklist: Json | null
           created_at: string
           description: string | null
           id: string
+          is_active: boolean | null
+          mandatory_clauses: string[] | null
+          name: string
+          risk_factors: string[] | null
+          template_content: string | null
+          updated_at: string
+        }
+        Insert: {
+          applicable_laws?: string[] | null
+          compliance_checklist?: Json | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          mandatory_clauses?: string[] | null
+          name: string
+          risk_factors?: string[] | null
+          template_content?: string | null
+          updated_at?: string
+        }
+        Update: {
+          applicable_laws?: string[] | null
+          compliance_checklist?: Json | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          mandatory_clauses?: string[] | null
+          name?: string
+          risk_factors?: string[] | null
+          template_content?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      indian_regulations: {
+        Row: {
+          compliance_requirements: Json | null
+          created_at: string
+          description: string | null
+          effective_date: string | null
+          id: string
+          last_updated: string | null
+          penalties: Json | null
+          regulation_text: string | null
+          regulation_type: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          compliance_requirements?: Json | null
+          created_at?: string
+          description?: string | null
+          effective_date?: string | null
+          id?: string
+          last_updated?: string | null
+          penalties?: Json | null
+          regulation_text?: string | null
+          regulation_type: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          compliance_requirements?: Json | null
+          created_at?: string
+          description?: string | null
+          effective_date?: string | null
+          id?: string
+          last_updated?: string | null
+          penalties?: Json | null
+          regulation_text?: string | null
+          regulation_type?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      notification_preferences: {
+        Row: {
+          contract_alerts: boolean | null
+          created_at: string | null
+          digest_frequency: string | null
+          email_enabled: boolean | null
+          filing_reminders: boolean | null
+          id: string
+          push_enabled: boolean | null
+          regulatory_updates: boolean | null
+          risk_alerts: boolean | null
+          sms_enabled: boolean | null
+          updated_at: string | null
+          user_id: string
+          whatsapp_enabled: boolean | null
+        }
+        Insert: {
+          contract_alerts?: boolean | null
+          created_at?: string | null
+          digest_frequency?: string | null
+          email_enabled?: boolean | null
+          filing_reminders?: boolean | null
+          id?: string
+          push_enabled?: boolean | null
+          regulatory_updates?: boolean | null
+          risk_alerts?: boolean | null
+          sms_enabled?: boolean | null
+          updated_at?: string | null
+          user_id: string
+          whatsapp_enabled?: boolean | null
+        }
+        Update: {
+          contract_alerts?: boolean | null
+          created_at?: string | null
+          digest_frequency?: string | null
+          email_enabled?: boolean | null
+          filing_reminders?: boolean | null
+          id?: string
+          push_enabled?: boolean | null
+          regulatory_updates?: boolean | null
+          risk_alerts?: boolean | null
+          sms_enabled?: boolean | null
+          updated_at?: string | null
+          user_id?: string
+          whatsapp_enabled?: boolean | null
+        }
+        Relationships: []
+      }
+      posh_compliance: {
+        Row: {
+          annual_report_due: string | null
+          annual_report_filed: boolean | null
+          committee_formed: boolean | null
+          committee_members: Json | null
+          complaints_received: number | null
+          complaints_resolved: number | null
+          compliance_status: string | null
+          created_at: string
+          id: string
+          next_training_due: string | null
+          policy_displayed: boolean | null
+          training_conducted: boolean | null
+          training_date: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          annual_report_due?: string | null
+          annual_report_filed?: boolean | null
+          committee_formed?: boolean | null
+          committee_members?: Json | null
+          complaints_received?: number | null
+          complaints_resolved?: number | null
+          compliance_status?: string | null
+          created_at?: string
+          id?: string
+          next_training_due?: string | null
+          policy_displayed?: boolean | null
+          training_conducted?: boolean | null
+          training_date?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          annual_report_due?: string | null
+          annual_report_filed?: boolean | null
+          committee_formed?: boolean | null
+          committee_members?: Json | null
+          complaints_received?: number | null
+          complaints_resolved?: number | null
+          compliance_status?: string | null
+          created_at?: string
+          id?: string
+          next_training_due?: string | null
+          policy_displayed?: boolean | null
+          training_conducted?: boolean | null
+          training_date?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          annual_turnover: number | null
+          business_city: string | null
+          business_name: string | null
+          business_pincode: string | null
+          business_state: string | null
+          business_type: string | null
+          company_size: string | null
+          compliance_requirements: string[] | null
+          compliance_status: Json | null
+          created_at: string
+          description: string | null
+          employee_count: number | null
+          gst_number: string | null
+          id: string
+          incorporation_date: string | null
           industry: string | null
+          language_preference: string | null
           location: string | null
           notification_preferences: Json | null
+          onboarding_completed: boolean | null
+          pan_number: string | null
           phone: string | null
           registration_number: string | null
           sector: string | null
           timezone: string | null
           updated_at: string
           user_id: string
+          verification_documents: Json | null
+          verified: boolean | null
           website: string | null
         }
         Insert: {
+          annual_turnover?: number | null
+          business_city?: string | null
           business_name?: string | null
+          business_pincode?: string | null
+          business_state?: string | null
+          business_type?: string | null
           company_size?: string | null
           compliance_requirements?: string[] | null
+          compliance_status?: Json | null
           created_at?: string
           description?: string | null
+          employee_count?: number | null
+          gst_number?: string | null
           id?: string
+          incorporation_date?: string | null
           industry?: string | null
+          language_preference?: string | null
           location?: string | null
           notification_preferences?: Json | null
+          onboarding_completed?: boolean | null
+          pan_number?: string | null
           phone?: string | null
           registration_number?: string | null
           sector?: string | null
           timezone?: string | null
           updated_at?: string
           user_id: string
+          verification_documents?: Json | null
+          verified?: boolean | null
           website?: string | null
         }
         Update: {
+          annual_turnover?: number | null
+          business_city?: string | null
           business_name?: string | null
+          business_pincode?: string | null
+          business_state?: string | null
+          business_type?: string | null
           company_size?: string | null
           compliance_requirements?: string[] | null
+          compliance_status?: Json | null
           created_at?: string
           description?: string | null
+          employee_count?: number | null
+          gst_number?: string | null
           id?: string
+          incorporation_date?: string | null
           industry?: string | null
+          language_preference?: string | null
           location?: string | null
           notification_preferences?: Json | null
+          onboarding_completed?: boolean | null
+          pan_number?: string | null
           phone?: string | null
           registration_number?: string | null
           sector?: string | null
           timezone?: string | null
           updated_at?: string
           user_id?: string
+          verification_documents?: Json | null
+          verified?: boolean | null
           website?: string | null
+        }
+        Relationships: []
+      }
+      regulatory_alerts: {
+        Row: {
+          action_required: boolean | null
+          alert_type: string
+          business_impact: string | null
+          created_at: string
+          description: string
+          due_date: string | null
+          id: string
+          impact_level: string | null
+          recommended_actions: string[] | null
+          regulation_reference: string | null
+          status: string | null
+          title: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          action_required?: boolean | null
+          alert_type: string
+          business_impact?: string | null
+          created_at?: string
+          description: string
+          due_date?: string | null
+          id?: string
+          impact_level?: string | null
+          recommended_actions?: string[] | null
+          regulation_reference?: string | null
+          status?: string | null
+          title: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          action_required?: boolean | null
+          alert_type?: string
+          business_impact?: string | null
+          created_at?: string
+          description?: string
+          due_date?: string | null
+          id?: string
+          impact_level?: string | null
+          recommended_actions?: string[] | null
+          regulation_reference?: string | null
+          status?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string | null
         }
         Relationships: []
       }
