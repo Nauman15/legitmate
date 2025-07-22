@@ -30,7 +30,7 @@
     --secondary-dark: 24 25% 35%;    /* Darker gold for active */
     
     --muted: 45 15% 96%;              /* Light Parchment #F8F9FA */
-    --muted-foreground: 210 11% 20%;  /* Much darker for better contrast */
+    --muted-foreground: 210 11% 15%;  /* Much darker for better contrast - improved from 20% */
     
     --accent: 0 32% 35%;              /* Rich Burgundy #722F37 */
     --accent-foreground: 0 0% 100%;   /* White text on burgundy */
@@ -110,7 +110,7 @@
     --secondary-dark: 210 11% 12%;
     
     --muted: 210 11% 14%;             /* Dark muted */
-    --muted-foreground: 45 15% 80%;   /* Much lighter for better contrast */
+    --muted-foreground: 45 15% 85%;   /* Much lighter for better contrast - improved from 80% */
     
     --accent: 0 32% 45%;              /* Burgundy accent */
     --accent-foreground: 45 15% 95%;

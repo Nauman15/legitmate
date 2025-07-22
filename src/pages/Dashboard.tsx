@@ -77,7 +77,7 @@ const Dashboard = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-2">Dashboard</h1>
-          <p className="text-foreground/80 font-medium">Your compliance overview at a glance</p>
+          <p className="text-foreground font-medium">Your compliance overview at a glance</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -100,7 +100,7 @@ const Dashboard = () => {
                         {complianceStatus.status}
                       </Badge>
                     </div>
-                    <p className="text-sm text-foreground/70 font-medium">
+                    <p className="text-sm text-muted-foreground font-medium">
                       Upload documents to see compliance status
                     </p>
                   </div>
@@ -133,8 +133,8 @@ const Dashboard = () => {
                     </div>
                     <div className="flex-1">
                       <p className="font-semibold text-sm text-foreground">{action.action}</p>
-                      <p className="text-sm text-foreground/70 mt-1">{action.description}</p>
-                      <p className="text-xs text-foreground/60 mt-2 font-medium">{action.time}</p>
+                      <p className="text-sm text-muted-foreground mt-1">{action.description}</p>
+                      <p className="text-xs text-muted-foreground mt-2 font-medium">{action.time}</p>
                     </div>
                   </div>
                 ))}
@@ -157,7 +157,7 @@ const Dashboard = () => {
                   <div key={index} className="flex items-center justify-between p-4 bg-muted/40 rounded-lg border border-border/50">
                     <div>
                       <p className="font-semibold text-sm text-foreground">{deadline.title}</p>
-                      <p className="text-xs text-foreground/70 mt-1">{deadline.date}</p>
+                      <p className="text-xs text-muted-foreground mt-1">{deadline.date}</p>
                     </div>
                     <Badge 
                       variant={deadline.priority === 'high' ? 'destructive' : 'secondary'}
@@ -189,9 +189,9 @@ const Dashboard = () => {
                       </div>
                       <div className="text-left flex-1">
                         <p className="font-semibold text-sm text-foreground">{link.title}</p>
-                        <p className="text-xs text-foreground/70">{link.description}</p>
+                        <p className="text-xs text-muted-foreground">{link.description}</p>
                       </div>
-                      <ArrowRight className="h-4 w-4 text-foreground/60" />
+                      <ArrowRight className="h-4 w-4 text-muted-foreground" />
                     </Link>
                   </Button>
                 ))}
