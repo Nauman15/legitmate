@@ -1,359 +1,330 @@
-
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { useContracts } from '@/hooks/useContracts';
-import { useIndianCompliance } from '@/hooks/useIndianCompliance';
-import { ComplianceScoreCard } from '@/components/compliance/ComplianceScoreCard';
-import { RegulatoryAlertsWidget } from '@/components/compliance/RegulatoryAlertsWidget';
-import { FilingCalendarWidget } from '@/components/compliance/FilingCalendarWidget';
-import { AIComplianceAssistant } from '@/components/ai/AIComplianceAssistant';
-import { SetupPrompt } from '@/components/dashboard/SetupPrompt';
-import { Link } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
-  FileText,
-  TrendingUp,
-  AlertTriangle,
-  Calendar,
-  Bot,
-  Upload,
   BarChart3,
-  Shield,
-  Users,
-  BookOpen,
+  FileText,
+  Bell,
+  Plus,
+  ArrowRight,
+  TrendingUp,
+  TrendingDown,
+  AlertTriangle,
+  CheckCircle,
+  PackageCheck,
+  UserRound,
+  Calendar,
   Settings,
-  Activity
+  HelpCircle
 } from 'lucide-react';
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Separator } from "@/components/ui/separator"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const Dashboard = () => {
   const { user } = useAuth();
-  const { contracts, loading: contractsLoading } = useContracts();
-  const { complianceData, loading: complianceLoading } = useIndianCompliance();
+  const [contracts, setContracts] = useState<any[]>([]);
+  const [alerts, setAlerts] = useState<any[]>([]);
+  const [profile, setProfile] = useState<any | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const recentContracts = contracts?.slice(0, 5) || [];
-  const totalContracts = contracts?.length || 0;
-  const analyzedContracts = contracts?.filter(c => c.status === 'reviewed').length || 0;
-  const highRiskContracts = contracts?.filter(c => (c.risk_score || 0) > 70).length || 0;
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!user?.id) {
+        setLoading(false);
+        return;
+      }
 
-  // Setup prompt stats for empty states
-  const setupPrompts = [
-    {
-      title: 'Upload Your First Contract',
-      description: 'Get AI-powered compliance analysis',
-      icon: FileText,
-      action: 'Upload Contract',
-      href: '/contract-review',
-      isEmpty: totalContracts === 0
-    },
-    {
-      title: 'Set Up Compliance Monitoring',
-      description: 'Configure POSH, DPDP and other requirements',
-      icon: Shield,
-      action: 'Start Setup',
-      href: '/policy-compliance',
-      isEmpty: (complianceData?.complianceScore || 0) === 0
-    },
-    {
-      title: 'Configure Filing Calendar',
-      description: 'Track GST, TDS and other filing deadlines',
-      icon: Calendar,
-      action: 'Setup Filings',
-      href: '/automated-filings',
-      isEmpty: (complianceData?.nextFilingDeadlines.length || 0) === 0
-    },
-    {
-      title: 'View Risk Analytics',
-      description: 'Get predictive insights and recommendations',
-      icon: BarChart3,
-      action: 'View Analytics',
-      href: '/risk-analytics',
-      isEmpty: true // Always show this as it's available
-    }
-  ];
+      try {
+        setLoading(true);
+        setError(null);
 
-  const quickActions = [
-    {
-      title: 'Upload Contract',
-      description: 'Get AI-powered compliance analysis',
-      icon: Upload,
-      href: '/contract-review',
-      color: 'bg-primary'
-    },
-    {
-      title: 'View Analytics',
-      description: 'Risk insights and predictions',
-      icon: BarChart3,
-      href: '/risk-analytics',
-      color: 'bg-success'
-    },
-    {
-      title: 'Check Compliance',
-      description: 'POSH, DPDP, and other requirements',
-      icon: Shield,
-      href: '/policy-compliance',
-      color: 'bg-warning'
-    },
-    {
-      title: 'Filing Calendar',
-      description: 'Manage deadlines and submissions',
-      icon: Calendar,
-      href: '/automated-filings',
-      color: 'bg-accent'
-    }
-  ];
+        const [contractsResponse, alertsResponse, profileResponse] = await Promise.all([
+          supabase.from('contracts').select('*').eq('user_id', user.id),
+          supabase.from('regulatory_alerts').select('*').eq('user_id', user.id),
+          supabase.from('profiles').select('*').eq('user_id', user.id).single()
+        ]);
 
-  if (contractsLoading || complianceLoading) {
-    return (
-      <div className="container mx-auto p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {[1, 2, 3, 4].map(i => (
-            <Card key={i} className="shadow-card">
-              <CardContent className="p-6">
-                <div className="animate-pulse space-y-4">
-                  <div className="h-4 bg-muted rounded w-1/2"></div>
-                  <div className="h-8 bg-muted rounded w-3/4"></div>
-                  <div className="h-3 bg-muted rounded w-1/3"></div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
-    );
-  }
+        setContracts(contractsResponse.data || []);
+        setAlerts(alertsResponse.data || []);
+        setProfile(profileResponse.data);
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        setError('Failed to load data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [user?.id]);
+
+  // Make risk thresholds configurable
+  const riskThresholds = {
+    high: 70,
+    medium: 50,
+    low: 0
+  };
+
+  const getRiskBadgeVariant = (riskScore: number) => {
+    if (riskScore >= riskThresholds.high) return 'destructive';
+    if (riskScore >= riskThresholds.medium) return 'secondary';
+    return 'default';
+  };
+
+  const getRiskLevel = (riskScore: number) => {
+    if (riskScore >= riskThresholds.high) return 'High Risk';
+    if (riskScore >= riskThresholds.medium) return 'Medium Risk';
+    return 'Low Risk';
+  };
 
   return (
-    <div className="container mx-auto p-6 space-y-8">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-foreground mb-2">
-          Welcome back, {user?.email?.split('@')[0]}!
-        </h1>
-        <p className="text-muted-foreground">
-          Here's your Indian compliance overview for today.
-        </p>
-      </div>
-
-      {/* Setup Prompts Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {setupPrompts.map((prompt, index) => (
-          <Card key={index} className="shadow-card hover:shadow-lg transition-all duration-200">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <prompt.icon className="h-5 w-5 text-primary" />
-                {prompt.isEmpty && (
-                  <Badge variant="outline" className="text-xs">
-                    Setup Required
-                  </Badge>
-                )}
-              </div>
-              <div className="space-y-3">
-                <div>
-                  <p className="font-medium text-sm">{prompt.title}</p>
-                  <p className="text-xs text-muted-foreground">{prompt.description}</p>
-                </div>
-                <Button size="sm" className="w-full" asChild>
-                  <Link to={prompt.href}>{prompt.action}</Link>
+    <div className="min-h-screen bg-gradient-subtle">
+      <div className="max-w-7xl mx-auto p-6 space-y-8">
+        {/* Header */}
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground flex items-center">
+              <BarChart3 className="mr-3 h-8 w-8 text-primary" />
+              Dashboard
+            </h1>
+            <p className="text-muted-foreground">At-a-glance overview of your business compliance</p>
+          </div>
+          <div className="flex space-x-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">
+                  <Bell className="mr-2 h-4 w-4" />
+                  Notifications
                 </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-72">
+                <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <div className="flex items-center space-x-2">
+                    <AlertTriangle className="h-4 w-4 text-destructive" />
+                    <span>High risk contract needs review</span>
+                  </div>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="h-4 w-4 text-success" />
+                    <span>GST filing completed successfully</span>
+                  </div>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <div className="flex items-center space-x-2">
+                    <PackageCheck className="h-4 w-4 text-warning" />
+                    <span>New compliance task assigned</span>
+                  </div>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <Button variant="hero">
+              <Plus className="mr-2 h-4 w-4" />
+              Add Contract
+            </Button>
+          </div>
+        </div>
+
+        {/* Profile and Quick Actions */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Card className="shadow-card">
+            <CardHeader>
+              <CardTitle>Profile</CardTitle>
+            </CardHeader>
+            <CardContent className="flex items-center space-x-4">
+              <Avatar>
+                <AvatarImage src={profile?.avatar_url || "https://github.com/shadcn.png"} />
+                <AvatarFallback><UserRound className="h-4 w-4" /></AvatarFallback>
+              </Avatar>
+              <div>
+                <h3 className="font-semibold">{profile?.full_name || 'No Name'}</h3>
+                <p className="text-sm text-muted-foreground">{profile?.email || 'No Email'}</p>
               </div>
             </CardContent>
           </Card>
-        ))}
-      </div>
 
-      {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {quickActions.map((action, index) => (
-          <Link key={index} to={action.href}>
-            <Card className="shadow-card hover:shadow-lg transition-all duration-200 cursor-pointer">
-              <CardContent className="p-4">
-                <div className="flex items-center space-x-3">
-                  <div className={`p-2 rounded-lg ${action.color} text-primary-foreground`}>
-                    <action.icon className="h-4 w-4" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-sm">{action.title}</p>
-                    <p className="text-xs text-muted-foreground">{action.description}</p>
+          <Card className="shadow-card">
+            <CardHeader>
+              <CardTitle>Quick Actions</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Button variant="secondary" className="w-full justify-start">
+                <FileText className="mr-2 h-4 w-4" />
+                Review Contracts
+              </Button>
+              <Button variant="secondary" className="w-full justify-start">
+                <Calendar className="mr-2 h-4 w-4" />
+                Schedule Compliance Check
+              </Button>
+              <Button variant="secondary" className="w-full justify-start">
+                <Settings className="mr-2 h-4 w-4" />
+                Manage Integrations
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-card">
+            <CardHeader>
+              <CardTitle>Help & Support</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <p className="text-sm text-muted-foreground">
+                Need assistance? Check out our help center or contact support.
+              </p>
+              <Button variant="outline" className="w-full justify-start">
+                <HelpCircle className="mr-2 h-4 w-4" />
+                Visit Help Center
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Compliance Overview */}
+        <Card className="shadow-card">
+          <CardHeader>
+            <CardTitle>Compliance Overview</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-card rounded-lg shadow-card p-6">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-sm font-medium text-muted-foreground">Overall Compliance</h3>
+                  <div className="flex items-center text-success">
+                    <TrendingUp className="h-4 w-4" />
+                    <span className="text-sm ml-1">+5%</span>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
-      </div>
+                <div className="flex items-baseline space-x-1 mb-1">
+                  <span className="text-3xl font-bold text-primary">85</span>
+                  <span className="text-sm text-muted-foreground">%</span>
+                </div>
+                <p className="text-xs text-muted-foreground">Compared to last month</p>
+              </div>
 
-      {/* Main Content Tabs */}
-      <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-1 md:grid-cols-4">
-          <TabsTrigger value="overview" className="flex items-center space-x-2">
-            <Activity className="h-4 w-4" />
-            <span>Overview</span>
-          </TabsTrigger>
-          <TabsTrigger value="compliance" className="flex items-center space-x-2">
-            <Shield className="h-4 w-4" />
-            <span>Compliance</span>
-          </TabsTrigger>
-          <TabsTrigger value="contracts" className="flex items-center space-x-2">
-            <FileText className="h-4 w-4" />
-            <span>Contracts</span>
-          </TabsTrigger>
-          <TabsTrigger value="assistant" className="flex items-center space-x-2">
-            <Bot className="h-4 w-4" />
-            <span>AI Assistant</span>
-          </TabsTrigger>
-        </TabsList>
+              <div className="bg-card rounded-lg shadow-card p-6">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-sm font-medium text-muted-foreground">High Risk Contracts</h3>
+                  <div className="flex items-center text-destructive">
+                    <TrendingDown className="h-4 w-4" />
+                    <span className="text-sm ml-1">-2</span>
+                  </div>
+                </div>
+                <div className="flex items-baseline space-x-1 mb-1">
+                  <span className="text-3xl font-bold text-foreground">3</span>
+                  <span className="text-sm text-muted-foreground">contracts</span>
+                </div>
+                <p className="text-xs text-muted-foreground">Require immediate review</p>
+              </div>
 
-        <TabsContent value="overview" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <ComplianceScoreCard />
-            <RegulatoryAlertsWidget />
-            <FilingCalendarWidget />
-            
-            {/* Recent Activity */}
-            <Card className="shadow-card">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Activity className="h-5 w-5 text-primary" />
-                  <span>Recent Activity</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {recentContracts.length > 0 ? (
-                  recentContracts.map(contract => (
-                    <div key={contract.id} className="flex items-center space-x-3 p-3 bg-muted/30 rounded-lg">
-                      <FileText className="h-4 w-4 text-primary" />
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">{contract.name}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {contract.status} • {new Date(contract.uploaded_at).toLocaleDateString()}
+              <div className="bg-card rounded-lg shadow-card p-6">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-sm font-medium text-muted-foreground">Upcoming Deadlines</h3>
+                  <div className="flex items-center text-warning">
+                    <TrendingUp className="h-4 w-4" />
+                    <span className="text-sm ml-1">+1</span>
+                  </div>
+                </div>
+                <div className="flex items-baseline space-x-1 mb-1">
+                  <span className="text-3xl font-bold text-foreground">7</span>
+                  <span className="text-sm text-muted-foreground">days</span>
+                </div>
+                <p className="text-xs text-muted-foreground">Until next filing</p>
+              </div>
+
+              <div className="bg-card rounded-lg shadow-card p-6">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-sm font-medium text-muted-foreground">Active Alerts</h3>
+                  <div className="flex items-center text-destructive">
+                    <TrendingUp className="h-4 w-4" />
+                    <span className="text-sm ml-1">+3</span>
+                  </div>
+                </div>
+                <div className="flex items-baseline space-x-1 mb-1">
+                  <span className="text-3xl font-bold text-foreground">12</span>
+                  <span className="text-sm text-muted-foreground">alerts</span>
+                </div>
+                <p className="text-xs text-muted-foreground">Require your attention</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {contracts.length > 0 && (
+          <Card className="shadow-card">
+            <CardHeader>
+              <CardTitle>Recent Contracts</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {contracts.slice(0, 3).map((contract) => (
+                  <div key={contract.id} className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
+                    <div>
+                      <h3 className="font-semibold">{contract.name}</h3>
+                      <p className="text-sm text-muted-foreground">
+                        {contract.counterparty_name} • {contract.uploaded_at ? new Date(contract.uploaded_at).toLocaleDateString() : 'Date not available'}
+                      </p>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Badge variant={getRiskBadgeVariant(contract.risk_score || 0)}>
+                        {getRiskLevel(contract.risk_score || 0)}
+                      </Badge>
+                      <Badge variant="outline">{contract.status}</Badge>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {alerts.length > 0 && (
+          <Card className="shadow-card">
+            <CardHeader>
+              <CardTitle>Recent Regulatory Alerts</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ScrollArea className="h-[300px] w-full rounded-md border">
+                <div className="space-y-4 p-4">
+                  {alerts.slice(0, 5).map((alert) => (
+                    <div key={alert.id} className="flex items-start justify-between p-4 bg-muted/30 rounded-lg">
+                      <div>
+                        <h3 className="font-semibold">{alert.title}</h3>
+                        <p className="text-sm text-muted-foreground">
+                          {alert.description}
                         </p>
                       </div>
-                      <Badge variant="outline" className="text-xs">
-                        {contract.category || 'General'}
-                      </Badge>
-                    </div>
-                  ))
-                ) : (
-                  <SetupPrompt
-                    title="No Contracts Yet"
-                    description="Upload your first contract to get started with AI-powered compliance analysis."
-                    actionText="Upload Contract"
-                    onAction={() => window.location.href = '/contract-review'}
-                    icon={<Upload className="h-6 w-6" />}
-                  />
-                )}
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="compliance" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <ComplianceScoreCard />
-            <RegulatoryAlertsWidget />
-            <FilingCalendarWidget />
-            
-            {/* Compliance Summary */}
-            <Card className="shadow-card">
-              <CardHeader>
-                <CardTitle>Compliance Areas</CardTitle>
-                <CardDescription>Track compliance across different regulations</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-                  <div className="flex items-center space-x-2">
-                    <Shield className="h-4 w-4 text-success" />
-                    <span className="text-sm font-medium">POSH Act 2013</span>
-                  </div>
-                  <Badge variant={complianceData?.poshCompliance?.complianceStatus === 'compliant' ? 'secondary' : 'destructive'}>
-                    {complianceData?.poshCompliance?.complianceStatus || 'Not Set'}
-                  </Badge>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-                  <div className="flex items-center space-x-2">
-                    <Shield className="h-4 w-4 text-warning" />
-                    <span className="text-sm font-medium">DPDP Act 2023</span>
-                  </div>
-                  <Badge variant="outline">
-                    {complianceData?.dpdpCompliance?.complianceScore || 0}% Complete
-                  </Badge>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="contracts" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <Card className="shadow-card">
-              <CardHeader>
-                <CardTitle>Contract Statistics</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-foreground">Total Contracts</span>
-                  <span className="font-medium">{totalContracts}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-foreground">Analyzed</span>
-                  <span className="font-medium">{analyzedContracts}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-foreground">High Risk</span>
-                  <span className="font-medium text-destructive">{highRiskContracts}</span>
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Card className="lg:col-span-2 shadow-card">
-              <CardHeader>
-                <CardTitle>Recent Contracts</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {recentContracts.length > 0 ? (
-                  <div className="space-y-3">
-                    {recentContracts.map(contract => (
-                      <div key={contract.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-                        <div className="flex items-center space-x-3">
-                          <FileText className="h-4 w-4 text-primary" />
-                          <div>
-                            <p className="text-sm font-medium">{contract.name}</p>
-                            <p className="text-xs text-muted-foreground">
-                              {new Date(contract.uploaded_at).toLocaleDateString()}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Badge variant="outline">{contract.status}</Badge>
-                          {contract.risk_score && (
-                            <Badge variant={contract.risk_score > 70 ? 'destructive' : contract.risk_score > 50 ? 'secondary' : 'outline'}>
-                              Risk: {contract.risk_score}
-                            </Badge>
-                          )}
-                        </div>
+                      <div className="flex items-center space-x-2">
+                        <Badge variant="destructive">{alert.impact_level}</Badge>
                       </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                    <p className="text-muted-foreground">No contracts uploaded yet</p>
-                    <Button className="mt-4" asChild>
-                      <Link to="/contract-review">Upload Your First Contract</Link>
-                    </Button>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
+                    </div>
+                  ))}
+                </div>
+              </ScrollArea>
+            </CardContent>
+          </Card>
+        )}
 
-        <TabsContent value="assistant" className="space-y-6">
-          <AIComplianceAssistant />
-        </TabsContent>
-      </Tabs>
+        <div className="text-center text-muted-foreground">
+          <p>
+            That's all for now! More features and insights coming soon.
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
