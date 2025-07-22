@@ -3,13 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   BarChart3, 
   Download,
-  RefreshCw,
-  DollarSign,
-  Users,
-  FileText,
-  Database,
-  Shield,
-  FileCheck
+  RefreshCw
 } from 'lucide-react';
 import { RiskMetricsOverview } from '@/components/risk-analytics/RiskMetricsOverview';
 import { RiskCategoriesOverview } from '@/components/risk-analytics/RiskCategoriesOverview';
@@ -17,322 +11,48 @@ import { PredictiveInsights } from '@/components/risk-analytics/PredictiveInsigh
 import { DataSourceIntegrations } from '@/components/risk-analytics/DataSourceIntegrations';
 import { MitigationActions } from '@/components/risk-analytics/MitigationActions';
 import { HistoricalDataImport } from '@/components/risk-analytics/HistoricalDataImport';
+import { EmptyRiskAnalyticsState } from '@/components/risk-analytics/EmptyRiskAnalyticsState';
+import { useRiskAnalytics } from '@/hooks/useRiskAnalytics';
 
 const RiskAnalytics = () => {
-  const riskMetrics = [
-    {
-      title: 'Overall Risk Score',
-      value: '73',
-      unit: '/100',
-      change: '-5',
-      trend: 'down' as const,
-      color: 'text-warning',
-      description: 'Medium Risk Level'
-    },
-    {
-      title: 'Critical Issues',
-      value: '3',
-      unit: '',
-      change: '+1',
-      trend: 'up' as const,
-      color: 'text-destructive',
-      description: 'Require Immediate Action'
-    },
-    {
-      title: 'Compliance Score',
-      value: '87',
-      unit: '%',
-      change: '+3',
-      trend: 'up' as const,
-      color: 'text-success',
-      description: 'Above Industry Average'
-    },
-    {
-      title: 'Predicted Violations',
-      value: '2',
-      unit: '',
-      change: '-1',
-      trend: 'down' as const,
-      color: 'text-primary',
-      description: 'Next 30 Days'
-    }
-  ];
+  const { riskData, loading, error, refreshData, hasData, isEmpty } = useRiskAnalytics();
 
-  const riskCategories = [
-    {
-      category: 'GST Compliance',
-      riskLevel: 'High',
-      score: 85,
-      issues: [
-        'Late filing penalty risk for GSTR-1',
-        'Input tax credit mismatch detected',
-        'Missing e-way bills for interstate transactions'
-      ],
-      impact: 'Financial',
-      probability: 78,
-      mitigation: 'Automated filing setup recommended'
-    },
-    {
-      category: 'Labor Law Compliance',
-      riskLevel: 'Medium',
-      score: 65,
-      issues: [
-        'Overtime payment policy needs update',
-        'Employee contract terms review pending',
-        'PF contribution irregularities'
-      ],
-      impact: 'Legal',
-      probability: 45,
-      mitigation: 'HR policy review scheduled'
-    },
-    {
-      category: 'Company Law',
-      riskLevel: 'Low',
-      score: 25,
-      issues: [
-        'Annual return filing deadline approaching',
-        'Board meeting minutes documentation'
-      ],
-      impact: 'Administrative',
-      probability: 25,
-      mitigation: 'Calendar reminders activated'
-    },
-    {
-      category: 'Data Protection',
-      riskLevel: 'Medium',
-      score: 55,
-      issues: [
-        'Privacy policy update required',
-        'Employee data handling procedures',
-        'Third-party data sharing agreements'
-      ],
-      impact: 'Regulatory',
-      probability: 60,
-      mitigation: 'Data audit in progress'
-    }
-  ];
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-subtle">
+        <div className="max-w-7xl mx-auto p-6 space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className="bg-card rounded-lg shadow-card p-6 animate-pulse">
+                <div className="h-4 bg-muted rounded w-1/2 mb-4"></div>
+                <div className="h-8 bg-muted rounded w-3/4 mb-2"></div>
+                <div className="h-3 bg-muted rounded w-1/3"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-  const predictiveInsights = [
-    {
-      title: 'GST Filing Delay Risk',
-      probability: 85,
-      impact: 'High',
-      timeline: '5 days',
-      description: 'Based on current data processing speed, there\'s a high risk of missing the GSTR-1 filing deadline.',
-      recommendation: 'Enable automated filing or allocate additional resources immediately.',
-      category: 'GST'
-    },
-    {
-      title: 'Labor Compliance Violation',
-      probability: 60,
-      impact: 'Medium',
-      timeline: '15 days',
-      description: 'Overtime policy violations detected in Engineering department.',
-      recommendation: 'Review and update overtime policies, conduct team training.',
-      category: 'Labor'
-    },
-    {
-      title: 'Data Breach Risk',
-      probability: 35,
-      impact: 'High',
-      timeline: '30 days',
-      description: 'Third-party integrations lack proper security compliance checks.',
-      recommendation: 'Conduct security audit of all external integrations.',
-      category: 'Data'
-    }
-  ];
-
-  const mitigationActions = [
-    {
-      title: 'Implement Automated GST Filing',
-      status: 'in_progress',
-      priority: 'high',
-      deadline: '2024-04-01',
-      assignee: 'Finance Team',
-      progress: 65
-    },
-    {
-      title: 'Update HR Policies Documentation',
-      status: 'pending',
-      priority: 'medium',
-      deadline: '2024-04-15',
-      assignee: 'HR Department',
-      progress: 0
-    },
-    {
-      title: 'Schedule Board Meeting',
-      status: 'completed',
-      priority: 'low',
-      deadline: '2024-03-25',
-      assignee: 'Legal Team',
-      progress: 100
-    },
-    {
-      title: 'Data Protection Impact Assessment',
-      status: 'in_progress',
-      priority: 'high',
-      deadline: '2024-04-10',
-      assignee: 'IT Security',
-      progress: 30
-    }
-  ];
-
-  const dataSourceIntegrations = [
-    {
-      name: 'Tally ERP 9 / Prime',
-      category: 'Accounting Software',
-      icon: DollarSign,
-      status: 'connected',
-      description: 'Complete accounting solution - GST returns, financial data, inventory management',
-      lastSync: '2 hours ago',
-      records: '45,230',
-      riskInsights: ['GST filing delays detected', 'TDS calculation discrepancies', 'Late payment penalties risk'],
-      features: ['Auto GST filing', 'Real-time tax monitoring', 'Financial risk analysis', 'Inventory compliance']
-    },
-    {
-      name: 'Marg ERP',
-      category: 'Accounting Software',
-      icon: DollarSign,
-      status: 'connected',
-      description: 'Popular Indian accounting software with GST and inventory management',
-      lastSync: '4 hours ago',
-      records: '28,450',
-      riskInsights: ['E-way bill generation delays', 'Input tax credit mismatches'],
-      features: ['GST compliance', 'Inventory tracking', 'Financial reporting', 'Multi-branch support']
-    },
-    {
-      name: 'Busy Accounting',
-      category: 'Accounting Software',
-      icon: DollarSign,
-      status: 'available',
-      description: 'Comprehensive business accounting with GST and inventory features',
-      lastSync: 'Not connected',
-      records: '0',
-      riskInsights: [],
-      features: ['GST filing', 'Inventory management', 'Financial analytics', 'Payroll integration']
-    },
-    {
-      name: 'SAP SuccessFactors',
-      category: 'HR Management',
-      icon: Users,
-      status: 'connected',
-      description: 'Enterprise HR solution - employee data, payroll, compliance monitoring',
-      lastSync: '1 hour ago',
-      records: '1,245',
-      riskInsights: ['Overtime policy violations in Engineering', 'Missing PF contributions for 3 employees'],
-      features: ['Labor law compliance', 'Payroll risk analysis', 'Employee policy monitoring', 'Leave management']
-    },
-    {
-      name: 'Keka HR',
-      category: 'HR Management',
-      icon: Users,
-      status: 'connected',
-      description: 'Modern Indian HR platform with payroll and compliance features',
-      lastSync: '3 hours ago',
-      records: '892',
-      riskInsights: ['POSH training pending for 15 employees', 'Contract renewal alerts'],
-      features: ['Payroll compliance', 'Employee lifecycle', 'Attendance tracking', 'Performance management']
-    },
-    {
-      name: 'Razorpay Payroll',
-      category: 'Payroll Software',
-      icon: Users,
-      status: 'available',
-      description: 'Automated payroll with statutory compliance and tax calculations',
-      lastSync: 'Not connected',
-      records: '0',
-      riskInsights: [],
-      features: ['Auto tax calculations', 'Statutory compliance', 'Employee self-service', 'Financial integration']
-    },
-    {
-      name: 'Greytip Software',
-      category: 'Payroll Software',
-      icon: Users,
-      status: 'pending',
-      description: 'Cloud-based payroll and HR management for Indian businesses',
-      lastSync: 'Setup in progress',
-      records: '0',
-      riskInsights: [],
-      features: ['Payroll processing', 'Statutory reports', 'Employee portal', 'Compliance tracking']
-    },
-    {
-      name: 'GSTN Portal',
-      category: 'Government Portal',
-      icon: Database,
-      status: 'connected',
-      description: 'Direct GST portal integration for real-time compliance and filing',
-      lastSync: '30 minutes ago',
-      records: '8,456',
-      riskInsights: ['Input tax credit mismatch detected', 'Late filing risk identified for March'],
-      features: ['Real-time GST monitoring', 'Auto-sync returns', 'Compliance alerts', 'E-way bill tracking']
-    },
-    {
-      name: 'MCA Portal',
-      category: 'Government Portal',
-      icon: FileText,
-      status: 'pending',
-      description: 'Ministry of Corporate Affairs portal for company filings and compliance',
-      lastSync: 'Not connected',
-      records: '0',
-      riskInsights: [],
-      features: ['ROC filing tracking', 'Company law compliance', 'Annual return monitoring', 'Director compliance']
-    },
-    {
-      name: 'EPFO Portal',
-      category: 'Government Portal',
-      icon: Shield,
-      status: 'available',
-      description: 'Employee Provident Fund Organization portal for PF compliance',
-      lastSync: 'Not connected',
-      records: '0',
-      riskInsights: [],
-      features: ['PF compliance tracking', 'Contribution monitoring', 'Employee verification', 'Penalty alerts']
-    },
-    {
-      name: 'ESIC Portal',
-      category: 'Government Portal',
-      icon: Shield,
-      status: 'available',
-      description: 'Employee State Insurance Corporation portal for ESI compliance',
-      lastSync: 'Not connected',
-      records: '0',
-      riskInsights: [],
-      features: ['ESI contribution tracking', 'Medical benefit monitoring', 'Compliance reporting', 'Coverage verification']
-    },
-    {
-      name: 'Zoho Books',
-      category: 'Cloud Accounting',
-      icon: DollarSign,
-      status: 'available',
-      description: 'Cloud-based accounting with Indian GST and compliance features',
-      lastSync: 'Not connected',
-      records: '0',
-      riskInsights: [],
-      features: ['GST compliance', 'Financial reporting', 'Inventory management', 'Multi-currency support']
-    },
-    {
-      name: 'ClearTax',
-      category: 'Tax Software',
-      icon: FileCheck,
-      status: 'available',
-      description: 'Automated tax filing and compliance management platform',
-      lastSync: 'Not connected',
-      records: '0',
-      riskInsights: [],
-      features: ['GST filing automation', 'TDS management', 'Income tax compliance', 'Reconciliation tools']
-    },
-    {
-      name: 'Pagarbook',
-      category: 'Payroll Software',
-      icon: Users,
-      status: 'available',
-      description: 'Digital payroll and HR management for Indian SMEs',
-      lastSync: 'Not connected',
-      records: '0',
-      riskInsights: [],
-      features: ['Digital salary payments', 'Attendance tracking', 'Statutory compliance', 'Employee loans']
-    }
-  ];
+  if (isEmpty) {
+    return (
+      <div className="min-h-screen bg-gradient-subtle">
+        <div className="max-w-7xl mx-auto p-6 space-y-8">
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-3xl font-bold text-foreground flex items-center">
+                <BarChart3 className="mr-3 h-8 w-8 text-primary" />
+                Risk Analytics
+              </h1>
+              <p className="text-muted-foreground">Advanced risk assessment and predictive compliance analytics</p>
+            </div>
+          </div>
+          <EmptyRiskAnalyticsState />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-subtle">
@@ -347,7 +67,7 @@ const RiskAnalytics = () => {
             <p className="text-muted-foreground">Advanced risk assessment and predictive compliance analytics</p>
           </div>
           <div className="flex space-x-2">
-            <Button variant="outline">
+            <Button variant="outline" onClick={refreshData}>
               <RefreshCw className="mr-2 h-4 w-4" />
               Refresh Data
             </Button>
@@ -359,7 +79,7 @@ const RiskAnalytics = () => {
         </div>
 
         {/* Risk Metrics Overview */}
-        <RiskMetricsOverview metrics={riskMetrics} />
+        {riskData && <RiskMetricsOverview metrics={riskData.riskMetrics} />}
 
         <Tabs defaultValue="overview" className="space-y-6">
           <TabsList className="grid w-full grid-cols-5">
@@ -371,19 +91,19 @@ const RiskAnalytics = () => {
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">
-            <RiskCategoriesOverview categories={riskCategories} />
+            {riskData && <RiskCategoriesOverview categories={riskData.riskCategories} />}
           </TabsContent>
 
           <TabsContent value="predictive" className="space-y-6">
-            <PredictiveInsights insights={predictiveInsights} />
+            {riskData && <PredictiveInsights insights={riskData.predictiveInsights} />}
           </TabsContent>
 
           <TabsContent value="data-sources" className="space-y-6">
-            <DataSourceIntegrations integrations={dataSourceIntegrations} />
+            {riskData && <DataSourceIntegrations integrations={riskData.dataSourceIntegrations} />}
           </TabsContent>
 
           <TabsContent value="mitigation" className="space-y-6">
-            <MitigationActions actions={mitigationActions} />
+            {riskData && <MitigationActions actions={riskData.mitigationActions} />}
           </TabsContent>
 
           <TabsContent value="trends" className="space-y-6">

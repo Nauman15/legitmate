@@ -9,6 +9,8 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import { useAutomatedFilings } from '@/hooks/useAutomatedFilings';
+import { EmptyFilingsState } from '@/components/automated-filings/EmptyFilingsState';
 import { 
   FileCheck, 
   Calendar, 
@@ -32,10 +34,47 @@ import {
 
 const AutomatedFilings = () => {
   const { toast } = useToast();
+  const { filingsData, loading, error, refreshData, hasData, isEmpty } = useAutomatedFilings();
   const [selectedFilingType, setSelectedFilingType] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [integrationUrl, setIntegrationUrl] = useState('');
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-subtle">
+        <div className="max-w-7xl mx-auto p-6 space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className="bg-card rounded-lg shadow-card p-6 animate-pulse">
+                <div className="h-8 bg-muted rounded w-1/2 mb-2"></div>
+                <div className="h-4 bg-muted rounded w-3/4"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (isEmpty) {
+    return (
+      <div className="min-h-screen bg-gradient-subtle">
+        <div className="max-w-7xl mx-auto p-6 space-y-8">
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-3xl font-bold text-foreground flex items-center">
+                <FileCheck className="mr-3 h-8 w-8 text-primary" />
+                Automated Filings
+              </h1>
+              <p className="text-muted-foreground">Streamline your regulatory filings with intelligent automation</p>
+            </div>
+          </div>
+          <EmptyFilingsState />
+        </div>
+      </div>
+    );
+  }
 
   const filingTypes = [
     {
@@ -320,25 +359,25 @@ const AutomatedFilings = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card className="shadow-card">
             <CardContent className="p-6 text-center">
-              <div className="text-3xl font-bold text-primary">12</div>
+              <div className="text-3xl font-bold text-primary">{filingsData?.upcomingCount || 0}</div>
               <div className="text-sm text-muted-foreground">Upcoming Filings</div>
             </CardContent>
           </Card>
           <Card className="shadow-card">
             <CardContent className="p-6 text-center">
-              <div className="text-3xl font-bold text-success">8</div>
+              <div className="text-3xl font-bold text-success">{filingsData?.autoEnabledCount || 0}</div>
               <div className="text-sm text-muted-foreground">Auto-Enabled</div>
             </CardContent>
           </Card>
           <Card className="shadow-card">
             <CardContent className="p-6 text-center">
-              <div className="text-3xl font-bold text-accent">95%</div>
+              <div className="text-3xl font-bold text-accent">{filingsData?.successRate || 0}%</div>
               <div className="text-sm text-muted-foreground">Success Rate</div>
             </CardContent>
           </Card>
           <Card className="shadow-card">
             <CardContent className="p-6 text-center">
-              <div className="text-3xl font-bold text-warning">3</div>
+              <div className="text-3xl font-bold text-warning">{filingsData?.overdueCount || 0}</div>
               <div className="text-sm text-muted-foreground">Overdue</div>
             </CardContent>
           </Card>
