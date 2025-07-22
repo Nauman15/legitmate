@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=JetBrains+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
@@ -15,13 +16,13 @@
     --primary-glow: 136 35% 44%;     /* Glow variant */
     
     --background: 45 15% 98%;         /* Improved Parchment White #FAFBFB */
-    --foreground: 210 11% 10%;        /* Darker charcoal for better contrast */
+    --foreground: 210 11% 5%;         /* Much darker charcoal for better contrast */
     
     --card: 0 0% 100%;                /* Pure White */
-    --card-foreground: 210 11% 10%;   /* Dark charcoal text on white cards */
+    --card-foreground: 210 11% 5%;    /* Much darker charcoal text on white cards */
     
     --popover: 0 0% 100%;             /* Solid White background */
-    --popover-foreground: 210 11% 10%; /* Dark charcoal text */
+    --popover-foreground: 210 11% 5%; /* Much darker charcoal text */
     
     --secondary: 24 25% 45%;          /* Darker Warm Gold for better contrast */
     --secondary-foreground: 0 0% 100%; /* White text on secondary */
@@ -29,7 +30,7 @@
     --secondary-dark: 24 25% 35%;    /* Darker gold for active */
     
     --muted: 45 15% 96%;              /* Light Parchment #F8F9FA */
-    --muted-foreground: 210 11% 25%;  /* Much darker for better contrast */
+    --muted-foreground: 210 11% 20%;  /* Much darker for better contrast */
     
     --accent: 0 32% 35%;              /* Rich Burgundy #722F37 */
     --accent-foreground: 0 0% 100%;   /* White text on burgundy */
@@ -76,13 +77,13 @@
     
     --radius: 0.5rem;
 
-    /* Enhanced Sidebar Colors for Better Visibility */
+    /* Enhanced Sidebar Colors for Maximum Visibility */
     --sidebar-background: 0 0% 100%;              /* Pure white background */
-    --sidebar-foreground: 210 11% 10%;           /* Dark charcoal text for high contrast */
+    --sidebar-foreground: 0 0% 0%;               /* Pure black text for maximum contrast */
     --sidebar-primary: 136 35% 24%;              /* Deep forest green */
     --sidebar-primary-foreground: 0 0% 100%;     /* White text on primary */
     --sidebar-accent: 136 35% 95%;               /* Very light forest green */
-    --sidebar-accent-foreground: 210 11% 10%;    /* Dark text on light accent */
+    --sidebar-accent-foreground: 0 0% 0%;        /* Black text on light accent */
     --sidebar-border: 210 11% 85%;               /* Visible gray borders */
     --sidebar-ring: 136 35% 24%;                 /* Forest green focus ring */
   }
@@ -95,24 +96,24 @@
     --primary-dark: 24 25% 45%;
     
     --background: 210 11% 8%;         /* Darker charcoal background */
-    --foreground: 45 15% 92%;         /* Light parchment text */
+    --foreground: 45 15% 95%;         /* Very light parchment text */
     
     --card: 210 11% 12%;              /* Dark charcoal cards */
-    --card-foreground: 45 15% 92%;
+    --card-foreground: 45 15% 95%;
     
     --popover: 210 11% 12%;           /* Solid dark background */
-    --popover-foreground: 45 15% 92%;
+    --popover-foreground: 45 15% 95%;
     
     --secondary: 210 11% 18%;         /* Dark secondary */
-    --secondary-foreground: 45 15% 92%;
+    --secondary-foreground: 45 15% 95%;
     --secondary-light: 210 11% 28%;
     --secondary-dark: 210 11% 12%;
     
     --muted: 210 11% 14%;             /* Dark muted */
-    --muted-foreground: 45 15% 75%;   /* Much lighter for better contrast */
+    --muted-foreground: 45 15% 80%;   /* Much lighter for better contrast */
     
     --accent: 0 32% 45%;              /* Burgundy accent */
-    --accent-foreground: 45 15% 92%;
+    --accent-foreground: 45 15% 95%;
     --accent-light: 0 32% 55%;
     --accent-dark: 0 32% 35%;
     --accent-glow: 0 32% 75%;
@@ -145,11 +146,11 @@
     
     /* Enhanced Dark Sidebar */
     --sidebar-background: 210 11% 6%;             /* Darker background */
-    --sidebar-foreground: 45 15% 90%;            /* Light text for contrast */
+    --sidebar-foreground: 0 0% 100%;             /* Pure white text for maximum contrast */
     --sidebar-primary: 24 25% 55%;               /* Warm gold primary */
     --sidebar-primary-foreground: 210 11% 10%;   /* Dark text on gold */
     --sidebar-accent: 210 11% 12%;               /* Dark accent */
-    --sidebar-accent-foreground: 45 15% 90%;     /* Light text on dark accent */
+    --sidebar-accent-foreground: 0 0% 100%;      /* White text on dark accent */
     --sidebar-border: 210 11% 16%;               /* Lighter borders in dark */
     --sidebar-ring: 24 25% 55%;                  /* Gold focus ring */
   }
