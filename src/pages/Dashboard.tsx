@@ -34,7 +34,7 @@ const Dashboard = () => {
 
   const recentContracts = contracts?.slice(0, 5) || [];
   const totalContracts = contracts?.length || 0;
-  const analyzedContracts = contracts?.filter(c => c.status === 'analyzed').length || 0;
+  const analyzedContracts = contracts?.filter(c => c.status === 'reviewed').length || 0;
   const highRiskContracts = contracts?.filter(c => (c.risk_score || 0) > 70).length || 0;
 
   // Quick stats
