@@ -10,16 +10,21 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default:
-          "border-transparent bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm",
+          "border-transparent bg-primary shadow-sm text-white hover:bg-primary/90",
         secondary:
-          "border-transparent bg-secondary text-white hover:bg-secondary/90 shadow-sm",
+          "border-transparent bg-secondary shadow-sm text-white hover:bg-secondary/90",
         destructive:
-          "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm",
-        outline: "border-primary text-primary bg-background hover:bg-primary hover:text-primary-foreground shadow-sm",
+          "border-transparent bg-destructive shadow-sm text-white hover:bg-destructive/90",
+        outline: 
+          "border-primary bg-background shadow-sm text-primary hover:bg-primary hover:text-white",
         success:
-          "border-transparent bg-success text-success-foreground hover:bg-success/90 shadow-sm",
+          "border-transparent bg-success shadow-sm text-white hover:bg-success/90",
         warning:
-          "border-transparent bg-warning text-warning-foreground hover:bg-warning/90 shadow-sm",
+          "border-transparent bg-warning shadow-sm text-white hover:bg-warning/90",
+        setup:
+          "border-transparent bg-gradient-to-r from-primary to-accent shadow-sm text-white hover:from-primary/90 hover:to-accent/90",
+        interactive:
+          "border-primary bg-primary/10 shadow-sm text-primary hover:bg-primary hover:text-white cursor-pointer",
       },
     },
     defaultVariants: {
