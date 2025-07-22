@@ -3,68 +3,68 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Legal Precision Design System - Enhanced Contrast */
+/* Modern Professional Design System - High Contrast */
 
 @layer base {
   :root {
-    /* High-Contrast Legal Color Palette */
-    --primary: 136 35% 24%;           /* Deep Forest Green #1B4332 */
+    /* Modern Professional Color Palette */
+    --primary: 210 22% 22%;           /* Slate Blue #2C3E50 */
     --primary-foreground: 0 0% 100%;  /* Pure white text */
-    --primary-light: 136 35% 34%;    /* Lighter forest green */
-    --primary-dark: 136 35% 18%;     /* Darker forest green */
-    --primary-glow: 136 35% 44%;     /* Glow variant */
+    --primary-light: 210 22% 32%;    /* Lighter slate blue */
+    --primary-dark: 210 22% 18%;     /* Darker slate blue */
+    --primary-glow: 210 22% 42%;     /* Glow variant */
     
-    --background: 0 0% 100%;          /* Pure White Background */
-    --foreground: 0 0% 0%;            /* Pure Black Text - Maximum Contrast */
+    --background: 210 33% 98%;        /* Light Mist #F7F9FA */
+    --foreground: 215 13% 34%;        /* Graphite #444950 */
     
     --card: 0 0% 100%;                /* Pure White Cards */
-    --card-foreground: 0 0% 0%;       /* Pure Black Text on Cards */
+    --card-foreground: 215 13% 34%;   /* Graphite Text on Cards */
     
     --popover: 0 0% 100%;             /* Pure White Popover */
-    --popover-foreground: 0 0% 0%;    /* Pure Black Text in Popovers */
+    --popover-foreground: 215 13% 34%; /* Graphite Text in Popovers */
     
-    --secondary: 24 25% 40%;          /* Darker Gold for Better Contrast */
-    --secondary-foreground: 0 0% 100%; /* White text on gold */
-    --secondary-light: 24 25% 50%;   /* Lighter gold for hover */
-    --secondary-dark: 24 25% 30%;    /* Darker gold for active */
+    --secondary: 215 13% 34%;         /* Graphite for secondary elements */
+    --secondary-foreground: 0 0% 100%; /* White text on graphite */
+    --secondary-light: 215 13% 44%;   /* Lighter graphite for hover */
+    --secondary-dark: 215 13% 24%;    /* Darker graphite for active */
     
-    --muted: 210 17% 96%;             /* Very Light Gray Background */
-    --muted-foreground: 210 11% 15%;  /* Very Dark Gray Text - AAA Contrast */
+    --muted: 214 32% 91%;             /* Platinum Grey #E5E8EC */
+    --muted-foreground: 215 13% 34%;  /* Graphite Text on Platinum */
     
-    --accent: 0 32% 35%;              /* Rich Burgundy */
-    --accent-foreground: 0 0% 100%;   /* White text on burgundy */
-    --accent-light: 0 32% 45%;        /* Lighter burgundy */
-    --accent-dark: 0 32% 25%;         /* Darker burgundy */
-    --accent-glow: 0 32% 55%;         /* Glow burgundy */
+    --accent: 178 77% 55%;            /* Cool Aqua #4FD1C5 */
+    --accent-foreground: 0 0% 100%;   /* White text on aqua */
+    --accent-light: 178 77% 65%;      /* Lighter aqua */
+    --accent-dark: 178 77% 45%;       /* Darker aqua */
+    --accent-glow: 178 77% 75%;       /* Glow aqua */
     
-    --destructive: 0 65% 40%;         /* Darker Red for Contrast */
+    --destructive: 0 79% 63%;         /* Gentle Coral #FF6B6B */
     --destructive-foreground: 0 0% 100%;
     
-    --success: 150 60% 25%;           /* Darker Green for Contrast */
+    --success: 150 60% 25%;           /* Keep existing success color */
     --success-foreground: 0 0% 100%;
     
-    --warning: 38 85% 40%;            /* Darker Amber for Contrast */
+    --warning: 38 85% 40%;            /* Keep existing warning color */
     --warning-foreground: 0 0% 100%;
     
-    --border: 210 11% 85%;            /* Visible Gray Borders */
-    --input: 210 11% 85%;             /* Visible Input Borders */
-    --ring: 136 35% 24%;              /* Forest green focus rings */
+    --border: 214 27% 84%;            /* Soft Silver #B0B7C3 */
+    --input: 214 27% 84%;             /* Soft Silver Input Borders */
+    --ring: 210 22% 22%;              /* Slate blue focus rings */
     
-    /* Enhanced Gradients - Lightened for better contrast */
-    --gradient-primary: linear-gradient(135deg, hsl(136 35% 18%), hsl(136 35% 24%));
-    --gradient-accent: linear-gradient(135deg, hsl(0 32% 25%), hsl(0 32% 35%));
-    --gradient-hero: linear-gradient(135deg, hsl(136 35% 45%) 0%, hsl(0 32% 55%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 17% 99%));
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(210 17% 99%));
-    --gradient-legal: linear-gradient(135deg, hsl(24 25% 40%) 0%, hsl(24 25% 30%) 100%);
+    /* Enhanced Gradients with new colors */
+    --gradient-primary: linear-gradient(135deg, hsl(210 22% 18%), hsl(210 22% 22%));
+    --gradient-accent: linear-gradient(135deg, hsl(178 77% 45%), hsl(178 77% 55%));
+    --gradient-hero: linear-gradient(135deg, hsl(210 22% 32%) 0%, hsl(178 77% 55%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(210 33% 98%), hsl(214 32% 96%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(214 32% 96%));
+    --gradient-legal: linear-gradient(135deg, hsl(215 13% 34%) 0%, hsl(215 13% 24%) 100%);
     
-    /* High-Contrast Shadows */
-    --shadow-card: 0 4px 12px -2px hsl(0 0% 0% / 0.12);
-    --shadow-elegant: 0 8px 25px -5px hsl(0 0% 0% / 0.18);
-    --shadow-glow: 0 0 20px hsl(24 25% 50% / 0.25);
-    --shadow-professional: 0 2px 8px -1px hsl(0 0% 0% / 0.08);
-    --shadow-document: 0 6px 20px -6px hsl(0 0% 0% / 0.20);
-    --shadow-stamp: inset 0 2px 4px hsl(0 32% 35% / 0.2);
+    /* High-Contrast Shadows with new palette */
+    --shadow-card: 0 4px 12px -2px hsl(210 22% 22% / 0.08);
+    --shadow-elegant: 0 8px 25px -5px hsl(210 22% 22% / 0.12);
+    --shadow-glow: 0 0 20px hsl(178 77% 55% / 0.25);
+    --shadow-professional: 0 2px 8px -1px hsl(210 22% 22% / 0.06);
+    --shadow-document: 0 6px 20px -6px hsl(210 22% 22% / 0.15);
+    --shadow-stamp: inset 0 2px 4px hsl(178 77% 55% / 0.2);
     
     /* Paper Texture */
     --texture-paper: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f8f9fa' fill-opacity='0.02'%3E%3Ccircle cx='5' cy='5' r='1'/%3E%3Ccircle cx='25' cy='15' r='1'/%3E%3Ccircle cx='45' cy='25' r='1'/%3E%3Ccircle cx='15' cy='35' r='1'/%3E%3Ccircle cx='35' cy='45' r='1'/%3E%3Ccircle cx='55' cy='55' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
@@ -76,82 +76,82 @@
     
     --radius: 0.5rem;
 
-    /* Enhanced Sidebar with Maximum Contrast */
+    /* Enhanced Sidebar with new colors */
     --sidebar-background: 0 0% 100%;      /* Pure white */
-    --sidebar-foreground: 0 0% 0%;        /* Pure black text */
-    --sidebar-primary: 136 35% 24%;       /* Forest green */
-    --sidebar-primary-foreground: 0 0% 100%; /* White on green */
-    --sidebar-accent: 210 17% 96%;        /* Light gray accent */
-    --sidebar-accent-foreground: 0 0% 0%; /* Black text on light gray */
-    --sidebar-border: 210 11% 80%;        /* Visible borders */
-    --sidebar-ring: 136 35% 24%;          /* Focus ring */
+    --sidebar-foreground: 215 13% 34%;    /* Graphite text */
+    --sidebar-primary: 210 22% 22%;       /* Slate blue */
+    --sidebar-primary-foreground: 0 0% 100%; /* White on slate blue */
+    --sidebar-accent: 214 32% 91%;        /* Platinum grey accent */
+    --sidebar-accent-foreground: 215 13% 34%; /* Graphite text on platinum */
+    --sidebar-border: 214 27% 84%;        /* Soft silver borders */
+    --sidebar-ring: 210 22% 22%;          /* Slate blue focus ring */
   }
 
   .dark {
-    /* Dark Mode - High Contrast */
-    --primary: 24 25% 55%;            /* Warm Gold primary in dark */
-    --primary-foreground: 0 0% 0%;    /* Black text on gold */
-    --primary-light: 24 25% 65%;
-    --primary-dark: 24 25% 45%;
+    /* Dark Mode - Modern Professional */
+    --primary: 178 77% 55%;           /* Cool Aqua as primary in dark */
+    --primary-foreground: 210 22% 22%; /* Slate blue text on aqua */
+    --primary-light: 178 77% 65%;
+    --primary-dark: 178 77% 45%;
     
-    --background: 210 11% 4%;         /* Very Dark Background */
+    --background: 215 28% 8%;         /* Very Dark Background */
     --foreground: 0 0% 100%;          /* Pure White Text */
     
-    --card: 210 11% 8%;               /* Dark Cards */
+    --card: 215 28% 12%;              /* Dark Cards */
     --card-foreground: 0 0% 100%;     /* Pure White Text on Cards */
     
-    --popover: 210 11% 8%;            /* Dark Popover */
+    --popover: 215 28% 12%;           /* Dark Popover */
     --popover-foreground: 0 0% 100%;  /* Pure White Text */
     
-    --secondary: 210 11% 15%;         /* Dark Gray Secondary */
+    --secondary: 215 13% 20%;         /* Dark Graphite Secondary */
     --secondary-foreground: 0 0% 100%; /* White text */
-    --secondary-light: 210 11% 25%;
-    --secondary-dark: 210 11% 10%;
+    --secondary-light: 215 13% 30%;
+    --secondary-dark: 215 13% 15%;
     
-    --muted: 210 11% 10%;             /* Dark Muted Background */
-    --muted-foreground: 0 0% 85%;     /* Light Gray Text - High Contrast */
+    --muted: 215 28% 15%;             /* Dark Muted Background */
+    --muted-foreground: 0 0% 85%;     /* Light Gray Text */
     
-    --accent: 0 32% 45%;              /* Burgundy */
-    --accent-foreground: 0 0% 100%;   /* White on burgundy */
-    --accent-light: 0 32% 55%;
-    --accent-dark: 0 32% 35%;
-    --accent-glow: 0 32% 75%;
+    --accent: 178 77% 55%;            /* Cool Aqua */
+    --accent-foreground: 210 22% 22%; /* Slate blue text on aqua */
+    --accent-light: 178 77% 65%;
+    --accent-dark: 178 77% 45%;
+    --accent-glow: 178 77% 75%;
     
-    --destructive: 0 65% 55%;         /* Lighter Red for Dark Mode */
-    --destructive-foreground: 0 0% 0%;
+    --destructive: 0 79% 63%;         /* Gentle Coral */
+    --destructive-foreground: 0 0% 100%;
     
     --success: 150 60% 40%;           /* Lighter Green */
-    --success-foreground: 0 0% 0%;
+    --success-foreground: 0 0% 100%;
     
     --warning: 38 85% 55%;            /* Lighter Amber */
-    --warning-foreground: 0 0% 0%;
+    --warning-foreground: 0 0% 100%;
     
-    --border: 210 11% 18%;            /* Visible Dark Borders */
-    --input: 210 11% 18%;
-    --ring: 24 25% 55%;               /* Gold focus ring */
+    --border: 215 13% 25%;            /* Visible Dark Borders */
+    --input: 215 13% 25%;
+    --ring: 178 77% 55%;              /* Aqua focus ring */
     
-    /* Dark Gradients - Adjusted for better contrast */
-    --gradient-primary: linear-gradient(135deg, hsl(24 25% 45%), hsl(24 25% 55%));
-    --gradient-accent: linear-gradient(135deg, hsl(0 32% 35%), hsl(0 32% 45%));
-    --gradient-hero: linear-gradient(135deg, hsl(136 35% 35%) 0%, hsl(24 25% 50%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(210 11% 4%), hsl(210 11% 8%));
-    --gradient-card: linear-gradient(145deg, hsl(210 11% 8%), hsl(210 11% 10%));
+    /* Dark Gradients with new colors */
+    --gradient-primary: linear-gradient(135deg, hsl(178 77% 45%), hsl(178 77% 55%));
+    --gradient-accent: linear-gradient(135deg, hsl(210 22% 18%), hsl(210 22% 22%));
+    --gradient-hero: linear-gradient(135deg, hsl(215 13% 30%) 0%, hsl(178 77% 50%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(215 28% 8%), hsl(215 28% 12%));
+    --gradient-card: linear-gradient(145deg, hsl(215 28% 12%), hsl(215 28% 15%));
     
     /* Dark Shadows */
     --shadow-card: 0 4px 12px -2px hsl(0 0% 0% / 0.4);
     --shadow-elegant: 0 8px 25px -5px hsl(0 0% 0% / 0.6);
-    --shadow-glow: 0 0 20px hsl(24 25% 55% / 0.4);
+    --shadow-glow: 0 0 20px hsl(178 77% 55% / 0.4);
     --shadow-professional: 0 2px 8px -1px hsl(0 0% 0% / 0.3);
     
     /* Dark Sidebar */
-    --sidebar-background: 210 11% 6%;     /* Dark background */
+    --sidebar-background: 215 28% 10%;    /* Dark background */
     --sidebar-foreground: 0 0% 100%;     /* Pure white text */
-    --sidebar-primary: 24 25% 55%;       /* Gold primary */
-    --sidebar-primary-foreground: 0 0% 0%; /* Black on gold */
-    --sidebar-accent: 210 11% 10%;       /* Dark accent */
+    --sidebar-primary: 178 77% 55%;      /* Aqua primary */
+    --sidebar-primary-foreground: 210 22% 22%; /* Slate blue on aqua */
+    --sidebar-accent: 215 28% 15%;       /* Dark accent */
     --sidebar-accent-foreground: 0 0% 100%; /* White text */
-    --sidebar-border: 210 11% 15%;       /* Lighter borders */
-    --sidebar-ring: 24 25% 55%;          /* Gold focus ring */
+    --sidebar-border: 215 13% 20%;       /* Lighter borders */
+    --sidebar-ring: 178 77% 55%;         /* Aqua focus ring */
   }
 }
 
