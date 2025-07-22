@@ -37,39 +37,39 @@ const Dashboard = () => {
   const analyzedContracts = contracts?.filter(c => c.status === 'reviewed').length || 0;
   const highRiskContracts = contracts?.filter(c => (c.risk_score || 0) > 70).length || 0;
 
-  // Quick stats
-  const stats = [
+  // Setup prompt stats for empty states
+  const setupPrompts = [
     {
-      title: 'Total Contracts',
-      value: totalContracts,
-      change: '+12%',
-      trend: 'up' as const,
+      title: 'Upload Your First Contract',
+      description: 'Get AI-powered compliance analysis',
       icon: FileText,
-      color: 'text-primary'
+      action: 'Upload Contract',
+      href: '/contract-review',
+      isEmpty: totalContracts === 0
     },
     {
-      title: 'Compliance Score',
-      value: complianceData?.complianceScore || 0,
-      change: '+5pts',
-      trend: 'up' as const,
+      title: 'Set Up Compliance Monitoring',
+      description: 'Configure POSH, DPDP and other requirements',
       icon: Shield,
-      color: 'text-success'
+      action: 'Start Setup',
+      href: '/policy-compliance',
+      isEmpty: (complianceData?.complianceScore || 0) === 0
     },
     {
-      title: 'Active Alerts',
-      value: complianceData?.riskAlerts.length || 0,
-      change: '-2',
-      trend: 'down' as const,
-      icon: AlertTriangle,
-      color: 'text-warning'
-    },
-    {
-      title: 'Due Filings',
-      value: complianceData?.nextFilingDeadlines.filter(f => f.status === 'pending').length || 0,
-      change: 'Next: 3 days',
-      trend: 'neutral' as const,
+      title: 'Configure Filing Calendar',
+      description: 'Track GST, TDS and other filing deadlines',
       icon: Calendar,
-      color: 'text-primary'
+      action: 'Setup Filings',
+      href: '/automated-filings',
+      isEmpty: (complianceData?.nextFilingDeadlines.length || 0) === 0
+    },
+    {
+      title: 'View Risk Analytics',
+      description: 'Get predictive insights and recommendations',
+      icon: BarChart3,
+      action: 'View Analytics',
+      href: '/risk-analytics',
+      isEmpty: true // Always show this as it's available
     }
   ];
 
@@ -136,23 +136,27 @@ const Dashboard = () => {
         </p>
       </div>
 
-      {/* Stats Overview */}
+      {/* Setup Prompts Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, index) => (
-          <Card key={index} className="shadow-card">
+        {setupPrompts.map((prompt, index) => (
+          <Card key={index} className="shadow-card hover:shadow-lg transition-all duration-200">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <stat.icon className={`h-5 w-5 ${stat.color}`} />
-                <Badge variant={
-                  stat.trend === 'up' ? 'secondary' : 
-                  stat.trend === 'down' ? 'outline' : 'secondary'
-                }>
-                  {stat.change}
-                </Badge>
+                <prompt.icon className="h-5 w-5 text-primary" />
+                {prompt.isEmpty && (
+                  <Badge variant="outline" className="text-xs">
+                    Setup Required
+                  </Badge>
+                )}
               </div>
-              <div className="space-y-1">
-                <p className="text-2xl font-bold">{stat.value}</p>
-                <p className="text-sm text-muted-foreground">{stat.title}</p>
+              <div className="space-y-3">
+                <div>
+                  <p className="font-medium text-sm">{prompt.title}</p>
+                  <p className="text-xs text-muted-foreground">{prompt.description}</p>
+                </div>
+                <Button size="sm" className="w-full" asChild>
+                  <Link to={prompt.href}>{prompt.action}</Link>
+                </Button>
               </div>
             </CardContent>
           </Card>

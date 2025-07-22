@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { AlertTriangle, Bell, CheckCircle, Clock, ExternalLink } from 'lucide-react';
 import { useIndianCompliance } from '@/hooks/useIndianCompliance';
 import { format } from 'date-fns';
+import { Link } from 'react-router-dom';
 
 export const RegulatoryAlertsWidget = () => {
   const { complianceData, loading } = useIndianCompliance();
@@ -30,11 +31,27 @@ export const RegulatoryAlertsWidget = () => {
       <Card className="shadow-card">
         <CardHeader>
           <div className="flex items-center space-x-2">
-            <CheckCircle className="h-5 w-5 text-success" />
+            <Bell className="h-5 w-5 text-primary" />
             <CardTitle className="text-lg">Regulatory Alerts</CardTitle>
           </div>
-          <CardDescription>No active alerts - You're up to date!</CardDescription>
+          <CardDescription>Stay informed about regulatory changes</CardDescription>
         </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="text-center py-4 space-y-3">
+            <CheckCircle className="h-8 w-8 text-success mx-auto" />
+            <p className="text-sm text-muted-foreground">
+              No active alerts at the moment. Set up compliance monitoring to receive important updates.
+            </p>
+            <div className="flex flex-col space-y-2">
+              <Button className="w-full" asChild>
+                <Link to="/regulatory-alerts">View All Notifications</Link>
+              </Button>
+              <Button variant="outline" className="w-full" asChild>
+                <Link to="/policy-compliance">Configure Monitoring</Link>
+              </Button>
+            </div>
+          </div>
+        </CardContent>
       </Card>
     );
   }

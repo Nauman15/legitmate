@@ -63,86 +63,13 @@ export const useIndianCompliance = () => {
       setLoading(true);
       setError(null);
 
-      // Mock data until database types are updated
-      const mockFilings: FilingDeadline[] = [
-        {
-          id: '1',
-          filingType: 'GST Return (GSTR-1)',
-          dueDate: '2024-01-11',
-          status: 'pending',
-          penaltyRisk: 'medium'
-        },
-        {
-          id: '2',
-          filingType: 'GST Return (GSTR-3B)',
-          dueDate: '2024-01-20',
-          status: 'pending',
-          penaltyRisk: 'high'
-        },
-        {
-          id: '3',
-          filingType: 'TDS Return',
-          dueDate: '2024-01-31',
-          status: 'pending',
-          penaltyRisk: 'low'
-        }
-      ];
-
-      const mockAlerts: RiskAlert[] = [
-        {
-          id: '1',
-          type: 'regulatory_change',
-          title: 'New GST Rate Changes Effective',
-          description: 'GST rates for certain goods have been updated. Review your product classifications.',
-          severity: 'medium',
-          actionRequired: true,
-          dueDate: '2024-01-15'
-        },
-        {
-          id: '2',
-          type: 'filing_deadline',
-          title: 'GSTR-1 Filing Due Soon',
-          description: 'Your GSTR-1 return is due in 3 days. Ensure all invoices are uploaded.',
-          severity: 'high',
-          actionRequired: true,
-          dueDate: '2024-01-11'
-        }
-      ];
-
-      const mockPoshCompliance: POSHCompliance = {
-        committeeFormed: true,
-        annualReportFiled: false,
-        trainingConducted: true,
-        nextTrainingDue: '2024-06-15',
-        complianceStatus: 'partial'
-      };
-
-      const mockDpdpCompliance: DPDPCompliance = {
-        dataMappingCompleted: false,
-        consentManagementSetup: false,
-        privacyPolicyUpdated: true,
-        dataProtectionOfficerAppointed: false,
-        complianceScore: 60
-      };
-
-      // Calculate overall compliance score
-      const calculateComplianceScore = () => {
-        let score = 70; // Base score
-        
-        if (mockPoshCompliance.committeeFormed) score += 10;
-        if (mockPoshCompliance.annualReportFiled) score += 10;
-        if (mockDpdpCompliance.dataMappingCompleted) score += 5;
-        if (mockDpdpCompliance.consentManagementSetup) score += 5;
-        
-        return Math.min(score, 100);
-      };
-
+      // Return empty state to encourage setup actions
       const complianceData: IndianComplianceData = {
-        complianceScore: calculateComplianceScore(),
-        nextFilingDeadlines: mockFilings,
-        riskAlerts: mockAlerts,
-        poshCompliance: mockPoshCompliance,
-        dpdpCompliance: mockDpdpCompliance
+        complianceScore: 0,
+        nextFilingDeadlines: [],
+        riskAlerts: [],
+        poshCompliance: undefined,
+        dpdpCompliance: undefined
       };
 
       setComplianceData(complianceData);

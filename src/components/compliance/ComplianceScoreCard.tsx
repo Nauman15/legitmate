@@ -2,8 +2,10 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { AlertTriangle, CheckCircle, Clock, TrendingUp } from 'lucide-react';
 import { useIndianCompliance } from '@/hooks/useIndianCompliance';
+import { Link } from 'react-router-dom';
 
 export const ComplianceScoreCard = () => {
   const { complianceData, loading } = useIndianCompliance();
@@ -23,6 +25,40 @@ export const ComplianceScoreCard = () => {
   }
 
   if (!complianceData) return null;
+
+  // Show setup prompt if no compliance data is configured
+  if (complianceData.complianceScore === 0 && complianceData.riskAlerts.length === 0) {
+    return (
+      <Card className="shadow-card border-l-4 border-l-primary">
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="text-lg font-semibold">Compliance Setup Required</CardTitle>
+              <CardDescription>Configure your compliance monitoring to get started</CardDescription>
+            </div>
+            <AlertTriangle className="h-6 w-6 text-warning" />
+          </div>
+        </CardHeader>
+        
+        <CardContent className="space-y-4">
+          <div className="text-center py-6 space-y-4">
+            <div className="text-4xl font-bold text-muted-foreground">--</div>
+            <p className="text-sm text-muted-foreground">
+              Set up your compliance areas to track POSH, DPDP, and other regulatory requirements.
+            </p>
+            <div className="flex flex-col space-y-2">
+              <Button className="w-full" asChild>
+                <Link to="/policy-compliance">Start Compliance Setup</Link>
+              </Button>
+              <Button variant="outline" className="w-full" asChild>
+                <Link to="/automated-filings">Configure Filing Calendar</Link>
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   const getScoreColor = (score: number) => {
     if (score >= 90) return 'text-success';

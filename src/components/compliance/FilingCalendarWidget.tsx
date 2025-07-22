@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Calendar, Clock, AlertTriangle, CheckCircle, ExternalLink } from 'lucide-react';
 import { useIndianCompliance } from '@/hooks/useIndianCompliance';
 import { format, differenceInDays } from 'date-fns';
+import { Link } from 'react-router-dom';
 
 export const FilingCalendarWidget = () => {
   const { complianceData, loading } = useIndianCompliance();
@@ -37,11 +38,27 @@ export const FilingCalendarWidget = () => {
       <Card className="shadow-card">
         <CardHeader>
           <div className="flex items-center space-x-2">
-            <CheckCircle className="h-5 w-5 text-success" />
+            <Calendar className="h-5 w-5 text-primary" />
             <CardTitle className="text-lg">Filing Calendar</CardTitle>
           </div>
-          <CardDescription>No upcoming filings scheduled</CardDescription>
+          <CardDescription>Track your GST, TDS and other filing deadlines</CardDescription>
         </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="text-center py-4 space-y-3">
+            <Calendar className="h-8 w-8 text-muted-foreground mx-auto" />
+            <p className="text-sm text-muted-foreground">
+              No filing deadlines configured yet. Set up your calendar to never miss a deadline.
+            </p>
+            <div className="flex flex-col space-y-2">
+              <Button className="w-full" asChild>
+                <Link to="/automated-filings">Setup Filing Calendar</Link>
+              </Button>
+              <Button variant="outline" className="w-full" asChild>
+                <Link to="/settings">Configure Business Details</Link>
+              </Button>
+            </div>
+          </div>
+        </CardContent>
       </Card>
     );
   }
