@@ -15,13 +15,13 @@
     --primary-glow: 210 40% 38%;      /* Glow variant */
     
     --background: 210 25% 98%;         /* Light Mist #F7F9FA */
-    --foreground: 215 20% 20%;         /* Darker Graphite #333840 for better readability */
+    --foreground: 215 25% 15%;         /* Much darker text for better contrast */
     
     --card: 0 0% 100%;                 /* Pure White Cards */
-    --card-foreground: 215 20% 20%;    /* Darker Graphite Text on Cards */
+    --card-foreground: 215 25% 15%;    /* Much darker text on cards */
     
     --popover: 0 0% 100%;              /* Pure White Popover */
-    --popover-foreground: 215 20% 20%; /* Darker Graphite Text in Popovers */
+    --popover-foreground: 215 25% 15%; /* Much darker text in popovers */
     
     --secondary: 215 20% 20%;          /* Darker Graphite for secondary elements */
     --secondary-foreground: 0 0% 100%; /* White text on graphite */
@@ -29,7 +29,7 @@
     --secondary-dark: 215 20% 15%;     /* Darker graphite for active */
     
     --muted: 210 20% 92%;              /* Lighter Platinum Grey #EAECF0 */
-    --muted-foreground: 215 20% 25%;   /* Much darker text on muted backgrounds #3A404A */
+    --muted-foreground: 215 25% 20%;   /* Much darker text for better readability */
     
     --accent: 178 77% 45%;             /* Slightly darker Cool Aqua #2ABAB0 for better contrast */
     --accent-foreground: 0 0% 100%;    /* White text on aqua */
@@ -76,13 +76,13 @@
     
     --radius: 0.5rem;
 
-    /* Enhanced Sidebar with new colors */
+    /* Enhanced Sidebar with strong contrast */
     --sidebar-background: 0 0% 100%;      /* Pure white */
-    --sidebar-foreground: 215 20% 20%;    /* Darker graphite text */
+    --sidebar-foreground: 215 25% 12%;    /* Very dark text for maximum contrast */
     --sidebar-primary: 210 40% 18%;       /* Darker slate blue */
     --sidebar-primary-foreground: 0 0% 100%; /* White on slate blue */
     --sidebar-accent: 210 20% 92%;        /* Light platinum grey accent */
-    --sidebar-accent-foreground: 215 20% 20%; /* Darker graphite text on platinum */
+    --sidebar-accent-foreground: 215 25% 12%; /* Very dark text on platinum */
     --sidebar-border: 210 15% 75%;        /* Darker silver borders */
     --sidebar-ring: 210 40% 18%;          /* Darker slate blue focus ring */
   }
@@ -143,7 +143,7 @@
     --shadow-glow: 0 0 20px hsl(178 77% 55% / 0.4);
     --shadow-professional: 0 2px 8px -1px hsl(0 0% 0% / 0.3);
     
-    /* Dark Sidebar */
+    /* Dark Sidebar - Maximum contrast */
     --sidebar-background: 215 28% 10%;    /* Dark background */
     --sidebar-foreground: 0 0% 95%;      /* Near-white text */
     --sidebar-primary: 178 77% 55%;      /* Aqua primary */
@@ -401,9 +401,9 @@
     transform: translateY(-2px);
   }
 
-  /* Navigation Text Fixes */
+  /* High-Contrast Navigation Text - Forces black/white text */
   .nav-text {
-    color: hsl(var(--foreground));
+    color: hsl(var(--sidebar-foreground)) !important;
   }
   
   .nav-text-muted {
@@ -417,6 +417,19 @@
   
   .card-text-muted {
     color: hsl(var(--muted-foreground));
+  }
+
+  /* Sidebar Text Visibility Fix */
+  .sidebar-text {
+    color: hsl(var(--sidebar-foreground)) !important;
+  }
+
+  .sidebar-text-group {
+    color: hsl(var(--sidebar-foreground)) !important;
+  }
+
+  .sidebar-text-user {
+    color: hsl(var(--sidebar-foreground)) !important;
   }
 }
 
