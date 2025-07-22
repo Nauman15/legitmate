@@ -1,3 +1,4 @@
+
 import { 
   Home, 
   FileText, 
@@ -55,25 +56,25 @@ export function AppSidebar() {
   const isActive = (path: string) => currentPath === path;
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
     isActive 
-      ? 'bg-sidebar-accent text-sidebar-primary-foreground font-medium border-r-2 border-sidebar-primary' 
-      : 'text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground';
+      ? 'bg-primary text-primary-foreground font-semibold shadow-sm border-r-2 border-primary-dark' 
+      : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground font-medium';
 
   const userInitial = user?.email?.[0]?.toUpperCase() || 'U';
   const userName = user?.email?.split('@')[0] || 'User';
 
   return (
-    <Sidebar className="border-r border-sidebar-border bg-sidebar">
-      <SidebarHeader className="border-b border-sidebar-border p-4">
+    <Sidebar className="border-r border-sidebar-border bg-sidebar shadow-professional">
+      <SidebarHeader className="border-b border-sidebar-border p-4 bg-gradient-subtle">
         <div className="flex items-center space-x-3">
-          <div className="p-2 bg-gradient-primary rounded-lg">
+          <div className="p-2 bg-gradient-primary rounded-lg shadow-card">
             <FileText className="h-5 w-5 text-primary-foreground" />
           </div>
           {!collapsed && (
             <div>
-              <h2 className="text-lg font-serif font-semibold text-sidebar-foreground">
+              <h2 className="text-lg font-serif font-bold text-sidebar-foreground">
                 LegitMate
               </h2>
-              <p className="text-xs text-sidebar-foreground/70">Compliance Platform</p>
+              <p className="text-xs text-sidebar-foreground/70 font-medium">Compliance Platform</p>
             </div>
           )}
         </div>
@@ -82,11 +83,11 @@ export function AppSidebar() {
       <SidebarContent className="px-2 py-4">
         {/* Main Navigation */}
         <SidebarGroup>
-          <SidebarGroupLabel className="text-sidebar-foreground/80 font-medium px-2 mb-2">
-            {!collapsed && 'Main'}
+          <SidebarGroupLabel className="text-sidebar-foreground/80 font-semibold px-2 mb-2 text-xs uppercase tracking-wide">
+            {!collapsed && 'Main Navigation'}
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="space-y-1">
               {mainNavigationItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
@@ -98,12 +99,7 @@ export function AppSidebar() {
                       <item.icon className="h-4 w-4 flex-shrink-0" />
                       {!collapsed && (
                         <>
-                          <span className="flex-1">{item.title}</span>
-                          {item.title === 'Regulatory Alerts' && (
-                            <Badge variant="destructive" className="ml-auto h-5 text-xs">
-                              3
-                            </Badge>
-                          )}
+                          <span className="flex-1 text-sm font-medium">{item.title}</span>
                           <ChevronRight className="h-3 w-3 opacity-50" />
                         </>
                       )}
@@ -116,12 +112,12 @@ export function AppSidebar() {
         </SidebarGroup>
 
         {/* Compliance Section */}
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-sidebar-foreground/80 font-medium px-2 mb-2">
+        <SidebarGroup className="mt-6">
+          <SidebarGroupLabel className="text-sidebar-foreground/80 font-semibold px-2 mb-2 text-xs uppercase tracking-wide">
             {!collapsed && 'Compliance'}
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="space-y-1">
               {complianceItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
@@ -133,9 +129,9 @@ export function AppSidebar() {
                       <item.icon className="h-4 w-4 flex-shrink-0" />
                       {!collapsed && (
                         <>
-                          <span className="flex-1">{item.title}</span>
+                          <span className="flex-1 text-sm font-medium">{item.title}</span>
                           {item.title === 'Regulatory Alerts' && (
-                            <Badge variant="destructive" className="ml-auto h-5 text-xs">
+                            <Badge variant="destructive" className="ml-auto h-5 text-xs font-semibold">
                               3
                             </Badge>
                           )}
@@ -151,12 +147,12 @@ export function AppSidebar() {
         </SidebarGroup>
 
         {/* Resources Section */}
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-sidebar-foreground/80 font-medium px-2 mb-2">
+        <SidebarGroup className="mt-6">
+          <SidebarGroupLabel className="text-sidebar-foreground/80 font-semibold px-2 mb-2 text-xs uppercase tracking-wide">
             {!collapsed && 'Resources'}
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="space-y-1">
               {resourceItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
@@ -168,7 +164,7 @@ export function AppSidebar() {
                       <item.icon className="h-4 w-4 flex-shrink-0" />
                       {!collapsed && (
                         <>
-                          <span className="flex-1">{item.title}</span>
+                          <span className="flex-1 text-sm font-medium">{item.title}</span>
                           <ChevronRight className="h-3 w-3 opacity-50" />
                         </>
                       )}
@@ -181,18 +177,18 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-sidebar-border p-3">
+      <SidebarFooter className="border-t border-sidebar-border p-3 bg-gradient-subtle">
         <div className="flex items-center justify-between">
           {!collapsed && (
             <div className="flex items-center space-x-3 flex-1">
-              <div className="w-8 h-8 bg-gradient-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-medium">
+              <div className="w-8 h-8 bg-gradient-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-bold shadow-sm">
                 {userInitial}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-sidebar-foreground truncate">
+                <p className="text-sm font-semibold text-sidebar-foreground truncate">
                   {userName}
                 </p>
-                <p className="text-xs text-sidebar-foreground/70 truncate">
+                <p className="text-xs text-sidebar-foreground/70 truncate font-medium">
                   {user?.email}
                 </p>
               </div>
@@ -202,7 +198,7 @@ export function AppSidebar() {
             variant="ghost"
             size="sm"
             onClick={() => signOut()}
-            className="text-sidebar-foreground hover:bg-sidebar-accent p-2"
+            className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground p-2 font-medium"
             title="Sign Out"
           >
             <LogOut className="h-4 w-4" />
