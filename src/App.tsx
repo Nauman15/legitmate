@@ -1,3 +1,4 @@
+
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -26,7 +27,6 @@ import Login from '@/pages/Login';
 import NotFound from '@/pages/NotFound';
 
 const queryClient = new QueryClient();
-const TEST_MODE = import.meta.env.DEV || false;
 
 // Layout component that conditionally shows sidebar
 const AppLayout = ({ children }: { children: React.ReactNode }) => {
@@ -80,11 +80,6 @@ const App = () => (
             <div className="min-h-screen">
               <Toaster />
               <Sonner />
-              {TEST_MODE && (
-                <div className="bg-warning text-warning-foreground text-center py-2 text-sm font-medium">
-                  🚧 Test Mode - This is a demonstration environment
-                </div>
-              )}
               <AppLayout>
                 <Routes>
                   <Route path="/" element={<Landing />} />
