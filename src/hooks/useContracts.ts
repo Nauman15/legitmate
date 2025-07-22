@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import * as pdfjsLib from 'pdfjs-dist';
+
+// Configure PDF.js worker
+pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.269/pdf.worker.min.js`;
 
 export interface Contract {
   id: string;
@@ -14,6 +18,42 @@ export interface Contract {
   contract_type?: string;
   uploaded_at: string;
   analyzed_at?: string;
+  // New Phase 2 fields
+  category?: string;
+  version?: number;
+  parent_contract_id?: string;
+  tags?: string[];
+  priority_level?: 'high' | 'medium' | 'low';
+  renewal_date?: string;
+  expiry_date?: string;
+  counterparty_name?: string;
+  counterparty_details?: Record<string, any>;
+  document_hash?: string;
+  extracted_text?: string;
+}
+
+export interface ContractCategory {
+  id: string;
+  name: string;
+  description?: string;
+  keywords?: string[];
+  analysis_rules?: any;
+  template_id?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ContractTemplate {
+  id: string;
+  name: string;
+  description?: string;
+  category_id?: string;
+  template_content?: string;
+  fields_config?: any;
+  is_public?: boolean;
+  created_by?: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface ContractAnalysis {
@@ -31,7 +71,10 @@ export interface ContractAnalysis {
 export const useContracts = () => {
   const [contracts, setContracts] = useState<Contract[]>([]);
   const [analyses, setAnalyses] = useState<ContractAnalysis[]>([]);
+  const [categories, setCategories] = useState<ContractCategory[]>([]);
+  const [templates, setTemplates] = useState<ContractTemplate[]>([]);
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
 
@@ -60,6 +103,91 @@ export const useContracts = () => {
     }
   };
 
+  // PDF text extraction function
+  const extractTextFromPDF = async (file: File): Promise<string> => {
+    try {
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      let fullText = '';
+
+      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        const page = await pdf.getPage(pageNum);
+        const textContent = await page.getTextContent();
+        const pageText = textContent.items
+          .map((item: any) => item.str)
+          .join(' ');
+        fullText += pageText + '\n';
+      }
+
+      return fullText;
+    } catch (error) {
+      console.error('Error extracting PDF text:', error);
+      return '';
+    }
+  };
+
+  // Auto-categorization based on keywords
+  const categorizeContract = (text: string, categories: ContractCategory[]): string | undefined => {
+    const lowercaseText = text.toLowerCase();
+    
+    for (const category of categories) {
+      if (category.keywords && category.keywords.length > 0) {
+        const matchCount = category.keywords.filter(keyword => 
+          lowercaseText.includes(keyword.toLowerCase())
+        ).length;
+        
+        // Return category if at least 30% of keywords match
+        if (matchCount >= Math.ceil(category.keywords.length * 0.3)) {
+          return category.name;
+        }
+      }
+    }
+    
+    return undefined;
+  };
+
+  // Generate document hash for version control
+  const generateDocumentHash = async (file: File): Promise<string> => {
+    const arrayBuffer = await file.arrayBuffer();
+    const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  };
+
+  // Fetch categories
+  const fetchCategories = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('contract_categories')
+        .select('*')
+        .order('name');
+
+      if (error) throw error;
+      setCategories(data || []);
+      return data || [];
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      return [];
+    }
+  };
+
+  // Fetch templates
+  const fetchTemplates = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('contract_templates')
+        .select('*')
+        .order('name');
+
+      if (error) throw error;
+      setTemplates(data || []);
+      return data || [];
+    } catch (error) {
+      console.error('Error fetching templates:', error);
+      return [];
+    }
+  };
+
   const fetchAnalyses = async (contractId: string) => {
     try {
       const { data, error } = await supabase
@@ -78,37 +206,60 @@ export const useContracts = () => {
   const uploadContract = async (file: File) => {
     if (!user) throw new Error('User not authenticated');
 
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${user.id}/${Date.now()}.${fileExt}`;
+    setUploading(true);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${user.id}/${Date.now()}.${fileExt}`;
 
-    // Upload file to storage
-    const { error: uploadError } = await supabase.storage
-      .from('contracts')
-      .upload(fileName, file);
+      // Extract text from PDF
+      const extractedText = await extractTextFromPDF(file);
+      
+      // Generate document hash
+      const documentHash = await generateDocumentHash(file);
+      
+      // Get categories for auto-categorization
+      const currentCategories = categories.length > 0 ? categories : await fetchCategories();
+      
+      // Auto-categorize contract
+      const detectedCategory = categorizeContract(extractedText, currentCategories);
 
-    if (uploadError) throw uploadError;
+      // Upload file to storage
+      const { error: uploadError } = await supabase.storage
+        .from('contracts')
+        .upload(fileName, file);
 
-    // Create contract record
-    const { data, error: insertError } = await supabase
-      .from('contracts')
-      .insert({
-        user_id: user.id,
-        name: file.name,
-        file_path: fileName,
-        file_size: file.size,
-        status: 'pending'
-      })
-      .select()
-      .single();
+      if (uploadError) throw uploadError;
 
-    if (insertError) throw insertError;
+      // Create contract record with enhanced fields
+      const { data, error: insertError } = await supabase
+        .from('contracts')
+        .insert({
+          user_id: user.id,
+          name: file.name,
+          file_path: fileName,
+          file_size: file.size,
+          status: 'pending',
+          category: detectedCategory,
+          document_hash: documentHash,
+          extracted_text: extractedText,
+          priority_level: 'medium',
+          version: 1,
+          tags: []
+        })
+        .select()
+        .single();
 
-    toast({
-      title: "Upload Successful",
-      description: `${file.name} has been uploaded successfully.`
-    });
+      if (insertError) throw insertError;
 
-    return data;
+      toast({
+        title: "Upload Successful",
+        description: `${file.name} has been uploaded successfully.`
+      });
+
+      return data;
+    } finally {
+      setUploading(false);
+    }
   };
 
   const analyzeContract = async (contractId: string) => {
@@ -224,18 +375,28 @@ export const useContracts = () => {
   useEffect(() => {
     if (user) {
       fetchContracts();
+      fetchCategories();
+      fetchTemplates();
     }
   }, [user]);
 
   return {
     contracts,
     analyses,
+    categories,
+    templates,
     loading,
+    uploading,
     uploadContract,
     analyzeContract,
     downloadContract,
     deleteContract,
     fetchAnalyses,
-    fetchContracts
+    fetchContracts,
+    fetchCategories,
+    fetchTemplates,
+    extractTextFromPDF,
+    categorizeContract,
+    generateDocumentHash
   };
 };

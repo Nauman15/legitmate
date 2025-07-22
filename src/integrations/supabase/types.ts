@@ -100,53 +100,218 @@ export type Database = {
           },
         ]
       }
+      contract_categories: {
+        Row: {
+          analysis_rules: Json | null
+          created_at: string
+          description: string | null
+          id: string
+          keywords: string[] | null
+          name: string
+          template_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          analysis_rules?: Json | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          keywords?: string[] | null
+          name: string
+          template_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          analysis_rules?: Json | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          keywords?: string[] | null
+          name?: string
+          template_id?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      contract_revisions: {
+        Row: {
+          changes_summary: string | null
+          contract_id: string
+          created_at: string
+          created_by: string | null
+          document_hash: string | null
+          file_path: string
+          file_size: number
+          id: string
+          version_number: number
+        }
+        Insert: {
+          changes_summary?: string | null
+          contract_id: string
+          created_at?: string
+          created_by?: string | null
+          document_hash?: string | null
+          file_path: string
+          file_size: number
+          id?: string
+          version_number: number
+        }
+        Update: {
+          changes_summary?: string | null
+          contract_id?: string
+          created_at?: string
+          created_by?: string | null
+          document_hash?: string | null
+          file_path?: string
+          file_size?: number
+          id?: string
+          version_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contract_revisions_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contract_templates: {
+        Row: {
+          category_id: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          fields_config: Json | null
+          id: string
+          is_public: boolean | null
+          name: string
+          template_content: string | null
+          updated_at: string
+        }
+        Insert: {
+          category_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          fields_config?: Json | null
+          id?: string
+          is_public?: boolean | null
+          name: string
+          template_content?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          fields_config?: Json | null
+          id?: string
+          is_public?: boolean | null
+          name?: string
+          template_content?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contract_templates_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "contract_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contracts: {
         Row: {
           analyzed_at: string | null
+          category: string | null
           compliance_score: number | null
           contract_type: string | null
+          counterparty_details: Json | null
+          counterparty_name: string | null
           created_at: string
+          document_hash: string | null
+          expiry_date: string | null
+          extracted_text: string | null
           file_path: string
           file_size: number
           id: string
           name: string
+          parent_contract_id: string | null
+          priority_level: string | null
+          renewal_date: string | null
           risk_score: number | null
           status: string
+          tags: Json | null
           updated_at: string
           uploaded_at: string
           user_id: string
+          version: number | null
         }
         Insert: {
           analyzed_at?: string | null
+          category?: string | null
           compliance_score?: number | null
           contract_type?: string | null
+          counterparty_details?: Json | null
+          counterparty_name?: string | null
           created_at?: string
+          document_hash?: string | null
+          expiry_date?: string | null
+          extracted_text?: string | null
           file_path: string
           file_size: number
           id?: string
           name: string
+          parent_contract_id?: string | null
+          priority_level?: string | null
+          renewal_date?: string | null
           risk_score?: number | null
           status?: string
+          tags?: Json | null
           updated_at?: string
           uploaded_at?: string
           user_id: string
+          version?: number | null
         }
         Update: {
           analyzed_at?: string | null
+          category?: string | null
           compliance_score?: number | null
           contract_type?: string | null
+          counterparty_details?: Json | null
+          counterparty_name?: string | null
           created_at?: string
+          document_hash?: string | null
+          expiry_date?: string | null
+          extracted_text?: string | null
           file_path?: string
           file_size?: number
           id?: string
           name?: string
+          parent_contract_id?: string | null
+          priority_level?: string | null
+          renewal_date?: string | null
           risk_score?: number | null
           status?: string
+          tags?: Json | null
           updated_at?: string
           uploaded_at?: string
           user_id?: string
+          version?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "contracts_parent_contract_id_fkey"
+            columns: ["parent_contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
